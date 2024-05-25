@@ -1,0 +1,93 @@
+{
+  "-NykLdhLh7qJcaOgg17M": {
+    "firebaseKey": "-NykLdhLh7qJcaOgg17M",
+    "categoryId": "-NykGVDAR7zmcnmudhPk",
+    "question": "In 'The Lion King', what was the name of Simba's mother?",
+    "answer": "Sarabi",
+    "status": "unused",
+    "timeOpened": "never",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  },
+  "-NykLdhNqhfDn7qChqDg": {
+    "firebaseKey": "-NykLdhNqhfDn7qChqDg",
+    "categoryId": "-NykGVDAR7zmcnmudhPl",
+    "question": "On 'Friends', what kind of animal was Ross's pet Marcel?",
+    "answer": "Capuchin Monkey",
+    "status": "open",
+    "timeOpened": "2024-05-24T02:12:35Z",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  },
+  "-NykLdhO9k735G1WcIsd": {
+    "firebaseKey": "-NykLdhO9k735G1WcIsd",
+    "categoryId": "-NykGVDB5KbUqw_C5sVe",
+    "question": "What rock band has won the most Grammy awards of any group in history with 22?",
+    "answer": "U2",
+    "status": "closed",
+    "timeOpened": "2024-05-24T02:46:20Z",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  },
+  "-NykLdhPIBq71_IkT9oJ": {
+    "firebaseKey": "-NykLdhPIBq71_IkT9oJ",
+    "categoryId": "-NykGVDB5KbUqw_C5sVf",
+    "question": "Name the most recent NFL team to finish a season winless",
+    "answer": "Cleveland Browns (2017)",
+    "status": "closed",
+    "timeOpened": "2024-05-23T10:29:20Z",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  },
+  "-NykLdhQOLRDEENVrqIF": {
+    "firebaseKey": "-NykLdhQOLRDEENVrqIF",
+    "categoryId": "-NykGVDCGjGFW6_jDvQJ",
+    "question": "Hyperhidrosis is the medical term for what condition?",
+    "answer": "Excessive sweating",
+    "status": "closed",
+    "timeOpened": "2024-05-24T01:18:23Z",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  },
+  "-NykLdhS-oDANusmMKQO": {
+    "firebaseKey": "-NykLdhS-oDANusmMKQO",
+    "categoryId": "-NykGVDCGjGFW6_jDvQK",
+    "question": "Near which major US city do the Mississippi and Missouri Rivers meet?",
+    "answer": "St. Louis",
+    "status": "unused",
+    "timeOpened": "never",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  },
+  "-NykLdhTUX_mbdZpUkGs": {
+    "firebaseKey": "-NykLdhTUX_mbdZpUkGs",
+    "categoryId": "-NykGVDDI2mAecsXbJ1S",
+    "question": "Within three years either way, how old was Mary Shelley when she started writing 'Frankenstein'?",
+    "answer": "18",
+    "status": "closed",
+    "timeOpened": "2024-05-23T15:16:12Z",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  },
+  "-NykLdhUZVmXne4J8Iqr": {
+    "firebaseKey": "-NykLdhUZVmXne4J8Iqr",
+    "categoryId": "-NykGVDDI2mAecsXbJ1T",
+    "question": "What is the highest ranking suit in the card game Bridge?",
+    "answer": "Spades",
+    "status": "unused",
+    "timeOpened": "never",
+    "uid": "iZUQy63CVYWrhIyGJl4WRlaPATJ3"
+  },
+  "-NykLdhVSBaeMrQu4MtQ": {
+    "firebaseKey": "-NykLdhVSBaeMrQu4MtQ",
+    "categoryId": "-NykGVDCGjGFW6_jDvQL",
+    "question": "In spite of 17 pregnancies, who became the final British monarch from the House of Stuart after dying without an heir?",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Dahl%2C_Michael_-_Queen_Anne_-_NPG_6187.jpg",
+    "answer": "Anne, Queen of Great Britain",
+    "status": "unused",
+    "timeOpened": "never",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  },
+  "-NykLdhWc1nxRnp4dbKp": {
+    "firebaseKey": "-NykLdhWc1nxRnp4dbKp",
+    "categoryId": "-NykGVDEjLDZuu-5qmxY",
+    "question": "What non-alcoholic drink is traditionally made using grenadine with lemon-lime soda or ginger ale?",
+    "answer": "Shirley Temple",
+    "status": "closed",
+    "timeOpened": "2024-05-24T09:54:54Z",
+    "uid": "pLgjt99BhdaBCbCuLWBH6iGDNa23"
+  }
+}
