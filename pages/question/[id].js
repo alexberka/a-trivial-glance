@@ -5,5 +5,5 @@ export default function ReviewQuestion() {
     <div>
       Player view question
     </div>
-  )
+  );
 }
