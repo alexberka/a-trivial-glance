@@ -1,29 +1,54 @@
+/* eslint-disable no-else-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import {
-  Navbar, Container, Nav, Button,
-} from 'react-bootstrap';
 import { signOut } from '../utils/auth';
 
 export default function NavBarAuth() {
-  return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
+  const [navigate, setNavigate] = useState(false);
+  const router = useRouter();
+
+  const openNav = () => {
+    setNavigate(true);
+  };
+
+  const closeNav = () => {
+    setNavigate(false);
+  };
+
+  if (navigate) {
+    return (
+      <div className="nav-expanded" onMouseLeave={closeNav}>
         <Link passHref href="/">
-          <Navbar.Brand>CHANGE ME</Navbar.Brand>
+          <button type="button">Home</button>
         </Link>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            {/* CLOSE NAVBAR ON LINK SELECTION: https://stackoverflow.com/questions/72813635/collapse-on-select-react-bootstrap-navbar-with-nextjs-not-working */}
-            <Link passHref href="/">
-              <Nav.Link>Home</Nav.Link>
+        <hr />
+        {router.pathname.includes('host') ? (
+          <>
+            <Link passHref href="/game">
+              <button type="button">Switch to Player View</button>
             </Link>
-            <Button variant="danger" onClick={signOut}>Sign Out</Button>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+            <Link passHref href="/host/question/new">
+              <button type="button">New Question</button>
+            </Link>
+          </>
+        ) : (
+          <Link passHref href="/host/game">
+            <button type="button">Switch to Host View</button>
+          </Link>
+        )}
+        <hr />
+        <button type="button" onClick={signOut}>Sign Out</button>
+      </div>
+    );
+  } else {
+    return (
+      <div className="nav-collapsed" onMouseEnter={openNav}>
+        <div className="nav-line" />
+        <div className="nav-line" />
+        <div className="nav-line" />
+      </div>
+    );
+  }
 }
