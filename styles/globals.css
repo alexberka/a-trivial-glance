@@ -18,5 +18,57 @@ a {
 }
 
 body {
-  background-color: #88effd;
+  background-color: #454949;
+}
+
+.welcome-buttons {
+  width: 400px;
+  margin: 0 auto;
+  padding-top: 35vh;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  color: aliceblue;
+  button {
+    background: black;
+    color: aliceblue;
+    width: 100px;
+    font-size: 20px;
+  }
+}
+
+.welcome-signout {
+  position: fixed;
+  right: 5vw;
+  bottom: 5vh;
+  background: none;
+  border: none;
+  color: aliceblue;
+}
+
+.welcome-title {
+  position: fixed;
+  left: 5vw;
+  bottom: 20vh;
+  color: aliceblue;
+  h1, h2, h3 {
+    padding: 0;
+    margin: 0;
+  }
+  h1 {
+    position: absolute;
+    top: -161px;
+    left: 25px;
+    font-size: 150px;
+  }
+  h2 {
+    position: absolute;
+    top: -42px;
+    font-size: 100px;
+  }
+  h3 {
+    position: absolute;
+    top: -188px;
+    font-size: 75px;
+  }
 }
