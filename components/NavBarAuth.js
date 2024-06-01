@@ -34,7 +34,7 @@ export default function NavBarAuth() {
             </Link>
           </>
         ) : (
-          <Link passHref href="/host/game">
+          <Link passHref href="/host/questions">
             <button type="button">Switch to Host View</button>
           </Link>
         )}

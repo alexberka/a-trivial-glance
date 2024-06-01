@@ -17,7 +17,7 @@ function Home() {
           <p>Enter As Player</p>
         </div>
         <div>
-          <Link passHref href="/host/game">
+          <Link passHref href="/host/questions">
             <button type="button">HOST</button>
           </Link>
           <p>Enter As Host</p>
