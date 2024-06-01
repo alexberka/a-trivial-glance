@@ -50,6 +50,7 @@ body {
   text-align: center;
   padding: 10px 0;
   border-bottom-right-radius: 5px;
+  z-index: 4;
   hr {
     border-color: aliceblue;
     margin: 3px;
@@ -184,4 +185,58 @@ body {
 .q-timestamp {
   font-size: 0.7rem;
   margin: 0 2px;
+}
+
+.question-details {
+  padding-top: 20px;
+  display: flex;
+  gap: 20px;
+  color: aliceblue;
+  .qd-info {
+    width: 90%;
+    h2 {
+      padding-top: 5px;
+      margin-bottom: 5px;
+    }
+    hr {
+      border: 2px solid aliceblue;
+      opacity: 60%;
+      padding: 0;
+      margin: 0;
+    }
+    h4 {
+      padding: 5px;
+    }
+    .qd-image {
+      display: block;
+      max-height: 300px;
+      border: 1px solid black;
+      border-radius: 5px;
+      box-shadow: 0 0 3px black;
+      margin: 0 auto;
+    }
+  }
+  .qd-buttons {
+    color: black;
+    position: relative;
+    height: 90vh;
+    text-align: center;
+    button, p {
+      border-radius: 5px;
+      margin: 5px 0;
+      font-size: 1.2rem;
+      padding: 5px 10px;
+      width: 100%;
+    }
+    .qd-host-tools {
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
+      right: 0px;
+      button {
+        display: block;
+      }
+    }
+  }
+  
 }

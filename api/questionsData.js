@@ -26,7 +26,7 @@ const getQuestionsByHostNoCats = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getQuestionById = (firebaseKey) => new Promise((resolve, reject) => {
+const getQuestionByIdNoCat = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${ENDPOINT}/questions/${firebaseKey}.json`, {
     method: 'GET',
     headers: {
@@ -79,7 +79,7 @@ const deleteQuestion = (firebaseKey) => new Promise((resolve, reject) => {
 export {
   getQuestions,
   getQuestionsByHostNoCats,
-  getQuestionById,
+  getQuestionByIdNoCat,
   createQuestion,
   updateQuestion,
   deleteQuestion,
