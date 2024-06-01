@@ -10,7 +10,7 @@ const getCategories = () => new Promise((resolve, reject) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(data ? Object.values(data) : []))
+    .then((data) => resolve(data))
     .catch(reject);
 });
 
