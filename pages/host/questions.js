@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../utils/context/authContext';
 import QuestionCard from '../../components/QuestionCard';
-import getQuestionsByHost from '../../api/mergedData';
+import { getQuestionsByHost } from '../../api/mergedData';
 
 export default function HostQuestions() {
   const [questions, setQuestions] = useState([]);
@@ -17,7 +17,7 @@ export default function HostQuestions() {
       <div className="questions-header">
         <h1 className="page-header">Questions</h1>
         <Link passHref href="/host/question/new">
-          <button type="button">New Question</button>
+          <button type="button" className="">New Question</button>
         </Link>
       </div>
       <div className="question-container">
