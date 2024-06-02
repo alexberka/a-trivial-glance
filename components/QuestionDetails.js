@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-bootstrap';
+import CategoryDropdown from './forms/CategoryDropdown';
 
-export default function QuestionDetails({ questionObj, host }) {
+export default function QuestionDetails({ questionObj, host, onUpdate }) {
   return (
     <div className="question-details">
       <div className="qd-info">
@@ -19,22 +20,31 @@ export default function QuestionDetails({ questionObj, host }) {
         </div>
       </div>
       <div className="qd-buttons">
-        <p className="qd-category" style={{ background: `${questionObj.category.color}` }}>
-          {questionObj.category.name.toUpperCase()}
-        </p>
+        {host ? (
+          <CategoryDropdown selectedCategoryId={questionObj.category.firebaseKey} questionId={questionObj.firebaseKey} />
+        ) : (
+          <p className="qd-status" style={{ background: `${questionObj.category.color}` }}>
+            {questionObj.category.name.toUpperCase()}
+          </p>
+        )}
         <p className={`qd-status status-${questionObj.status}`}>
           {questionObj.status.toUpperCase()}
         </p>
-        <p className="qd-timestamp">{questionObj.status === 'closed' && (`Last Used: ${questionObj.timeOpened.split('T')[0]}`)}</p>
+        {host
+        && (
+        <p className="qd-timestamp">
+          {questionObj.status === 'closed' && (`Last Used: ${questionObj.timeOpened.split('T')[0]}`)}
+        </p>
+        )}
         {host && (
           <div className="qd-host-tools">
             {questionObj.status === 'closed' && (<button type="button">Reset</button>)}
             <button type="button">
-              {questionObj.status === 'unused' && 'Open'}
-              {questionObj.status === 'open' && 'Close'}
-              {questionObj.status === 'closed' && 'Reopen'}
+              {questionObj.status === 'unused' && 'Open Question'}
+              {questionObj.status === 'open' && 'Close Question'}
+              {questionObj.status === 'closed' && 'Reopen Question'}
             </button>
-            <button type="button">Edit</button>
+            <button type="button" onClick={onUpdate}>Edit</button>
             <button type="button">Delete</button>
           </div>
         )}
@@ -54,11 +64,14 @@ QuestionDetails.propTypes = {
     category: PropTypes.shape({
       name: PropTypes.string,
       color: PropTypes.string,
+      firebaseKey: PropTypes.string,
     }),
   }).isRequired,
   host: PropTypes.bool,
+  onUpdate: PropTypes.func,
 };
 
 QuestionDetails.defaultProps = {
   host: false,
+  onUpdate: null,
 };
