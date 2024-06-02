@@ -10,7 +10,7 @@ const getQuestionsByHost = async (uid) => {
 
 const getQuestionById = async (firebaseKey) => {
   const question = await getQuestionByIdNoCat(firebaseKey);
-  const category = await getCategoryById(question.categoryId);
+  const category = question ? await getCategoryById(question.categoryId) : null;
   return { ...question, category };
 };
 

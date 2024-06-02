@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-// import { useEffect } from 'react';
 import { useAuth } from './context/authContext';
 import Loading from '../components/Loading';
 import Signin from '../components/Signin';
@@ -9,10 +8,6 @@ import NavBarAuth from '../components/NavBarAuth';
 const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) => {
   const { user, userLoading } = useAuth();
   const router = useRouter();
-
-  // useEffect(() => {
-  //   router.push('/');
-  // }, [user]);
 
   // if user state is null, then show loader
   if (userLoading) {
