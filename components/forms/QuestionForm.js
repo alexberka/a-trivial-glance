@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
+import { useRouter } from 'next/router';
 import CategoryDropdown from './CategoryDropdown';
 import { createQuestion, updateQuestion } from '../../api/questionsData';
 import { useAuth } from '../../utils/context/authContext';
@@ -15,6 +16,7 @@ const nullQuestion = {
 };
 export default function QuestionForm({ questionObj, onUpdate }) {
   const [formInput, setFormInput] = useState(questionObj);
+  const router = useRouter();
   const { user } = useAuth();
 
   const handleChange = (e) => {
@@ -30,7 +32,7 @@ export default function QuestionForm({ questionObj, onUpdate }) {
     } else {
       const payload = { ...formInput, uid: user.uid };
       createQuestion(payload).then(({ name }) => {
-        updateQuestion({ firebaseKey: name }).then(onUpdate);
+        updateQuestion({ firebaseKey: name }).then(() => router.push(`/host/question/${name}`));
       });
     }
   };
@@ -38,27 +40,35 @@ export default function QuestionForm({ questionObj, onUpdate }) {
   return (
     <Form className="question-details">
       <div className="qd-info">
-        <div>
-          <h2>Question</h2>
+        <Form.Group>
+          <h2>Question*</h2>
           <hr />
           <Form.Control name="question" value={formInput.question || ''} onChange={handleChange} />
-        </div>
-        <div>
+        </Form.Group>
+        <Form.Group>
           <h2>Image URL</h2>
           <hr />
           <Form.Control name="image" value={formInput.image || ''} onChange={handleChange} />
-        </div>
-        <div>
-          <h2>Answer</h2>
+        </Form.Group>
+        <Form.Group>
+          <h2>Answer*</h2>
           <hr />
           <Form.Control name="answer" value={formInput.answer || ''} onChange={handleChange} />
-        </div>
+        </Form.Group>
       </div>
       <div className="qd-buttons">
-        <CategoryDropdown selectedCategoryId={questionObj.categoryId} questionId={questionObj.firebaseKey} form={handleChange} />
+        <Form.Group>
+          <CategoryDropdown selectedCategoryId={questionObj.categoryId} questionId={questionObj.firebaseKey} form={handleChange} />
+        </Form.Group>
         <div className="qd-host-tools">
-          <button type="submit" onClick={handleSubmit}>Save Changes</button>
-          <button type="button" onClick={onUpdate}>Cancel</button>
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={formInput.question === '' || formInput.answer === '' || formInput.categoryId === ''}
+          >
+            {questionObj.firebaseKey ? 'Save Changes' : 'Create'}
+          </button>
+          <button type="button" onClick={onUpdate || (() => router.push('/host/questions'))}>Cancel</button>
         </div>
       </div>
     </Form>

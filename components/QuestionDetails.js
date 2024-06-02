@@ -40,9 +40,9 @@ export default function QuestionDetails({ questionObj, host, onUpdate }) {
           <div className="qd-host-tools">
             {questionObj.status === 'closed' && (<button type="button">Reset</button>)}
             <button type="button">
-              {questionObj.status === 'unused' && 'Open Question'}
-              {questionObj.status === 'open' && 'Close Question'}
-              {questionObj.status === 'closed' && 'Reopen Question'}
+              {questionObj.status === 'unused' && 'Open'}
+              {questionObj.status === 'open' && 'Close'}
+              {questionObj.status === 'closed' && 'Reopen'}
             </button>
             <button type="button" onClick={onUpdate}>Edit</button>
             <button type="button">Delete</button>
