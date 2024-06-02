@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Image } from 'react-bootstrap';
 import CategoryDropdown from './forms/CategoryDropdown';
 
-export default function QuestionDetails({ questionObj, host, onUpdate }) {
+export default function QuestionDetails({
+  questionObj, host, onUpdate, handleDelete,
+}) {
   return (
     <div className="question-details">
       <div className="qd-info">
@@ -45,7 +47,7 @@ export default function QuestionDetails({ questionObj, host, onUpdate }) {
               {questionObj.status === 'closed' && 'Reopen'}
             </button>
             <button type="button" onClick={onUpdate}>Edit</button>
-            <button type="button">Delete</button>
+            <button type="button" onClick={handleDelete}>Delete</button>
           </div>
         )}
       </div>
@@ -69,9 +71,11 @@ QuestionDetails.propTypes = {
   }).isRequired,
   host: PropTypes.bool,
   onUpdate: PropTypes.func,
+  handleDelete: PropTypes.func,
 };
 
 QuestionDetails.defaultProps = {
   host: false,
   onUpdate: null,
+  handleDelete: null,
 };
