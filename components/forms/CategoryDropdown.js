@@ -14,8 +14,8 @@ export default function CategoryDropdown({ questionId, selectedCategoryId, form 
     getCategories().then(setCategories);
   }, []);
 
-  const handleToggle = () => {
-    setMenuState((prev) => ({ ...prev, open: !prev.open }));
+  const handleToggle = (restrict) => {
+    setMenuState((prev) => ({ ...prev, open: restrict === 'only-if-open' ? false : !prev.open }));
   };
 
   const handleClick = (e, categoryId) => {
@@ -26,11 +26,11 @@ export default function CategoryDropdown({ questionId, selectedCategoryId, form 
   };
 
   return (
-    <div className="category-dropdown">
+    <div className="category-dropdown" onMouseLeave={() => handleToggle('only-if-open')}>
       {categories && (
         <div className="qd-category" style={{ background: `${form ? 'white' : categories[menuState.selected].color}` }}>
           <div className="qd-category-name">
-            {menuState.selected ? categories[menuState.selected].name.toUpperCase() : 'Select Category'}
+            {menuState.selected ? categories[menuState.selected].name.toUpperCase() : 'Select Category*'}
           </div>
           <button type="button" className="qd-category-toggle" onClick={handleToggle}>
             {menuState.open ? '▲' : '▼'}
