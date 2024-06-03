@@ -2,7 +2,7 @@ import { clientCredentials } from '../utils/client';
 
 const ENDPOINT = clientCredentials.databaseURL;
 
-const getQuestions = () => new Promise((resolve, reject) => {
+const getQuestionsNoCats = () => new Promise((resolve, reject) => {
   fetch(`${ENDPOINT}/questions.json`, {
     method: 'GET',
     headers: {
@@ -89,7 +89,7 @@ const deleteQuestion = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 export {
-  getQuestions,
+  getQuestionsNoCats,
   getQuestionsByHostNoCats,
   getQuestionByIdNoCat,
   getOpenQuestion,

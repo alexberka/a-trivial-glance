@@ -22,7 +22,7 @@ export default function HostQuestions() {
         </Link>
       </div>
       <div className="question-container">
-        {questions.length ? questions.map((q) => <QuestionCard key={q.firebaseKey} questionObj={q} />) : (<span>Loading Questions</span>)}
+        {questions.length ? questions.map((q) => <QuestionCard key={q.firebaseKey} questionObj={q} host />) : (<span>Loading Questions</span>)}
       </div>
     </>
   );
