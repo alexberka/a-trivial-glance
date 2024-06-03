@@ -9,7 +9,15 @@ export default function ReviewQuestion() {
   const [question, setQuestion] = useState({});
 
   useEffect(() => {
-    getQuestionById(router.query.id).then(setQuestion);
+    getQuestionById(router.query.id)
+      .then((q) => {
+        if (q.status === 'closed') {
+          setQuestion(q);
+        } else {
+          window.alert('Question Not Available');
+          router.push('/game');
+        }
+      });
   }, []);
 
   return (
