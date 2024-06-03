@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-bootstrap';
+import Link from 'next/link';
 import CategoryDropdown from './forms/CategoryDropdown';
 import { getOpenQuestion, updateQuestion } from '../api/questionsData';
 import { useAuth } from '../utils/context/authContext';
@@ -80,6 +81,14 @@ export default function QuestionDetails({
         <p className={`qd-status status-${questionObj.status}`}>
           {questionObj.status.toUpperCase()}
         </p>
+        {!host
+        && (
+          <Link passHref href="/game">
+            <button type="button" className="qd-return">
+              RETURN TO GAME
+            </button>
+          </Link>
+        )}
         {host
         && (
         <p className="qd-timestamp">

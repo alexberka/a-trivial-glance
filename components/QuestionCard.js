@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
-export default function QuestionCard({ questionObj }) {
+export default function QuestionCard({ questionObj, host }) {
   return (
-    <Link passHref href={`/host/question/${questionObj.firebaseKey}`}>
+    <Link passHref href={`${host ? '/host' : ''}/question/${questionObj.firebaseKey}`}>
       <div className="q-card">
         <div className="q-card-tags">
           <p className="q-category" style={{ background: `${questionObj.category.color}` }}>
@@ -13,14 +13,16 @@ export default function QuestionCard({ questionObj }) {
           <p className={`q-status status-${questionObj.status}`}>
             {questionObj.status.toUpperCase()}
           </p>
-          <p className="q-timestamp">
-            {questionObj.status === 'closed' && (
-              `Last Used: ${new Date(questionObj.timeOpened)
-                .toDateString()
-                .split(' ')
-                .slice(1)
-                .join(' ')}`)}
-          </p>
+          {host && (
+            <p className="q-timestamp">
+              {questionObj.status === 'closed' && (
+                `Last Used: ${new Date(questionObj.timeOpened)
+                  .toDateString()
+                  .split(' ')
+                  .slice(1)
+                  .join(' ')}`)}
+            </p>
+          )}
         </div>
         <p className="q-card-text">
           {questionObj.question}
@@ -42,4 +44,9 @@ QuestionCard.propTypes = {
       color: PropTypes.string,
     }),
   }).isRequired,
+  host: PropTypes.bool,
+};
+
+QuestionCard.defaultProps = {
+  host: false,
 };

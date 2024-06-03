@@ -1,5 +1,12 @@
 import { getCategories, getCategoryById } from './categoriesData';
-import { getQuestionByIdNoCat, getQuestionsByHostNoCats } from './questionsData';
+import { getQuestionByIdNoCat, getQuestionsByHostNoCats, getQuestionsNoCats } from './questionsData';
+
+const getQuestions = async () => {
+  const questions = await getQuestionsNoCats();
+  const categories = await getCategories();
+  const qWithCats = questions.map((q) => ({ ...q, category: categories[q.categoryId] }));
+  return qWithCats;
+};
 
 const getQuestionsByHost = async (uid) => {
   const questions = await getQuestionsByHostNoCats(uid);
@@ -15,6 +22,7 @@ const getQuestionById = async (firebaseKey) => {
 };
 
 export {
+  getQuestions,
   getQuestionsByHost,
   getQuestionById,
 };
