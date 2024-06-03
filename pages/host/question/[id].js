@@ -27,10 +27,10 @@ export default function ManageQuestion() {
     setEditing((prev) => !prev);
   };
 
-  const onUpdate = () => {
+  const onUpdate = (toggle = true) => {
     getQuestionById(router.query.id)
       .then(setQuestion)
-      .then(() => toggleEdit());
+      .then(() => { if (toggle) { toggleEdit(); } });
   };
 
   const handleDelete = () => {

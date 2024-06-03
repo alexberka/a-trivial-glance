@@ -186,7 +186,7 @@ body {
 
 .q-timestamp {
   font-size: 0.7rem;
-  margin: 0 2px;
+  margin: 4px 2px 0 2px;
 }
 
 .question-details {
@@ -207,7 +207,7 @@ body {
       margin: 0;
     }
     h4 {
-      padding: 5px;
+      padding: 5px 10px;
     }
     .qd-image {
       display: block;
@@ -259,6 +259,10 @@ body {
       .qd-category-toggle:active {
         box-shadow: inset 0 0 2px black;
       }
+    }
+    .qd-timestamp {
+      color: aliceblue;
+      font-size: 0.8rem;
     }
     .qd-host-tools {
       position: absolute;

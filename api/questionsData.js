@@ -38,6 +38,18 @@ const getQuestionByIdNoCat = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getOpenQuestion = () => new Promise((resolve, reject) => {
+  fetch(`${ENDPOINT}/questions.json?orderBy="status"&equalTo="open"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application.json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data ? Object.values(data) : []))
+    .catch(reject);
+});
+
 const createQuestion = (payload) => new Promise((resolve, reject) => {
   fetch(`${ENDPOINT}/questions.json`, {
     method: 'POST',
@@ -80,6 +92,7 @@ export {
   getQuestions,
   getQuestionsByHostNoCats,
   getQuestionByIdNoCat,
+  getOpenQuestion,
   createQuestion,
   updateQuestion,
   deleteQuestion,
