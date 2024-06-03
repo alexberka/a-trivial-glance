@@ -29,6 +29,7 @@ body {
   height: 50px;
   background: rgb(37, 37, 37);
   border-bottom-right-radius: 15%;
+  box-shadow: 0 0 3px black;
   .nav-line {
     width: 70%;
     background: aliceblue;
@@ -48,17 +49,58 @@ body {
   width: 175px;
   background: rgb(37, 37, 37);
   text-align: center;
-  padding: 10px 0;
+  padding: 0 0 5px 0;
   border-bottom-right-radius: 5px;
   z-index: 4;
+  box-shadow: 0 0 3px black;
+  .nav-logo {
+    height: 36px;
+    position: relative;
+    .nav-logo-a {
+      position: absolute;
+      top: 2px;
+      left: 30%;
+      font-size: 9px;
+    }
+    .nav-logo-b {
+      position: absolute;
+      top: 4px;
+      left: 32%;
+      font-size: 18px;
+    }
+    .nav-logo-c {
+      position: absolute;
+      top: 19px;
+      font-size: 12px;
+      left: 30%;
+    }
+  }
   hr {
     border-color: aliceblue;
-    margin: 3px;
+    margin: 0;
   }
   button {
     background: none;
     border: none;
     color: aliceblue;
+    width: 100%;
+  }
+  button:hover {
+    background:#45494970;
+  }
+  .nav-user-image {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 5px;
+    margin-bottom: 2px;
+  }
+  .nav-username {
+    font-style: italic;
+    font-size: 0.7rem;
+    margin: 0;
+    color: rgb(182, 188, 192);
   }
 }
 
