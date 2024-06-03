@@ -13,7 +13,14 @@ export default function QuestionCard({ questionObj }) {
           <p className={`q-status status-${questionObj.status}`}>
             {questionObj.status.toUpperCase()}
           </p>
-          <p className="q-timestamp">{questionObj.status === 'closed' && (`Last Used: ${questionObj.timeOpened.split('T')[0]}`)}</p>
+          <p className="q-timestamp">
+            {questionObj.status === 'closed' && (
+              `Last Used: ${new Date(questionObj.timeOpened)
+                .toDateString()
+                .split(' ')
+                .slice(1)
+                .join(' ')}`)}
+          </p>
         </div>
         <p className="q-card-text">
           {questionObj.question}
