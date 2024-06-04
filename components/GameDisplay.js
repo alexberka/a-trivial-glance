@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { Image } from 'react-bootstrap';
 import QuestionCard from './QuestionCard';
 
+// 'questions' contains questions for game with attached category objects
 export default function GameDisplay({ questions }) {
   const display = {
+    // Game's open question (should only be one, but will grab first in array regardless)
     openQ: questions.filter((q) => q.status === 'open')[0],
+    // Game's closed questions (will be displayed on '/game' in reverse order from when used)
     closedQ: questions
       .filter((q) => q.status === 'closed')
       .sort((a, b) => b.timeOpened.localeCompare(a.timeOpened)),
@@ -14,6 +17,7 @@ export default function GameDisplay({ questions }) {
   return (
     <div className="game-display">
       <div className="gd-open">
+        {/* Display open question, if any */}
         {display.openQ && (
           <>
             <div className="gd-open-tags">
@@ -24,6 +28,7 @@ export default function GameDisplay({ questions }) {
                 {display.openQ.status.toUpperCase()}
               </p>
             </div>
+            {/* Calculate question number based on number of closed questions */}
             <h2>
               Question #{display.closedQ.length + 1}
             </h2>
@@ -36,10 +41,15 @@ export default function GameDisplay({ questions }) {
         )}
       </div>
       <div className="gd-closed">
-        <h3>Past Questions</h3>
-        <div className="gd-closed-container">
-          {display.closedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} />))}
-        </div>
+        {/* Display closed question(s), if any */}
+        {display.closedQ && (
+          <>
+            <h3>Past Questions</h3>
+            <div className="gd-closed-container">
+              {display.closedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} />))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -11,9 +11,11 @@ export default function ReviewQuestion() {
   useEffect(() => {
     getQuestionById(router.query.id)
       .then((q) => {
+        // Only allow player access to view questions that are closed
         if (q.status === 'closed') {
           setQuestion(q);
         } else {
+          // Otherwise, redirect to '/game'
           window.alert('Question Not Available');
           router.push('/game');
         }
