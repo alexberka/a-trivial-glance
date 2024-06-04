@@ -5,6 +5,7 @@ import { getQuestions } from '../api/mergedData';
 export default function PlayerGame() {
   const [questions, setQuestions] = useState();
 
+  // Update /game page every two seconds to reflect opening/closing/editing of questions by host
   useEffect(() => {
     const interval = setInterval(() => {
       getQuestions().then(setQuestions);

@@ -417,7 +417,7 @@ body {
   .gd-closed {
     border-left: 2px solid aliceblue;
     border-right: 2px solid aliceblue;
-    min-height: 95vh;
+    min-height: 97vh;
     margin-top: 10px;
     padding: 0 10px;
     max-width: 330px;
