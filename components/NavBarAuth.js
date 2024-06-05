@@ -16,7 +16,9 @@ export default function NavBarAuth() {
   // Links that appear/disappear dynamically based on path are defined and organized in 'dynamicLinks'
   const dynamicLinks = {
     host: [
-      { path: '/host/questions', text: 'All Questions' },
+      { path: '/host/games', text: 'Games' },
+      { path: '/host/game/new', text: 'New Game' },
+      { path: '/host/questions', text: 'Questions' },
       { path: '/host/question/new', text: 'New Question' },
     ],
     player: [
@@ -51,7 +53,7 @@ export default function NavBarAuth() {
         {router.pathname.includes('host') ? (
           <>
             {/* When in host view, show option to use site as player */}
-            <Link passHref href="/game">
+            <Link passHref href="/games">
               <button type="button">Switch to Player View</button>
             </Link>
             {/* Map through and display dynamic host links other than ones that direct to current path, if any */}
@@ -62,7 +64,8 @@ export default function NavBarAuth() {
                   .filter((link) => link.path !== router.pathname)
                   .map((link) => (
                     <Link passHref href={link.path} key={link.path}>
-                      <button type="button">{link.text}</button>
+                      {/* Close nav menu if a dynamic link is clicked */}
+                      <button type="button" onClick={closeNav}>{link.text}</button>
                     </Link>
                   ))}
               </>
@@ -82,7 +85,8 @@ export default function NavBarAuth() {
                   .filter((link) => link.path !== router.pathname)
                   .map((link) => (
                     <Link passHref href={link.path} key={link.path}>
-                      <button type="button">{link.text}</button>
+                      {/* Close nav menu if a dynamic link is clicked */}
+                      <button type="button" onClick={closeNav}>{link.text}</button>
                     </Link>
                   ))}
               </>
