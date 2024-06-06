@@ -2,18 +2,6 @@ import { clientCredentials } from '../utils/client';
 
 const ENDPOINT = clientCredentials.databaseURL;
 
-const getGameQuestionsByHost = (uid) => new Promise((resolve, reject) => {
-  fetch(`${ENDPOINT}/gameQuestions.json?orderBy="uid"&equalTo="${uid}"`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application.json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data ? Object.values(data) : []))
-    .catch(reject);
-});
-
 const getGameQuestionsByGame = (gameId) => new Promise((resolve, reject) => {
   fetch(`${ENDPOINT}/gameQuestions.json?orderBy="gameId"&equalTo="${gameId}"`, {
     method: 'GET',
@@ -89,7 +77,6 @@ const deleteGameQuestion = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 export {
-  getGameQuestionsByHost,
   getGameQuestionsByGame,
   getGameQuestionsByQuestion,
   getGameQuestionById,
