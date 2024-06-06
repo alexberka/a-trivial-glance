@@ -42,9 +42,9 @@ export default function QuestionDetails({
   const handleStatus = (e) => {
     // NOTE: The 'Reset' button has a value of 'reset', other buttons have an empty string. The trigger will then
     // default to the current status of the question.
-    const trigger = e.target.value || questionObj.status;
+    const trigger = e.target.value || questionObj.gameQuestion.status;
     // Initialize payload with question's Firebase key
-    const payload = { firebaseKey: questionObj.firebaseKey };
+    const payload = { firebaseKey: questionObj.gameQuestion.firebaseKey };
     switch (trigger) {
       case 'reset':
         // If the 'Reset' button was clicked, confirm with user that this is the desired action.
@@ -109,9 +109,11 @@ export default function QuestionDetails({
             {questionObj.category.name.toUpperCase()}
           </p>
         )}
-        <p className={`qd-status status-${questionObj.status}`}>
-          {questionObj.status.toUpperCase()}
-        </p>
+        {questionObj.gameQuestion && (
+          <p className={`qd-status status-${questionObj.gameQuestion.status}`}>
+            {questionObj.gameQuestion.status.toUpperCase()}
+          </p>
+        )}
         {/* If in player view, include button to return to current game */}
         {!host
         && (
@@ -125,23 +127,34 @@ export default function QuestionDetails({
         {host
         && (
         <p className="qd-timestamp">
-          {questionObj.status === 'closed' && (
-            `Last Used: ${new Date(questionObj.timeOpened).toDateString()}`)}
+          {questionObj.lastUsed !== 'never'
+            ? `Last Used: ${new Date(questionObj.lastUsed)
+              .toDateString()
+              .split(' ')
+              .join(' ')}`
+            : 'Last Used: Never'}
         </p>
         )}
         {/* If in host view, display status, edit, and delete host tools */}
         {host && (
           <div className="qd-host-tools">
-            {questionObj.status === 'closed' && (<button type="button" onClick={handleStatus} value="reset">Reset</button>)}
-            <button type="button" onClick={handleStatus}>
-              {questionObj.status === 'unused' && 'Open'}
-              {questionObj.status === 'open' && 'Close'}
-              {questionObj.status === 'closed' && 'Reopen'}
-            </button>
-            {/* On edit, defer to onUpdate behavior defined by prop */}
-            <button type="button" onClick={onUpdate}>Edit</button>
-            {/* On delete, defer to handleDelete behavior defined by prop */}
-            <button type="button" onClick={handleDelete}>Delete</button>
+            {questionObj.gameQuestion ? (
+              <>
+                {questionObj.gameQuestion.status === 'closed' && (
+                  <button type="button" onClick={handleStatus} value="reset">Reset</button>
+                )}
+                <button type="button" onClick={handleStatus}>
+                  {questionObj.gameQuestion.status === 'unused' && 'Open'}
+                  {questionObj.gameQuestion.status === 'open' && 'Close'}
+                  {questionObj.gameQuestion.status === 'closed' && 'Reopen'}
+                </button>
+              </>
+            ) : (
+              <>
+                <button type="button" onClick={onUpdate}>Edit</button>
+                <button type="button" onClick={handleDelete}>Delete</button>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -154,12 +167,16 @@ QuestionDetails.propTypes = {
     question: PropTypes.string,
     image: PropTypes.string,
     answer: PropTypes.string,
-    status: PropTypes.string,
-    timeOpened: PropTypes.string,
+    lastUsed: PropTypes.string,
     firebaseKey: PropTypes.string,
     category: PropTypes.shape({
       name: PropTypes.string,
       color: PropTypes.string,
+      firebaseKey: PropTypes.string,
+    }),
+    gameQuestion: PropTypes.shape({
+      status: PropTypes.string,
+      timeOpened: PropTypes.string,
       firebaseKey: PropTypes.string,
     }),
   }).isRequired,

@@ -11,9 +11,8 @@ const nullQuestion = {
   question: '',
   image: '',
   answer: '',
-  status: 'unused',
-  timeOpened: 'never',
   categoryId: '',
+  lastUsed: 'never',
 };
 
 // 'questionObj' contains information to populate form on edit
@@ -96,8 +95,6 @@ QuestionForm.propTypes = {
     image: PropTypes.string,
     answer: PropTypes.string,
     categoryId: PropTypes.string,
-    status: PropTypes.string,
-    timeOpened: PropTypes.string,
     firebaseKey: PropTypes.string,
     category: PropTypes.shape({
       name: PropTypes.string,
