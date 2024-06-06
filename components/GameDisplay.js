@@ -59,12 +59,15 @@ GameDisplay.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.shape({
     question: PropTypes.string,
     answer: PropTypes.string,
-    status: PropTypes.string,
-    timeOpened: PropTypes.string,
+    lastUsed: PropTypes.string,
     firebaseKey: PropTypes.string,
     category: PropTypes.shape({
       name: PropTypes.string,
       color: PropTypes.string,
+    }),
+    gameQuestion: PropTypes.shape({
+      status: PropTypes.string,
+      timeOpened: PropTypes.string,
     }),
   })).isRequired,
 };

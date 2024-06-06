@@ -53,7 +53,7 @@ export default function NavBarAuth() {
         {router.pathname.includes('host') ? (
           <>
             {/* When in host view, show option to use site as player */}
-            <Link passHref href="/games">
+            <Link passHref href="/game">
               <button type="button">Switch to Player View</button>
             </Link>
             {/* Map through and display dynamic host links other than ones that direct to current path, if any */}
@@ -74,7 +74,7 @@ export default function NavBarAuth() {
         ) : (
           <>
             {/* When in player view, show option to use site as host */}
-            <Link passHref href="/host/questions">
+            <Link passHref href="/host/games">
               <button type="button">Switch to Host View</button>
             </Link>
             {/* Map through and display dynamic player links other than ones that direct to current path, if any */}

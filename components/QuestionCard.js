@@ -14,18 +14,21 @@ export default function QuestionCard({ questionObj, host }) {
           <p className="q-category" style={{ background: `${questionObj.category.color}` }}>
             {questionObj.category.name.toUpperCase()}
           </p>
-          <p className={`q-status status-${questionObj.status}`}>
-            {questionObj.status.toUpperCase()}
-          </p>
+          {questionObj.gameQuestion && (
+            <p className={`q-status status-${questionObj.gameQuestion.status}`}>
+              {questionObj.gameQuestion.status.toUpperCase()}
+            </p>
+          )}
           {/* Include the date of last usage if in host view (creates date from ISO String in database) */}
           {host && (
             <p className="q-timestamp">
-              {questionObj.status === 'closed' && (
-                `Last Used: ${new Date(questionObj.timeOpened)
+              {questionObj.lastUsed !== 'never'
+                ? `Last Used: ${new Date(questionObj.lastUsed)
                   .toDateString()
                   .split(' ')
                   .slice(1)
-                  .join(' ')}`)}
+                  .join(' ')}`
+                : 'Last Used: Never'}
             </p>
           )}
         </div>
@@ -41,12 +44,15 @@ QuestionCard.propTypes = {
   questionObj: PropTypes.shape({
     question: PropTypes.string,
     answer: PropTypes.string,
-    status: PropTypes.string,
-    timeOpened: PropTypes.string,
+    lastUsed: PropTypes.string,
     firebaseKey: PropTypes.string,
     category: PropTypes.shape({
       name: PropTypes.string,
       color: PropTypes.string,
+    }),
+    gameQuestion: PropTypes.shape({
+      status: PropTypes.string,
+      timeOpened: PropTypes.string,
     }),
   }).isRequired,
   host: PropTypes.bool,

@@ -1,0 +1,82 @@
+{
+  "-NzfOFCg-z_4efyGAw6g": {
+    "firebaseKey": "-NzfOFCg-z_4efyGAw6g",
+    "questionId": "-NykLdhS-oDANusmMKQO",
+    "gameId": "-Nz_g1yYFuI9itxthqNO",
+    "status": "closed",
+    "timeOpened": "2023-08-01T06:12:20Z",
+    "queue": 2
+  },
+  "-NzfOFChAQgV_8bYX6I5": {
+    "firebaseKey": "-NzfOFChAQgV_8bYX6I5",
+    "questionId": "-NykLdhUZVmXne4J8Iqr",
+    "gameId": "-Nz_g1yZXlFLWqiAaLbw",
+    "status": "unused",
+    "timeOpened": "never",
+    "queue": 0
+  },
+  "-NzfOFCikZAYJG3zhlZk": {
+    "firebaseKey": "-NzfOFCikZAYJG3zhlZk",
+    "questionId": "-NykLdhVSBaeMrQu4MtQ",
+    "gameId": "-Nz_g1yaNdIQgwZn6btx",
+    "status": "open",
+    "timeOpened": "2024-06-04T20:16:54Z",
+    "queue": 4
+  },
+  "-NzfOFCko9tmDMqbnacT": {
+    "firebaseKey": "-NzfOFCko9tmDMqbnacT",
+    "questionId": "-NykLdhWc1nxRnp4dbKp",
+    "gameId": "-Nz_g1yYFuI9itxthqNO",
+    "status": "released",
+    "timeOpened": "2023-08-01T06:06:20Z",
+    "queue": 1
+  },
+  "-NzfOFCl5kYnv9043q8z": {
+    "firebaseKey": "-NzfOFCl5kYnv9043q8z",
+    "questionId": "-NykLdhLh7qJcaOgg17M",
+    "gameId": "-Nz_g1y_NMVx8lvkkqve",
+    "status": "unused",
+    "timeOpened": "never",
+    "queue": 0
+  },
+  "-NzfOFCmZp_X0-rVr7lB": {
+    "firebaseKey": "-NzfOFCmZp_X0-rVr7lB",
+    "questionId": "-NykLdhS-oDANusmMKQO",
+    "gameId": "-Nz_g1yaNdIQgwZn6btx",
+    "status": "released",
+    "timeOpened": "2024-06-04T20:08:54Z",
+    "queue": 2
+  },
+  "-NzfOFCnpWUTxmYHVnRG": {
+    "firebaseKey": "-NzfOFCnpWUTxmYHVnRG",
+    "questionId": "-NykLdhTUX_mbdZpUkGs",
+    "gameId": "-Nz_g1yaNdIQgwZn6btx",
+    "status": "unused",
+    "timeOpened": "never",
+    "queue": 5
+  },
+  "-NzfOFCpg4_M8vHaIyMH": {
+    "firebaseKey": "-NzfOFCpg4_M8vHaIyMH",
+    "questionId": "-NykLdhPIBq71_IkT9oJ",
+    "gameId": "-Nz_g1yaNdIQgwZn6btx",
+    "status": "closed",
+    "timeOpened": "2024-06-04T20:12:54Z",
+    "queue": 3
+  },
+  "-NzfOFCqKUR49DpmQxtQ": {
+    "firebaseKey": "-NzfOFCqKUR49DpmQxtQ",
+    "questionId": "-NykLdhO9k735G1WcIsd",
+    "gameId": "-Nz_g1yaNdIQgwZn6btx",
+    "status": "unused",
+    "timeOpened": "never",
+    "queue": 0
+  },
+  "-NzfOFCrwsTT2xZ5p61a": {
+    "firebaseKey": "-NzfOFCrwsTT2xZ5p61a",
+    "questionId": "-NykLdhQOLRDEENVrqIF",
+    "gameId": "-Nz_g1yaNdIQgwZn6btx",
+    "status": "released",
+    "timeOpened": "2024-06-04T20:03:54Z",
+    "queue": 1
+  }
+}
