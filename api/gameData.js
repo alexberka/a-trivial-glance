@@ -76,7 +76,7 @@ const updateGame = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const deleteGame = (firebaseKey) => new Promise((resolve, reject) => {
+const deleteGameOnly = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${ENDPOINT}/games/${firebaseKey}.json`, {
     method: 'DELETE',
     headers: {
@@ -95,5 +95,5 @@ export {
   getGameById,
   createGame,
   updateGame,
-  deleteGame,
+  deleteGameOnly,
 };

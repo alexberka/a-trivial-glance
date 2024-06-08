@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getGamesByHost } from '../../api/gameData';
 import { useAuth } from '../../utils/context/authContext';
 import GameCard from '../../components/GameCard';
+import { getGameCardsData } from '../../api/mergedData';
 
 export default function HostGames() {
   const [games, setGames] = useState();
   const { user } = useAuth();
 
   useEffect(() => {
-    getGamesByHost(user.uid).then(setGames);
+    getGameCardsData(user.uid).then(setGames);
   }, []);
 
   return (

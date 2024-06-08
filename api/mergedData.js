@@ -1,6 +1,6 @@
 import { getCategories, getCategoryById } from './categoriesData';
-import { getGameById } from './gameData';
-import { getGameQuestionsByGame } from './gameQuestionsData';
+import { deleteGameOnly, getGameById, getGamesByHost } from './gameData';
+import { deleteGameQuestion, getGameQuestionsByGame } from './gameQuestionsData';
 import { getQuestionByIdNoCat, getQuestionsByHostNoCats, getQuestionsNoCats } from './questionsData';
 
 const getQuestions = async () => {
@@ -44,10 +44,26 @@ const getFullGameData = async (gameId) => {
   return { ...gameInfo, questions };
 };
 
+const getGameCardsData = async (uid) => {
+  const gamesInfo = await getGamesByHost(uid);
+  const promisedGQs = gamesInfo.map((g) => getGameQuestionsByGame(g.firebaseKey));
+  const realGQs = await Promise.all(promisedGQs);
+  return gamesInfo.map((g, index) => ({ ...g, size: realGQs[index].length }));
+};
+
+const deleteGame = async (firebaseKey) => {
+  const toDelete = await getGameQuestionsByGame(firebaseKey);
+  const deleted = toDelete.map((gq) => deleteGameQuestion(gq.firebaseKey));
+  await Promise.all(deleted);
+  await deleteGameOnly(firebaseKey);
+};
+
 export {
   getQuestions,
   getQuestionsByHost,
   getQuestionById,
   getGameQuestions,
   getFullGameData,
+  getGameCardsData,
+  deleteGame,
 };

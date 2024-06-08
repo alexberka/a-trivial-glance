@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
@@ -21,8 +22,10 @@ export default function GameCard({ gameObj, host }) {
                   .split(' ')
                   .slice(1)
                   .join(' ')
-                : (
-                  '0 Questions'
+                : gameObj.size === 1 ? (
+                  '1 Question'
+                ) : (
+                  `${gameObj.size} Questions`
                 )}
             </p>
           )}
@@ -43,6 +46,7 @@ GameCard.propTypes = {
     status: PropTypes.string,
     dateLive: PropTypes.string,
     firebaseKey: PropTypes.string,
+    size: PropTypes.number,
   }).isRequired,
   host: PropTypes.bool,
 };
