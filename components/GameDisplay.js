@@ -24,7 +24,7 @@ export default function GameDisplay({ game, host }) {
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure?')) {
+    if (window.confirm(`Delete "${game.name}"?`)) {
       deleteGame(game.firebaseKey).then(() => router.push('/host/games'));
     }
   };
