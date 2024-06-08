@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-bootstrap';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import QuestionCard from './QuestionCard';
+import { deleteGame } from '../api/mergedData';
 
 // 'questions' contains questions for game with attached category objects
 export default function GameDisplay({ game, host }) {
+  const router = useRouter();
+
   const display = {
     unusedQ: game.questions.filter((q) => q.status === 'unused'),
     // Game's open question (should only be one, but will grab first in array regardless)
@@ -16,6 +21,12 @@ export default function GameDisplay({ game, host }) {
     releasedQ: game.questions
       .filter((q) => q.status === 'released')
       .sort((a, b) => b.timeOpened.localeCompare(a.timeOpened)),
+  };
+
+  const handleDelete = () => {
+    if (window.confirm('Are you sure?')) {
+      deleteGame(game.firebaseKey).then(() => router.push('/host/games'));
+    }
   };
 
   return (
@@ -35,8 +46,10 @@ export default function GameDisplay({ game, host }) {
               <button type="button">{game.status === 'live' ? 'Close Game' : 'Go Live'}</button>
             </div>
             <div>
-              <button type="button">Edit</button>
-              <button type="button">Delete</button>
+              <Link passHref href={`/host/game/edit/${game.firebaseKey}`}>
+                <button type="button">Edit</button>
+              </Link>
+              <button type="button" onClick={handleDelete}>Delete</button>
             </div>
           </div>
         )}
@@ -108,6 +121,7 @@ GameDisplay.propTypes = {
     name: PropTypes.string,
     location: PropTypes.string,
     status: PropTypes.string,
+    firebaseKey: PropTypes.string,
     questions: PropTypes.arrayOf(PropTypes.shape({
       question: PropTypes.string,
       answer: PropTypes.string,
