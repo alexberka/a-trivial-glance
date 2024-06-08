@@ -1,4 +1,5 @@
 @import 'bootstrap/dist/css/bootstrap.css';
+@import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
 
 html,
 body {
@@ -222,6 +223,7 @@ body {
 
 .q-card {
   background: aliceblue;
+  color: black;
   width: 300px;
   min-width: 300px;
   min-height: 58px;
@@ -413,74 +415,149 @@ body {
 }
 
 .game-display {
-  display: flex;
   color: aliceblue;
-  .gd-open {
-    width: 75%;
-    margin: 10px 0 0 0;
-    padding: 0 10px;
-    border-left: 2px solid aliceblue;
-    h2 {
-      width: 100%;
-      text-align: center;
+  width: 100%;
+  .gd-header {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    display: flex;
+    gap: 40px;
+    align-items: last baseline;
+    .gd-title-box {
+      flex: 1;
+      max-width: calc(100% - 300px - 40px);
+      h1, h2 {
+        text-shadow: 4px 4px black;
+      }
+      h1 {
+        font-size: 4rem;
+        margin: 0;
+        display: inline-block;
+      }
+      h2 {
+        font-size: 2rem;
+        font-style: italic;
+      }
+      span {
+        position: relative;
+      }
+      .gd-game-live {
+        position: absolute;
+        display: inline-block;
+        top: -2.1rem;
+        right: -90px;
+        font-size: 1.3rem;
+        color: black;
+        display: inline-block;
+        border-radius: 5px;
+        padding: 3px 10px;
+        box-shadow: inset 0 0 3px #454949;
+        width: auto;
+        margin: 0 2px;
+      }
     }
-    .gd-open-tags {
-      float: right;
-      width: auto;
-      align-content: center;
-      margin: 0 6px;
-      padding: 5px 0 0 0;
-      text-align: right;
-    }
-    .gd-open-category, .gd-open-status {
-      display: inline-block;
-      border-radius: 5px;
-      font-size: 1rem;
-      padding: 5px 10px;
-      box-shadow: inset 0 0 3px black;
-      width: auto;
-      margin: 0 2px;
-      color: black;
-    }
-    hr {
-      width: calc(100% - 10px);
-      margin: 10px auto;
-    }
-    .gd-open-question {
-      font-size: 2rem;
-      width: 100%;
-      text-align: center;
-      margin-top: 5px;
-    }
-    .gd-image {
-      display: block;
-      max-height: 300px;
-      border: 1px solid black;
-      border-radius: 5px;
-      box-shadow: 0 0 3px black;
-      margin: 0 auto;
+    .gd-host-tools {
+      display: flex;
+      width: 300px;
+      div {
+        width: 50%;
+      }
+      button {
+        display: block;
+        border-radius: 5px;
+        margin: 5px;
+        font-size: 1rem;
+        padding: 5px 10px;
+        width: calc(100% - 5px);
+        min-height: 36px;
+        box-shadow: 0 0 5px black;
+        align-content: center;
+      }
     }
   }
-  .gd-closed {
-    border-left: 2px solid aliceblue;
-    border-right: 2px solid aliceblue;
-    min-height: 97vh;
-    margin-top: 10px;
-    padding: 0 10px;
-    max-width: 330px;
-    h3 {
-      width: 100%;
-      text-align: center;
-    }
-    .gd-closed-container {
-      display: flex;
-      flex-flow: row wrap;
-      gap: 10px;
-      color: black;
-      justify-content: center;
-      .q-card:last-of-type {
-        margin: 0;
+  .gd-container {
+    display: flex;
+    .gd-unused, .gd-open-host, .gd-open-player, .gd-closed, .gd-released {
+      border-left: 2px solid aliceblue;
+      padding: 0 10px;
+      margin: 10px 0 0 0;
+      height: 78vh;
+      h3 {
+        width: 100%;
+        text-align: center;
+        text-shadow: 3px 3px black;
       }
+      .gd-card-container {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 10px;
+        justify-content: center;
+        .q-card:last-of-type {
+          margin: 0;
+        }
+      }
+    }
+    .gd-unused {
+      min-width: 330px;
+      flex: 1;
+    }
+    .gd-open-host {
+      width: 330px;
+    }
+    .gd-open-player {
+      flex: 1;
+      min-width: 330px;
+      h2 {
+        width: 100%;
+        text-align: center;
+      }
+      .gd-open-tags {
+        float: right;
+        width: auto;
+        align-content: center;
+        margin: 0 6px;
+        padding: 5px 0 0 0;
+        text-align: right;
+      }
+      .gd-open-category, .gd-open-status {
+        display: inline-block;
+        border-radius: 5px;
+        font-size: 1rem;
+        padding: 5px 10px;
+        box-shadow: inset 0 0 3px black;
+        width: auto;
+        margin: 0 2px;
+        color: black;
+      }
+      hr {
+        width: calc(100% - 10px);
+        margin: 10px auto;
+      }
+      .gd-open-question {
+        font-size: 2rem;
+        width: 100%;
+        text-align: center;
+        margin-top: 5px;
+      }
+      .gd-image {
+        display: block;
+        max-height: 300px;
+        border: 1px solid black;
+        border-radius: 5px;
+        box-shadow: 0 0 3px black;
+        margin: 0 auto;
+      }
+    }
+    .gd-closed {
+      width: 330px;
+    }
+    .gd-released {
+      border-right: 2px solid aliceblue;
+      margin-top: 10px;
+      padding: 0 10px;
+      width: 330px;
     }
   }
 }

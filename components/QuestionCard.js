@@ -14,9 +14,9 @@ export default function QuestionCard({ questionObj, host }) {
           <p className="q-category" style={{ background: `${questionObj.category.color}` }}>
             {questionObj.category.name.toUpperCase()}
           </p>
-          {questionObj.gameQuestion && (
-            <p className={`q-status status-${questionObj.gameQuestion.status}`}>
-              {questionObj.gameQuestion.status.toUpperCase()}
+          {questionObj.gameQuestionId && (
+            <p className={`q-status status-${questionObj.status}`}>
+              {questionObj.status.toUpperCase()}
             </p>
           )}
           {/* Include the date of last usage if in host view (creates date from ISO String in database) */}
@@ -46,13 +46,13 @@ QuestionCard.propTypes = {
     answer: PropTypes.string,
     lastUsed: PropTypes.string,
     firebaseKey: PropTypes.string,
+    gameQuestionId: PropTypes.string,
+    queue: PropTypes.number,
+    status: PropTypes.string,
+    timeOpened: PropTypes.string,
     category: PropTypes.shape({
       name: PropTypes.string,
       color: PropTypes.string,
-    }),
-    gameQuestion: PropTypes.shape({
-      status: PropTypes.string,
-      timeOpened: PropTypes.string,
     }),
   }).isRequired,
   host: PropTypes.bool,

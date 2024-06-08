@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import GameDisplay from '../components/GameDisplay';
+// import GameDisplay from '../components/GameDisplay';
 import { getQuestions } from '../api/mergedData';
 
 export default function PlayerGame() {
@@ -20,7 +20,7 @@ export default function PlayerGame() {
 
   return (
     <div>
-      {questions && (<GameDisplay questions={questions} />)}
+      {/* {questions && (<GameDisplay questions={questions} />)} */}
     </div>
   );
 }
