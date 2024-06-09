@@ -5,8 +5,15 @@ html,
 body {
   padding: 0;
   margin: 0;
+  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+:root {
+  --main-color-1: #454949;
+  --btn-shadow-up: inset 0 0 5px black, inset 2px 2px 5px 0 #e5e9e975, 2px 2px 3px black;
+  --btn-shadow-down: inset 0px 0px 7px black, inset 2px 2px 7px 0 #e5e9e975, 1px 1px 2px black;
 }
 
 a {
@@ -19,7 +26,7 @@ a {
 }
 
 body {
-  background-color: #454949;
+  background-color: var(--main-color-1);
 }
 
 .nav-collapsed {
@@ -53,7 +60,7 @@ body {
   padding: 0 0 5px 0;
   border-bottom-right-radius: 5px;
   z-index: 4;
-  box-shadow: 0 0 3px black;
+  box-shadow: var(--btn-shadow-up);
   .nav-logo {
     height: 36px;
     position: relative;
@@ -181,7 +188,7 @@ body {
   margin-bottom: auto;
   overflow: hidden;
   border-radius: 5px;
-  box-shadow: inset 0 0 3px black;
+  box-shadow: var(--btn-shadow-up);
   cursor: pointer;
   .g-card-name {
     margin: 0;
@@ -207,7 +214,7 @@ body {
     border-radius: 5px;
     font-size: 0.7rem;
     padding: 3px 6px;
-    box-shadow: inset 0 0 3px #454949;
+    box-shadow: inset 0 0 3px var(--main-color-1);
     width: auto;
     margin: 0 2px;
   }
@@ -234,7 +241,7 @@ body {
   overflow: hidden;
   transition: max-height 1s;
   border-radius: 5px;
-  box-shadow: inset 0 0 3px black;
+  box-shadow: var(--btn-shadow-up);
   cursor: pointer;
   .q-card-text {
     margin: 0;
@@ -253,7 +260,7 @@ body {
     border-radius: 5px;
     font-size: 0.7rem;
     padding: 3px 6px;
-    box-shadow: inset 0 0 3px #454949;
+    box-shadow: inset 0 0 3px var(--main-color-1);
     width: auto;
     margin: 0 2px;
   }
@@ -270,7 +277,7 @@ body {
 }
 
 .status-unused {
-  background: #b0cccc;
+  background: #b5b9b9;
 }
 .status-open, .status-live {
   background: #82e782;
@@ -322,7 +329,7 @@ body {
       padding: 5px 10px;
       width: 100%;
       min-height: 36px;
-      box-shadow: 0 0 5px black;
+      box-shadow: var(--btn-shadow-up);
       align-content: center;
     }
     .qd-category {
@@ -333,22 +340,57 @@ body {
         text-align: center;
         width: 100%;
         align-content: center;
+        border-radius: 4px 0 0 4px;
+        box-shadow: var(--btn-shadow-up);
+        /* text-shadow: 0 0 3px aliceblue; */
       }
       .qd-category-toggle {
         background: none;
         border: none;
-        border-left: 2px solid black;
+        border-radius: 0 4px 4px 0;
         margin: 0 0 0 auto;
         padding: 0 10px;
         font-size: 1rem;
+        box-shadow: var(--btn-shadow-up);
       }
       .qd-category-toggle:hover {
-        background:#454949;
+        background: black;
         color: aliceblue;
         border-radius: 0 4px 4px 0;
       }
       .qd-category-toggle:active {
-        box-shadow: inset 0 0 2px black;
+        box-shadow: var(--btn-shadow-down);
+      }
+    }
+    .category-menu {
+      position: absolute;
+      top: 38px;
+      right: 0px;
+      background: rgb(37, 37, 37);;
+      color: aliceblue;
+      width: 80%;
+      box-shadow: var(--btn-shadow-up);
+      border-radius: 5px;
+      margin: 0 0 0 20%;
+      cursor: default;
+      z-index: 3;
+      text-align: center;
+      .category-item {
+        display: block;
+        padding: 1px 0;
+        background: none;
+        border: none;
+        color: aliceblue;
+        width: 100%;
+      }
+      button:hover {
+        background: #45494970;
+      }
+      button:first-of-type:hover {
+        border-radius: 5px 5px 0px 0px;
+      }
+      button:last-of-type:hover {
+        border-radius: 0px 0px 5px 5px;
       }
     }
     .qd-return {
@@ -382,41 +424,22 @@ body {
         font-size: 1.2rem;
         padding: 5px 10px;
         width: 100%;
+        box-shadow: var(--btn-shadow-up);
+      }
+      button:active {
+        box-shadow: var(--btn-shadow-down);
       }
     }
   }
 }
 
-.category-menu {
-  position: absolute;
-  top: 38px;
-  right: 0px;
-  background: #353939;
-  color: aliceblue;
-  width: 80%;
-  box-shadow: 0 0 3px black;
-  border-radius: 5px;
-  margin: 0 0 0 20%;
-  cursor: default;
-  z-index: 3;
-  text-align: center;
-  .category-item {
-    display: block;
-    padding: 1px 0;
-    border-radius: 5px;
-    background: none;
-    border: none;
-    color: aliceblue;
-    width: 100%;
-  }
-  button:hover {
-    background: black;
-  }
-}
 
 .game-display {
   color: aliceblue;
   width: 100%;
+  height: 96vh;
+  display: flex;
+  flex-flow: column;
   .gd-header {
     position: relative;
     width: 100%;
@@ -424,7 +447,6 @@ body {
     margin-top: 10px;
     display: flex;
     gap: 40px;
-    align-items: last baseline;
     .gd-title-box {
       flex: 1;
       max-width: calc(100% - 300px - 40px);
@@ -440,64 +462,119 @@ body {
         font-size: 2rem;
         font-style: italic;
       }
-      span {
-        position: relative;
+    }
+    .gd-header-buttons {
+      display: flex;
+      gap: 5px;
+      div {
+        width: 150px;
       }
-      .gd-game-live {
-        position: absolute;
-        display: inline-block;
-        top: -2.1rem;
-        right: -90px;
-        font-size: 1.3rem;
+      .gd-game-status {
+        display: block;
+        position: relative;
+        font-size: 1.2rem;
         color: black;
-        display: inline-block;
         border-radius: 5px;
         padding: 3px 10px;
-        box-shadow: inset 0 0 5px black;
+        box-shadow: var(--btn-shadow-up);
         border: 1px solid black;
-        width: auto;
-        margin: 0 2px;
-      }
-    }
-    .gd-host-tools {
-      display: flex;
-      width: 300px;
-      div {
-        width: 50%;
+        width: 100%;
+        margin-bottom: 5px;
+        height: 36px;
+        pointer-events: none;
+        p {
+          position: absolute;
+          margin: 0;
+          bottom: 0px;
+          right: 0px;
+          font-size: 0.6rem;
+          background-color: #35393990;
+          padding: 1px 3px;
+          border-radius: 5px 1px 5px 1px;
+          color: rgba(240, 248, 255, 0.803);
+          text-shadow: 1px 1px 1px black;
+        }
       }
       button {
         display: block;
         border-radius: 5px;
-        margin: 5px;
+        border: none;
+        margin-bottom: 5px;
         font-size: 1rem;
         padding: 5px 10px;
-        width: calc(100% - 5px);
+        width: 100%;
         min-height: 36px;
-        box-shadow: 0 0 5px black;
+        box-shadow: var(--btn-shadow-up);
         align-content: center;
+        background-color: #353939;
+        color: aliceblue;
+      }
+      button:active {
+        box-shadow: var(--btn-shadow-down);
+        border: 1px solid #353939;
+      }
+      button:hover {
+        background: black;
+      }
+      .gd-status-toggle-live:hover {
+        background-color: #82e782;
+        color: black;
+      }
+      .gd-status-toggle-closed:hover {
+        background-color: #e67c7c;
+        color: black;
+      }
+      .gd-status-reset:hover {
+        background-color: #b5b9b9;
+        color: black;
       }
     }
   }
   .gd-container {
     display: flex;
+    flex: 1;
+    height: 100%;
     .gd-unused, .gd-open-host, .gd-open-player, .gd-closed, .gd-released {
+      position: relative;
       border-left: 2px solid aliceblue;
-      padding: 0 10px;
+      padding: 0 5px;
       margin: 10px 0 0 0;
-      height: 78vh;
+      height: 76vh;
       h3 {
         width: 100%;
         text-align: center;
         text-shadow: 3px 3px black;
+        margin: 0;
       }
       .gd-card-container {
         display: flex;
         flex-flow: row wrap;
         gap: 10px;
         justify-content: center;
-        .q-card:last-of-type {
-          margin: 0;
+        width: 100%;
+        max-height: calc(100% - 3rem);
+        overflow-y: auto;
+        scrollbar-width: none;
+        scrollbar-color: #00000050 var(--main-color-1);
+        .q-card:first-of-type {
+          margin-top: 10px;
         }
+        .q-card:last-of-type {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+      }
+      .gd-scroll-fade {
+        height: calc(100% - 48px);
+        width: 100%;
+        position: absolute;
+        top: 32px;
+        left: 0;
+        box-shadow: inset 0 30px 5px -20px var(--main-color-1), inset 0 -30px 8px -20px var(--main-color-1);
+        pointer-events: none;
+      }
+      .gd-fade-captive {
+        height: 99%;
       }
     }
     .gd-unused {
@@ -557,7 +634,7 @@ body {
     .gd-released {
       border-right: 2px solid aliceblue;
       margin-top: 10px;
-      padding: 0 10px;
+      padding: 0 5px;
       width: 330px;
     }
   }

@@ -8,13 +8,17 @@ export default function ManageGame() {
   const [gameData, setGameData] = useState();
   const router = useRouter();
 
-  useEffect(() => {
+  const grabGame = () => {
     getFullGameData(router.query.id).then(setGameData);
+  };
+
+  useEffect(() => {
+    grabGame();
   }, []);
 
   return (
     <div>
-      {gameData && (<GameDisplay game={gameData} host />)}
+      {gameData && (<GameDisplay game={gameData} host onUpdate={grabGame} />)}
     </div>
   );
 }
