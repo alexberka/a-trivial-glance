@@ -102,8 +102,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
             <h3>Unused</h3>
             <div className="gd-fade-captive">
               <div className="gd-card-container">
-                {game.questions.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host />))}
-                {game.questions.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host />))}
+                {display.unusedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host />))}
               </div>
               <div className="gd-scroll-fade" />
             </div>
