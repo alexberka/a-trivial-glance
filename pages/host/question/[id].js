@@ -31,7 +31,7 @@ export default function ManageQuestion() {
     setEditing((prev) => !prev);
   };
 
-  // Makes another call to firebase to retireve the question data
+  // Makes another call to firebase to retrieve the question data
   // (also includes category object from getQuestionById merge call)
   // 'toggle' can be set to false to bypass toggle of 'editing' state
   const onUpdate = (toggle = true) => {

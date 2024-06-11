@@ -8,7 +8,10 @@ export default function QuestionCard({ questionObj, host }) {
   return (
     // If host is set to true, clicking the card will direct to the question's details page with host tools
     // Otherwise, clicking will direct to player view of question (/question/[id] redirects if question isn't closed)
-    <Link passHref href={`${host ? '/host' : ''}/question/${questionObj.firebaseKey}`}>
+    <Link
+      passHref
+      href={`${host ? '/host' : ''}/question/${questionObj.firebaseKey}/${questionObj.gameQuestionId ? questionObj.gameQuestionId : ''}`}
+    >
       <div className="q-card">
         <div className="q-card-tags">
           <p className="q-category" style={{ background: `${questionObj.category.color}` }}>
@@ -20,7 +23,7 @@ export default function QuestionCard({ questionObj, host }) {
             </p>
           )}
           {/* Include the date of last usage if in host view (creates date from ISO String in database) */}
-          {host && (
+          {host && !questionObj.gameQuestionId && (
             <p className="q-timestamp">
               {questionObj.lastUsed !== 'never'
                 ? `Last Used: ${new Date(questionObj.lastUsed)
