@@ -1,23 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import QuestionDetails from '../../components/QuestionDetails';
-import { getQuestionById } from '../../api/mergedData';
+import { getFullGameQuestion } from '../../../api/mergedData';
+import QuestionDetails from '../../../components/QuestionDetails';
 
-export default function ReviewQuestion() {
+export default function ReviewGameQuestion() {
   const router = useRouter();
   const [question, setQuestion] = useState({});
 
   useEffect(() => {
-    getQuestionById(router.query.id)
+    getFullGameQuestion(router.query.gameQuestionId)
       .then((q) => {
         // Only allow player access to view questions that are closed
-        if (q.status === 'closed') {
+        if (q.game.status === 'live' && (q.status === 'closed' || q.status)) {
           setQuestion(q);
         } else {
           // Otherwise, redirect to '/game'
           window.alert('Question Not Available');
-          router.push('/game');
+          if (q.game.status !== 'live') {
+            router.push('/games');
+          } else {
+            router.push(`/game/${q.game.firebaseKey}`);
+          }
         }
       });
   }, []);
