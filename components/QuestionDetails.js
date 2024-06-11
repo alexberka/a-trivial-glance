@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Image } from 'react-bootstrap';
 import Link from 'next/link';
 import CategoryDropdown from './forms/CategoryDropdown';
-import { getOpenQuestion, updateQuestion } from '../api/questionsData';
-import { useAuth } from '../utils/context/authContext';
+import { getGameQuestionsByGame, updateGameQuestion } from '../api/gameQuestionsData';
+import { updateQuestion } from '../api/questionsData';
 
 // 'questionObj' includes a single question object with associated category object embedded
 // 'host' is a boolean indicating whether user is in host mode (defaults to false)
@@ -16,24 +16,24 @@ export default function QuestionDetails({
   onUpdate,
   handleDelete,
 }) {
-  const { user } = useAuth();
-
   // Called from handleStatus when 'Open/Close/Reopen' or 'Reset' buttons are clicked.
-  // Accepts payload (including question's firebase key and new status)
-  // and closeId (firebase key of question to close).
+  // Accepts payload (including gameQuestion's firebase key and new status)
+  // and closeId (firebase key of gameQuestion to close).
   const updateStatus = (payload, closeId = '') => {
     if (closeId) {
       // If a question needs to be closed first, close the currently open question
-      updateQuestion({ firebaseKey: closeId, status: 'closed' })
+      updateGameQuestion({ firebaseKey: closeId, status: 'closed' })
         // Then open the new question
-        .then(() => updateQuestion(payload))
-        // NOTE: The onUpdate function passed from '/host/question/[id]' will take a parameter indicating whether
-        // to toggle the page's 'editing' state. As the status update buttons are visible outside of editing mode.
-        // clicking them should not cause the state to toggle, and thus onUpdate(false) is called.
-        .then(() => onUpdate(false));
+        .then(() => updateGameQuestion(payload))
+        // Update the lastUsed key on the main question entity
+        .then(() => updateQuestion({ firebaseKey: questionObj.firebaseKey, lastUsed: payload.timeOpened }))
+        // And refresh the page
+        .then(() => onUpdate());
     } else {
       // Otherwise open the question and update the page
-      updateQuestion(payload).then(() => onUpdate(false));
+      updateGameQuestion(payload)
+        .then(() => updateQuestion({ firebaseKey: questionObj.firebaseKey, lastUsed: payload.timeOpened }))
+        .then(() => onUpdate());
     }
   };
 
@@ -42,9 +42,9 @@ export default function QuestionDetails({
   const handleStatus = (e) => {
     // NOTE: The 'Reset' button has a value of 'reset', other buttons have an empty string. The trigger will then
     // default to the current status of the question.
-    const trigger = e.target.value || questionObj.gameQuestion.status;
+    const trigger = e.target.value || questionObj.status;
     // Initialize payload with question's Firebase key
-    const payload = { firebaseKey: questionObj.gameQuestion.firebaseKey };
+    const payload = { firebaseKey: questionObj.gameQuestionId };
     switch (trigger) {
       case 'reset':
         // If the 'Reset' button was clicked, confirm with user that this is the desired action.
@@ -53,22 +53,26 @@ export default function QuestionDetails({
           updateStatus({ ...payload, status: 'unused', timeOpened: 'never' });
         }
         break;
+      case 'release':
+        updateStatus({ ...payload, status: 'released' });
+        break;
+      case 'unrelease':
+        updateStatus({ ...payload, status: 'closed' });
+        break;
       case 'open':
         // If the question is currently open, then close it.
         updateStatus({ ...payload, status: 'closed' });
         break;
       case 'closed':
       case 'unused':
+      case 'released':
         // If the question is closed or unused and user is attempting to open it,
         // check first for another open question
-        getOpenQuestion().then(([openQ]) => {
-          if (openQ && openQ.uid !== user.uid) {
-            // If a question is open that does NOT belong to the user, do not close it
-            // User must wait for other question to be closed before opening theirs
-            window.alert('Another user has an open question, wait until it is closed and try again');
-          } else if (openQ && openQ.uid === user.uid) {
-            // If a question is open that DOES belong to the user, give user option to close it
-            if (window.confirm(`Another question is already open.\n\nClose\n\n'${openQ.question}'\n\nand open this question?`)) {
+        getGameQuestionsByGame(questionObj.game.firebaseKey).then((gameQuestions) => {
+          const [openQ] = gameQuestions.filter((gq) => gq.status === 'open');
+          if (openQ) {
+            // If a question is already open in the game, give the user option to close it
+            if (window.confirm(`Another question is already open in ${questionObj.game.name}.\n\nClose and open this question instead?`)) {
               // And open the new one if confirmed (openQ.firebaseKey is the key of the question to close)
               updateStatus({ ...payload, status: 'open', timeOpened: new Date().toISOString() }, openQ.firebaseKey);
             }
@@ -109,10 +113,18 @@ export default function QuestionDetails({
             {questionObj.category.name.toUpperCase()}
           </p>
         )}
-        {questionObj.gameQuestion && (
-          <p className={`qd-status status-${questionObj.gameQuestion.status}`}>
-            {questionObj.gameQuestion.status.toUpperCase()}
-          </p>
+        {questionObj.gameQuestionId && (
+          <>
+            <p className={`qd-status status-${questionObj.status}`}>
+              {questionObj.status.toUpperCase()}
+            </p>
+            <p>in <i>{questionObj.game.name}</i></p>
+            <Link passHref href={`/host/game/${questionObj.game.firebaseKey}`}>
+              <button type="button" className={`qd-status status-${questionObj.game.status}`}>
+                Back To Game
+              </button>
+            </Link>
+          </>
         )}
         {/* If in player view, include button to return to current game */}
         {!host
@@ -124,7 +136,7 @@ export default function QuestionDetails({
           </Link>
         )}
         {/* If in host view, display the timestamp of the last day the question was used */}
-        {host
+        {(host && !questionObj.gameQuestionId)
         && (
         <p className="qd-timestamp">
           {questionObj.lastUsed !== 'never'
@@ -138,16 +150,24 @@ export default function QuestionDetails({
         {/* If in host view, display status, edit, and delete host tools */}
         {host && (
           <div className="qd-host-tools">
-            {questionObj.gameQuestion ? (
+            {questionObj.gameQuestionId ? (
               <>
-                {questionObj.gameQuestion.status === 'closed' && (
-                  <button type="button" onClick={handleStatus} value="reset">Reset</button>
+                {(questionObj.status === 'closed' || questionObj.status === 'released') && (
+                  <button type="button" onClick={handleStatus} value="reset">Reset Question</button>
                 )}
-                <button type="button" onClick={handleStatus}>
-                  {questionObj.gameQuestion.status === 'unused' && 'Open'}
-                  {questionObj.gameQuestion.status === 'open' && 'Close'}
-                  {questionObj.gameQuestion.status === 'closed' && 'Reopen'}
-                </button>
+                {questionObj.status === 'closed' && (
+                  <button type="button" onClick={handleStatus} value="release">Release Answer</button>
+                )}
+                {questionObj.status === 'released' && (
+                  <button type="button" onClick={handleStatus} value="unrelease">Hide Answer</button>
+                )}
+                {questionObj.game.status === 'live' && (
+                  <button type="button" onClick={handleStatus}>
+                    {questionObj.status === 'unused' && 'Open Question'}
+                    {questionObj.status === 'open' && 'Close Question'}
+                    {(questionObj.status === 'closed' || questionObj.status === 'released') && 'Reopen Question'}
+                  </button>
+                )}
               </>
             ) : (
               <>
@@ -169,14 +189,18 @@ QuestionDetails.propTypes = {
     answer: PropTypes.string,
     lastUsed: PropTypes.string,
     firebaseKey: PropTypes.string,
+    gameQuestionId: PropTypes.string,
+    queue: PropTypes.number,
+    status: PropTypes.string,
+    timeOpened: PropTypes.string,
     category: PropTypes.shape({
       name: PropTypes.string,
       color: PropTypes.string,
       firebaseKey: PropTypes.string,
     }),
-    gameQuestion: PropTypes.shape({
+    game: PropTypes.shape({
+      name: PropTypes.string,
       status: PropTypes.string,
-      timeOpened: PropTypes.string,
       firebaseKey: PropTypes.string,
     }),
   }).isRequired,

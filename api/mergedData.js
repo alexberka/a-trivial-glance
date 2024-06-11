@@ -1,6 +1,11 @@
 import { getCategories, getCategoryById } from './categoriesData';
 import { deleteGameOnly, getGameById, getGamesByHost } from './gameData';
-import { deleteGameQuestion, getGameQuestionsByGame } from './gameQuestionsData';
+import {
+  getGameQuestionById,
+  getGameQuestionsByGame,
+  updateGameQuestion,
+  deleteGameQuestion,
+} from './gameQuestionsData';
 import { getQuestionByIdNoCat, getQuestionsByHostNoCats, getQuestionsNoCats } from './questionsData';
 
 const getQuestions = async () => {
@@ -37,6 +42,20 @@ const getGameQuestions = async (gameId) => {
   }));
 };
 
+const getFullGameQuestion = async (gameQuestionId) => {
+  const gameQuestion = await getGameQuestionById(gameQuestionId);
+  const question = await getQuestionById(gameQuestion.questionId);
+  const game = await getGameById(gameQuestion.gameId);
+  return {
+    ...question,
+    status: gameQuestion.status,
+    timeOpened: gameQuestion.timeOpened,
+    queue: gameQuestion.queue,
+    gameQuestionId: gameQuestion.firebaseKey,
+    game,
+  };
+};
+
 // Retrieves a game with its gameQuestions(+associated question & category data)
 const getFullGameData = async (gameId) => {
   const gameInfo = await getGameById(gameId);
@@ -58,12 +77,19 @@ const deleteGame = async (firebaseKey) => {
   await deleteGameOnly(firebaseKey);
 };
 
+const resetAllQuestions = async (questions) => {
+  const resetGQs = questions.map((q) => updateGameQuestion({ firebaseKey: q.gameQuestionId, status: 'unused', timeOpened: 'never' }));
+  await Promise.all(resetGQs);
+};
+
 export {
   getQuestions,
   getQuestionsByHost,
   getQuestionById,
   getGameQuestions,
+  getFullGameQuestion,
   getFullGameData,
   getGameCardsData,
   deleteGame,
+  resetAllQuestions,
 };

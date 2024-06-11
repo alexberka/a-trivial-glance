@@ -4,7 +4,7 @@ import { Image } from 'react-bootstrap';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import QuestionCard from './QuestionCard';
-import { deleteGame } from '../api/mergedData';
+import { deleteGame, resetAllQuestions } from '../api/mergedData';
 import { updateGame } from '../api/gameData';
 
 // 'questions' contains questions for game with attached category objects
@@ -21,6 +21,9 @@ export default function GameDisplay({ game, host, onUpdate }) {
       .sort((a, b) => b.timeOpened.localeCompare(a.timeOpened)),
     releasedQ: game.questions
       .filter((q) => q.status === 'released')
+      .sort((a, b) => b.timeOpened.localeCompare(a.timeOpened)),
+    playerQ: game.questions
+      .filter((q) => q.status !== 'unused')
       .sort((a, b) => b.timeOpened.localeCompare(a.timeOpened)),
   };
 
@@ -39,11 +42,19 @@ export default function GameDisplay({ game, host, onUpdate }) {
       } else {
         payload.status = 'closed';
       }
-    } else if (e.target.id === 'reset') {
+    } else if (e.target.id === 'reset-game') {
       payload.dateLive = 'never';
       payload.status = 'unused';
     }
     updateGame(payload).then(onUpdate);
+  };
+
+  const handleQuestionStatus = (e) => {
+    if (e.target.id === 'reset-questions') {
+      if (window.confirm('Are you sure you want to reset all questions in this game?')) {
+        resetAllQuestions(game.questions).then(onUpdate);
+      }
+    }
   };
 
   return (
@@ -77,10 +88,10 @@ export default function GameDisplay({ game, host, onUpdate }) {
                   {game.status === 'live' ? 'Close Game' : 'Go Live'}
                 </button>
                 {display.unusedQ.length < game.questions.length ? (
-                  <button type="button">Reset Questions</button>
+                  <button type="button" id="reset-questions" onClick={handleQuestionStatus}>Reset Questions</button>
                 )
                   : game.status !== 'unused' && (
-                  <button className="gd-status-reset" type="button" id="reset" onClick={handleStatus}>Reset Game</button>
+                  <button className="gd-status-reset" type="button" id="reset-game" onClick={handleStatus}>Reset Game</button>
                   )}
               </>
             )}
@@ -121,25 +132,33 @@ export default function GameDisplay({ game, host, onUpdate }) {
         ) : (
           <div className="gd-open-player">
             {/* Display open question, if any */}
-            {display.openQ && (
+            {display.playerQ.length > 0 && (
             <>
               <div className="gd-open-tags">
-                <p className="gd-open-category" style={{ background: `${display.openQ.category.color}` }}>
-                  {display.openQ.category.name.toUpperCase()}
+                <p className="gd-open-category" style={{ background: `${display.playerQ[0].category.color}` }}>
+                  {display.playerQ[0].category.name.toUpperCase()}
                 </p>
-                <p className={`gd-open-status status-${display.openQ.status}`}>
-                  {display.openQ.status.toUpperCase()}
+                <p className={`gd-open-status status-${display.playerQ[0].status === 'open' ? 'open' : 'closed'}`}>
+                  {display.playerQ[0].status === 'open' ? 'OPEN' : 'CLOSED'}
                 </p>
               </div>
               {/* Calculate question number based on number of closed questions */}
               <h2>
-                Question #{display.closedQ.length + display.releasedQ.length + 1}
+                Question #{(display.openQ ? 1 : 0) + display.closedQ.length + display.releasedQ.length}
               </h2>
               <hr />
               <p className="gd-open-question">
-                {display.openQ.question}
+                {display.playerQ[0].question}
               </p>
-              {display.openQ.image && (<Image className="gd-image" src={display.openQ.image} />)}
+              {display.playerQ[0].image && (<Image className="gd-image" src={display.playerQ[0].image} />)}
+              {display.playerQ[0].status === 'released' && (
+                <>
+                  <hr />
+                  <p className="gd-open-question">
+                    {display.playerQ[0].answer}
+                  </p>
+                </>
+              )}
             </>
             )}
           </div>
@@ -160,7 +179,11 @@ export default function GameDisplay({ game, host, onUpdate }) {
           <h3>{host ? 'Released' : 'Past Questions'}</h3>
           <div className="gd-fade-captive">
             <div className="gd-card-container">
-              {display.releasedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} />))}
+              {host
+                ? display.releasedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} />))
+                : display.playerQ
+                  .slice(1)
+                  ?.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} />))}
             </div>
             <div className="gd-scroll-fade" />
           </div>
