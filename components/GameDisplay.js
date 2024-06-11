@@ -102,7 +102,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
             <h3>Unused</h3>
             <div className="gd-fade-captive">
               <div className="gd-card-container">
-                {display.unusedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host />))}
+                {display.unusedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} />))}
               </div>
               <div className="gd-scroll-fade" />
             </div>
@@ -113,7 +113,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
             <h3>Open</h3>
             <div className="gd-fade-captive">
               <div className="gd-card-container">
-                {display.openQ && (<QuestionCard questionObj={display.openQ} host />)}
+                {display.openQ && (<QuestionCard questionObj={display.openQ} host={host} />)}
               </div>
               <div className="gd-scroll-fade" />
             </div>
@@ -133,7 +133,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
               </div>
               {/* Calculate question number based on number of closed questions */}
               <h2>
-                Question #{display.closedQ.length + 1}
+                Question #{display.closedQ.length + display.releasedQ.length + 1}
               </h2>
               <hr />
               <p className="gd-open-question">
@@ -149,7 +149,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
             <h3>Closed</h3>
             <div className="gd-fade-captive">
               <div className="gd-card-container">
-                {display.closedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host />))}
+                {display.closedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} />))}
               </div>
               <div className="gd-scroll-fade" />
             </div>
@@ -160,7 +160,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
           <h3>{host ? 'Released' : 'Past Questions'}</h3>
           <div className="gd-fade-captive">
             <div className="gd-card-container">
-              {display.releasedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host />))}
+              {display.releasedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} />))}
             </div>
             <div className="gd-scroll-fade" />
           </div>

@@ -14,7 +14,7 @@ export default function QuestionCard({ questionObj, host }) {
           <p className="q-category" style={{ background: `${questionObj.category.color}` }}>
             {questionObj.category.name.toUpperCase()}
           </p>
-          {questionObj.gameQuestionId && (
+          {host && questionObj.gameQuestionId && (
             <p className={`q-status status-${questionObj.status}`}>
               {questionObj.status.toUpperCase()}
             </p>
