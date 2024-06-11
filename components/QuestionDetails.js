@@ -126,7 +126,8 @@ export default function QuestionDetails({
             : 'Last Used: Never'}
         </p>
         )}
-        {questionObj.gameQuestionId ? (
+        {host
+        && (questionObj.gameQuestionId ? (
           <>
             <p className={`qd-btn qd-status status-${questionObj.status}`}>
               {questionObj.status.toUpperCase()}
@@ -146,11 +147,11 @@ export default function QuestionDetails({
           <>
             <GameDropdown />
           </>
-        )}
+        ))}
         {/* If in player view, include button to return to current game */}
         {!host
         && (
-          <Link passHref href="/game">
+          <Link passHref href={`/game/${questionObj.game.firebaseKey}`}>
             <button type="button" className="qd-return qd-btn">
               RETURN TO GAME
             </button>
