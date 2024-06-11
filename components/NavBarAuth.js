@@ -22,7 +22,7 @@ export default function NavBarAuth() {
       { path: '/host/question/new', text: 'New Question' },
     ],
     player: [
-      { path: '/game', text: 'Return to Game' },
+      { path: '/games', text: 'Select A Game' },
     ],
   };
 
@@ -39,25 +39,29 @@ export default function NavBarAuth() {
   // Display navigation menu when 'navigate' is true
   if (navigate) {
     return (
-      // Close navigation menu when mouse leaves dropdown
-      <div className="nav-expanded" onMouseLeave={closeNav}>
-        {/* Construction of logo, directs to welcome page */}
-        <Link passHref href="/">
-          <button type="button" className="nav-logo">
-            <p className="nav-logo-a">A</p>
-            <p className="nav-logo-b">TRIVIAL</p>
-            <p className="nav-logo-c">GLANCE</p>
-          </button>
-        </Link>
-        <hr />
-        {router.pathname.includes('host') ? (
-          <>
-            {/* When in host view, show option to use site as player */}
-            <Link passHref href="/game">
-              <button type="button">Switch to Player View</button>
-            </Link>
-            {/* Map through and display dynamic host links other than ones that direct to current path, if any */}
-            {dynamicLinks.host.filter((link) => link.path !== router.pathname).length > 0 && (
+    // Close navigation menu when mouse leaves dropdown
+      <div className="nav-menu">
+        <div className="nav-expanded" onMouseLeave={closeNav}>
+          {/* Construction of logo, directs to welcome page */}
+          <Link passHref href="/">
+            <button type="button" className="nav-logo">
+              <p className="nav-logo-a">A</p>
+              <p className="nav-logo-b">TRIVIAL</p>
+              <p className="nav-logo-c">GLANCE</p>
+            </button>
+          </Link>
+          <hr />
+          {router.pathname.includes('host') ? (
+            <>
+              {/* When in host view, show option to use site as player */}
+              <Link
+                passHref
+                href={router.pathname.includes('/host/game/[id]') ? `/game/${router.query.id}` : '/games'}
+              >
+                <button type="button">Switch to Player View</button>
+              </Link>
+              {/* Map through and display dynamic host links other than ones that direct to current path, if any */}
+              {dynamicLinks.host.filter((link) => link.path !== router.pathname).length > 0 && (
               <>
                 <hr />
                 {dynamicLinks.host
@@ -69,16 +73,19 @@ export default function NavBarAuth() {
                     </Link>
                   ))}
               </>
-            )}
-          </>
-        ) : (
-          <>
-            {/* When in player view, show option to use site as host */}
-            <Link passHref href="/host/games">
-              <button type="button">Switch to Host View</button>
-            </Link>
-            {/* Map through and display dynamic player links other than ones that direct to current path, if any */}
-            {dynamicLinks.player.filter((link) => link.path !== router.pathname).length > 0 && (
+              )}
+            </>
+          ) : (
+            <>
+              {/* When in player view, show option to use site as host */}
+              <Link
+                passHref
+                href={router.pathname.includes('/game/[id]') ? `/host/game/${router.query.id}` : '/host/games'}
+              >
+                <button type="button">Switch to Host View</button>
+              </Link>
+              {/* Map through and display dynamic player links other than ones that direct to current path, if any */}
+              {dynamicLinks.player.filter((link) => link.path !== router.pathname).length > 0 && (
               <>
                 <hr />
                 {dynamicLinks.player
@@ -90,26 +97,31 @@ export default function NavBarAuth() {
                     </Link>
                   ))}
               </>
-            )}
-          </>
-        )}
-        <hr />
-        {/* Display user's profile photo and username from useAuth user object (from Google auth) */}
-        <button type="button" onClick={signOut}>
-          Sign Out
-          {user.photoURL && (<Image className="nav-user-image" src={user.photoURL} />)}
-        </button>
-        <p className="nav-username">{`(Logged in as ${user.displayName})`}</p>
+              )}
+            </>
+          )}
+          <hr />
+          {/* Display user's profile photo and username from useAuth user object (from Google auth) */}
+          <button type="button" onClick={signOut}>
+            Sign Out
+            {user.photoURL && (<Image className="nav-user-image" src={user.photoURL} />)}
+          </button>
+          <p className="nav-username">{`(Logged in as ${user.displayName})`}</p>
+        </div>
+        {router.pathname.includes('host') && (<div className="host-tag">HOST</div>)}
       </div>
     );
   // Otherwise show menu icon
   } else {
     return (
-      // Open navigation menu when mouse hovers over icon
-      <div className="nav-collapsed" onMouseEnter={openNav}>
-        <div className="nav-line" />
-        <div className="nav-line" />
-        <div className="nav-line" />
+    // Open navigation menu when mouse hovers over icon
+      <div className="nav-menu">
+        <div className="nav-collapsed" onMouseEnter={openNav}>
+          <div className="nav-line" />
+          <div className="nav-line" />
+          <div className="nav-line" />
+        </div>
+        {router.pathname.includes('host') && (<div className="host-tag">HOST</div>)}
       </div>
     );
   }

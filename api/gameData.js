@@ -27,7 +27,7 @@ const getGamesByHost = (uid) => new Promise((resolve, reject) => {
 });
 
 const getLiveGames = () => new Promise((resolve, reject) => {
-  fetch(`${ENDPOINT}/games.json?orderBy="isLive"&equalTo="${true}"`, {
+  fetch(`${ENDPOINT}/games.json?orderBy="status"&equalTo="live"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application.json',

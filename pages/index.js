@@ -1,12 +1,16 @@
 import Link from 'next/link';
+import { Image } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
+import { useAuth } from '../utils/context/authContext';
 
 function Home() {
+  const { user } = useAuth();
+
   return (
     <>
       <div className="welcome-buttons">
         <div>
-          <Link passHref href="/game">
+          <Link passHref href="/games">
             <button type="button">JOIN</button>
           </Link>
           <p>Enter As Player</p>
@@ -18,7 +22,13 @@ function Home() {
           <p>Enter As Host</p>
         </div>
       </div>
-      <button type="button" onClick={signOut} className="welcome-signout">Sign Out</button>
+      <div className="welcome-signout">
+        <button type="button" onClick={signOut}>
+          Sign Out
+          {user.photoURL && (<Image className="signout-user-image" src={user.photoURL} />)}
+        </button>
+        <p className="signout-username">{`(Logged in as ${user.displayName})`}</p>
+      </div>
       <div className="welcome-title">
         <h3>A</h3>
         <h1>TRIVIAL</h1>
