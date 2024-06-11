@@ -5,6 +5,7 @@ import Link from 'next/link';
 import CategoryDropdown from './forms/CategoryDropdown';
 import { getGameQuestionsByGame, updateGameQuestion } from '../api/gameQuestionsData';
 import { updateQuestion } from '../api/questionsData';
+import GameDropdown from './forms/GameDropdown';
 
 // 'questionObj' includes a single question object with associated category object embedded
 // 'host' is a boolean indicating whether user is in host mode (defaults to false)
@@ -106,34 +107,12 @@ export default function QuestionDetails({
       <div className="qd-buttons">
         {/* If in host view, use CategoryDropdown component (see CategoryDropdown.js for prop notes) */}
         {/* Otherwise display category as non-interactive element */}
-        {host ? (
+        {host && !questionObj.gameQuestionId ? (
           <CategoryDropdown selectedCategoryId={questionObj.category.firebaseKey} questionId={questionObj.firebaseKey} />
         ) : (
-          <p className="qd-status" style={{ background: `${questionObj.category.color}` }}>
+          <p className="qd-btn qd-status" style={{ background: `${questionObj.category.color}` }}>
             {questionObj.category.name.toUpperCase()}
           </p>
-        )}
-        {questionObj.gameQuestionId && (
-          <>
-            <p className={`qd-status status-${questionObj.status}`}>
-              {questionObj.status.toUpperCase()}
-            </p>
-            <p>in <i>{questionObj.game.name}</i></p>
-            <Link passHref href={`/host/game/${questionObj.game.firebaseKey}`}>
-              <button type="button" className={`qd-status status-${questionObj.game.status}`}>
-                Back To Game
-              </button>
-            </Link>
-          </>
-        )}
-        {/* If in player view, include button to return to current game */}
-        {!host
-        && (
-          <Link passHref href="/game">
-            <button type="button" className="qd-return">
-              RETURN TO GAME
-            </button>
-          </Link>
         )}
         {/* If in host view, display the timestamp of the last day the question was used */}
         {(host && !questionObj.gameQuestionId)
@@ -147,22 +126,58 @@ export default function QuestionDetails({
             : 'Last Used: Never'}
         </p>
         )}
+        {questionObj.gameQuestionId ? (
+          <>
+            <p className={`qd-btn qd-status status-${questionObj.status}`}>
+              {questionObj.status.toUpperCase()}
+            </p>
+            <Link passHref href={`/host/game/${questionObj.game.firebaseKey}`}>
+              <button type="button" className={`qd-btn qd-game-status status-${questionObj.game.status}`}>
+                <i>{questionObj.game.name}</i>
+              </button>
+            </Link>
+            <Link passHref href={`/host/question/${questionObj.firebaseKey}`}>
+              <button type="button" className="qd-btn">
+                Edit Question...
+              </button>
+            </Link>
+          </>
+        ) : (
+          <>
+            <GameDropdown />
+          </>
+        )}
+        {/* If in player view, include button to return to current game */}
+        {!host
+        && (
+          <Link passHref href="/game">
+            <button type="button" className="qd-return qd-btn">
+              RETURN TO GAME
+            </button>
+          </Link>
+        )}
         {/* If in host view, display status, edit, and delete host tools */}
         {host && (
           <div className="qd-host-tools">
             {questionObj.gameQuestionId ? (
               <>
                 {(questionObj.status === 'closed' || questionObj.status === 'released') && (
-                  <button type="button" onClick={handleStatus} value="reset">Reset Question</button>
+                  <button type="button" onClick={handleStatus} value="reset" className="qd-btn">
+                    Reset Question
+                  </button>
                 )}
                 {questionObj.status === 'closed' && (
-                  <button type="button" onClick={handleStatus} value="release">Release Answer</button>
+                  <button type="button" onClick={handleStatus} value="release" className="qd-btn">
+                    Release Answer
+                  </button>
                 )}
                 {questionObj.status === 'released' && (
-                  <button type="button" onClick={handleStatus} value="unrelease">Hide Answer</button>
+                  <button type="button" onClick={handleStatus} value="unrelease" className="qd-btn">
+                    Hide Answer
+                  </button>
                 )}
                 {questionObj.game.status === 'live' && (
-                  <button type="button" onClick={handleStatus}>
+                  <button type="button" onClick={handleStatus} className="qd-btn">
                     {questionObj.status === 'unused' && 'Open Question'}
                     {questionObj.status === 'open' && 'Close Question'}
                     {(questionObj.status === 'closed' || questionObj.status === 'released') && 'Reopen Question'}
@@ -171,8 +186,8 @@ export default function QuestionDetails({
               </>
             ) : (
               <>
-                <button type="button" onClick={onUpdate}>Edit</button>
-                <button type="button" onClick={handleDelete}>Delete</button>
+                <button type="button" onClick={onUpdate} className="qd-btn">Edit</button>
+                <button type="button" onClick={handleDelete} className="qd-btn">Delete</button>
               </>
             )}
           </div>

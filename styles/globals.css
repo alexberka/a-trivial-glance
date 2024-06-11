@@ -379,7 +379,8 @@ body {
     height: 90vh;
     text-align: center;
     width: 200px;
-    .qd-category, .qd-status, .qd-return {
+    .qd-btn {
+      border: none;
       border-radius: 5px;
       margin: 5px 0;
       font-size: 1rem;
@@ -389,67 +390,228 @@ body {
       box-shadow: var(--btn-shadow-up);
       align-content: center;
     }
-    .qd-category {
-      display: flex;
-      padding: 0;
-      .qd-category-name {
-        padding: 5px;
+    .category-dropdown {
+      .qd-category {
+        display: flex;
+        padding: 0;
+        .qd-category-name {
+          padding: 5px;
+          text-align: center;
+          width: 100%;
+          align-content: center;
+          border-radius: 4px 0 0 4px;
+          box-shadow: var(--btn-shadow-up);
+          /* text-shadow: 0 0 3px aliceblue; */
+        }
+        .qd-category-toggle {
+          background: none;
+          border: none;
+          border-radius: 0 4px 4px 0;
+          margin: 0 0 0 auto;
+          padding: 0 10px;
+          font-size: 1rem;
+          box-shadow: var(--btn-shadow-up);
+        }
+        .qd-category-toggle:hover {
+          background: black;
+          color: aliceblue;
+          border-radius: 0 4px 4px 0;
+        }
+        .qd-category-toggle:active {
+          box-shadow: var(--btn-shadow-down);
+        }
+      }
+      .category-menu {
+        position: absolute;
+        top: 38px;
+        right: 0px;
+        background: rgb(37, 37, 37);;
+        color: aliceblue;
+        width: 80%;
+        box-shadow: var(--btn-shadow-up);
+        border-radius: 5px;
+        margin: 0 0 0 20%;
+        cursor: default;
+        z-index: 3;
         text-align: center;
-        width: 100%;
-        align-content: center;
-        border-radius: 4px 0 0 4px;
-        box-shadow: var(--btn-shadow-up);
-        /* text-shadow: 0 0 3px aliceblue; */
-      }
-      .qd-category-toggle {
-        background: none;
-        border: none;
-        border-radius: 0 4px 4px 0;
-        margin: 0 0 0 auto;
-        padding: 0 10px;
-        font-size: 1rem;
-        box-shadow: var(--btn-shadow-up);
-      }
-      .qd-category-toggle:hover {
-        background: black;
-        color: aliceblue;
-        border-radius: 0 4px 4px 0;
-      }
-      .qd-category-toggle:active {
-        box-shadow: var(--btn-shadow-down);
+        .category-item {
+          display: block;
+          padding: 1px 0;
+          background: none;
+          border: none;
+          color: aliceblue;
+          width: 100%;
+        }
+        button:hover {
+          background: #45494970;
+        }
+        button:first-of-type:hover {
+          border-radius: 5px 5px 0px 0px;
+        }
+        button:last-of-type:hover {
+          border-radius: 0px 0px 5px 5px;
+        }
       }
     }
-    .category-menu {
-      position: absolute;
-      top: 38px;
-      right: 0px;
-      background: rgb(37, 37, 37);;
+
+    .qd-status, .qd-game-status {
+      border: 1px solid black;
+    }
+
+    .qd-game-status::before {
+      content: "in "
+    }
+    .qd-game-status:hover::before {
+      content: "View ";
+    }
+    .qd-game-status:hover {
+      background: black;
       color: aliceblue;
-      width: 80%;
-      box-shadow: var(--btn-shadow-up);
-      border-radius: 5px;
-      margin: 0 0 0 20%;
-      cursor: default;
-      z-index: 3;
-      text-align: center;
-      .category-item {
-        display: block;
-        padding: 1px 0;
-        background: none;
-        border: none;
+    }
+    .qd-game-status:active {
+      box-shadow: var(--btn-shadow-down);
+    }
+
+    .game-dropdown {
+      hr {
+        margin: 3px 0;
+        border: 1px solid black;
+      }
+      p {
+        margin: 0;
+        background: var(--main-color-1);
+        width: 100%;
+        color: aliceblue;
+      }
+      .assigned-list {
         color: aliceblue;
         width: 100%;
+        position: relative;
+        max-height: 220px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--main-color-1) black;
+        .assigned-game {
+          position: relative;
+          width: 100%;
+          padding: 5px;
+          border-radius: 5px;
+          button {
+            background: none;
+            border: none;
+            color: inherit;
+            width: 100%;
+          }
+          .gq-remove {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            text-align: right;
+            width: auto;
+            font-size: 0.8rem;
+          }
+          .gq-remove:hover {
+            color: rgb(255, 53, 53);
+          }
+          .qd-gq-status {
+            text-align: left;
+            font-size: 0.8rem;
+            .status-tag {
+              box-shadow: var(--btn-shadow-up);
+              border: 1px solid black;
+              border-radius: 5px;
+              padding: 1px 6px;
+              color: black;
+            }
+          }
+          .qd-gq-game {
+            margin: 0 0 0 auto;
+            width: 85%;
+            font-style: italic;
+            text-align: left;
+          }
+        }
+        .assigned-game:hover {
+          background: #353939;
+          box-shadow: inset 0 0 3px black;
+        }
       }
-      button:hover {
-        background: #45494970;
-      }
-      button:first-of-type:hover {
-        border-radius: 5px 5px 0px 0px;
-      }
-      button:last-of-type:hover {
-        border-radius: 0px 0px 5px 5px;
+      .dropdown-element {
+        position: relative;
+        .qd-assign-game {
+          display: flex;
+          padding: 0;
+          background: aliceblue;
+          .qd-game-name {
+            padding: 5px;
+            text-align: center;
+            width: 100%;
+            align-content: center;
+            border-radius: 4px 0 0 4px;
+            box-shadow: var(--btn-shadow-up);
+          }
+          .qd-game-toggle {
+            background: none;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            margin: 0 0 0 auto;
+            padding: 0 10px;
+            font-size: 1rem;
+            box-shadow: var(--btn-shadow-up);
+          }
+          .qd-game-toggle:hover {
+            background: black;
+            color: aliceblue;
+            border-radius: 0 4px 4px 0;
+          }
+          .qd-game-toggle:active {
+            box-shadow: var(--btn-shadow-down);
+          }
+        }
+        .assign-game-menu {
+          position: absolute;
+          top: 34px;
+          right: 0px;
+          background: rgb(37, 37, 37);
+          color: aliceblue;
+          width: 85%;
+          box-shadow: var(--btn-shadow-up);
+          border-radius: 5px;
+          margin: 0 0 0 20%;
+          cursor: default;
+          z-index: 3;
+          text-align: center;
+          max-height: 200px;
+          overflow-y: auto;
+          scrollbar-width: none;
+          .sticky-search {
+            position: sticky;
+            width: 100%;
+            padding: 0 5px;
+            top: 0px;
+            margin-bottom: 5px;
+          }
+          .sticky-search:active {
+            border: none;
+          }
+          .game-item {
+            display: block;
+            padding: 1px 5px;
+            background: none;
+            border: none;
+            color: aliceblue;
+            width: 100%;
+          }
+          button:hover {
+            background: #45494970;
+          }
+          button:last-of-type:hover {
+            border-radius: 0px 0px 5px 5px;
+          }
+        }
       }
     }
+
     .qd-return {
       border: none;
       margin-top: 30px;

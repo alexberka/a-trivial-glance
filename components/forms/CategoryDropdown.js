@@ -46,7 +46,7 @@ export default function CategoryDropdown({ questionId, selectedCategoryId, form 
   return (
     // If menu is open and the mouse leaves, close the menu
     <div className="category-dropdown" onMouseLeave={() => handleToggle('only-if-open')}>
-      <div className="qd-category" style={{ background: `${form || !categories ? 'white' : categories[menuState.selected].color}` }}>
+      <div className="qd-category qd-btn" style={{ background: `${form || !categories ? 'white' : categories[menuState.selected].color}` }}>
         {/* Display loading message until categories have been retrieved */}
         {categories ? (
           <div className="qd-category-name">
