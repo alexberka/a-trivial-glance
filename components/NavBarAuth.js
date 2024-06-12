@@ -98,12 +98,6 @@ export default function NavBarAuth() {
                   ))}
               </>
               )}
-              <Link
-                passHref
-                href={router.pathname.includes('/game/[id]') ? `/host/game/${router.query.id}` : '/host/games'}
-              >
-                <button type="button">Switch to Host View</button>
-              </Link>
             </>
           )}
           <hr />
