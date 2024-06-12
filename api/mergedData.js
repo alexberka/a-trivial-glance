@@ -7,6 +7,7 @@ import {
   deleteGameQuestion,
 } from './gameQuestionsData';
 import { getQuestionByIdNoCat, getQuestionsByHostNoCats, getQuestionsNoCats } from './questionsData';
+import { deleteTeam, getTeamsByGameId } from './teamsData';
 
 const getQuestions = async () => {
   const questions = await getQuestionsNoCats();
@@ -31,8 +32,10 @@ const getQuestionById = async (firebaseKey) => {
 // Retrieves a game's questions with status information
 const getGameQuestions = async (gameId) => {
   const gameQuestions = await getGameQuestionsByGame(gameId);
-  const promisedQs = gameQuestions.map((q) => getQuestionById(q.questionId));
-  const realQs = await Promise.all(promisedQs);
+  const promisedQsNoCats = gameQuestions.map((q) => getQuestionByIdNoCat(q.questionId));
+  const realQsNoCats = await Promise.all(promisedQsNoCats);
+  const categories = await getCategories();
+  const realQs = realQsNoCats.map((q) => ({ ...q, category: categories[q.categoryId] }));
   return gameQuestions.map((gq, index) => ({
     ...realQs[index],
     status: gq.status,
@@ -71,8 +74,11 @@ const getGameCardsData = async (uid) => {
 };
 
 const deleteGame = async (firebaseKey) => {
-  const toDelete = await getGameQuestionsByGame(firebaseKey);
-  const deleted = toDelete.map((gq) => deleteGameQuestion(gq.firebaseKey));
+  const gqToDelete = await getGameQuestionsByGame(firebaseKey);
+  const teamsToDelete = await getTeamsByGameId(firebaseKey);
+  const deleted = gqToDelete.map((gq) => deleteGameQuestion(gq.firebaseKey));
+  deleted.concat(teamsToDelete.map((t) => deleteTeam(t.firebaseKey)));
+  console.warn(gqToDelete.length, teamsToDelete.length, deleted.length);
   await Promise.all(deleted);
   await deleteGameOnly(firebaseKey);
 };

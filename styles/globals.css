@@ -860,3 +860,71 @@ body {
     }
   }
 }
+
+.team-form {
+  position: fixed;
+  width: 50vw;
+  min-width: 200px;
+  top: 200px;
+  left: calc(50% - 25vw);
+  background: #353939;
+  padding: 20px;
+  z-index: 5;
+  box-shadow: 0 0 5px 2px black;
+  border-radius: 10px;
+  h1 {
+    color: aliceblue;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .form-container {
+    width: 100%;
+    text-align: center;
+    button {
+      border: none;
+      margin: 10px auto 0 auto;
+      background: var(--main-color-1);
+      box-shadow: var(--btn-shadow-up);
+      color: aliceblue;
+      padding: 5px 10px;
+    }
+    button:disabled {
+      visibility: hidden;
+    }
+    button:active {
+      box-shadow: var(--btn-shadow-down);
+    }
+  }
+}
+
+.team-panel {
+  position: fixed;
+  bottom: 0px;
+  right: 5%;
+  z-index: 5;
+  padding: 8px 5px 15px 5px;
+  background: #353939;
+  border-radius: 5px 5px 0 0;
+  color: aliceblue;
+  box-shadow: 0 0 3px 1px black;
+  button, p  {
+    display: inline-block;
+    margin: 0 6px;
+  }
+  button {
+    font-size: 0.8rem;
+    box-shadow: var(--btn-shadow-up);
+    color: aliceblue;
+    border-radius: 5px;
+    background: var(--main-color-1);
+    border: none;
+    padding: 4px 8px;
+  }
+  button:disabled {
+    box-shadow: var(--btn-shadow-down);
+    color: rgba(240, 248, 255, 0.699);
+  }
+  p {
+    pointer-events: none;
+  }
+}
