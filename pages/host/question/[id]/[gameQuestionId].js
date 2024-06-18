@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import QuestionDetails from '../../../../components/QuestionDetails';
 import { getFullGameQuestion } from '../../../../api/mergedData';
@@ -7,6 +7,13 @@ import { getFullGameQuestion } from '../../../../api/mergedData';
 export default function ManageGameQuestion() {
   const [question, setQuestion] = useState({});
   const router = useRouter();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+
+    return () => { (isMounted.current = false); };
+  }, []);
 
   const onUpdate = () => {
     getFullGameQuestion(router.query.gameQuestionId).then(setQuestion);

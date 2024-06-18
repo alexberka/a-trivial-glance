@@ -9,7 +9,12 @@ export default function EditGame() {
   const router = useRouter();
 
   useEffect(() => {
-    getGameById(router.query.id).then(setGame);
+    let mounted = true;
+    getGameById(router.query.id).then((data) => {
+      if (mounted) { setGame(data); }
+    });
+
+    return () => { (mounted = false); };
   }, []);
 
   return (
