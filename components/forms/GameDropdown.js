@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
@@ -16,6 +16,9 @@ export default function GameDropdown() {
   const [games, setGames] = useState([]);
   const [gameQuestions, setGameQuestions] = useState([]);
   const [search, setSearch] = useState('');
+  const router = useRouter();
+  const { user } = useAuth();
+  const isMounted = useRef(false);
 
   const assigned = gameQuestions?.map((gq) => {
     const gameInfo = games?.find((g) => g.firebaseKey === gq.gameId);
@@ -26,8 +29,13 @@ export default function GameDropdown() {
     .filter((g) => g.name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const router = useRouter();
-  const { user } = useAuth();
+  useEffect(() => {
+    isMounted.current = true;
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   // Toggles menu open and closed
   // If called as handleToggle('only-if-open'), menu is only closed if open, but not opened if currently closed
@@ -42,11 +50,15 @@ export default function GameDropdown() {
   };
 
   const updateGameList = () => {
-    getGameQuestionsByQuestion(router.query.id).then(setGameQuestions);
+    getGameQuestionsByQuestion(router.query.id).then((data) => {
+      if (isMounted.current) { setGameQuestions(data); }
+    });
   };
 
   useEffect(() => {
-    getGamesByHost(user.uid).then(setGames);
+    getGamesByHost(user.uid).then((data) => {
+      if (isMounted.current) { setGames(data); }
+    });
     updateGameList();
   }, []);
 

@@ -17,7 +17,12 @@ export default function CategoryDropdown({ questionId, selectedCategoryId, form 
 
   // Categories only retrieved on component mount
   useEffect(() => {
-    getCategories().then(setCategories);
+    let mounted = true;
+    getCategories().then((data) => {
+      if (mounted) { setCategories(data); }
+    });
+
+    return () => { (mounted = false); };
   }, []);
 
   // Toggles menu open and closed

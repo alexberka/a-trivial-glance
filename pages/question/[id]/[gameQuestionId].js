@@ -9,10 +9,11 @@ export default function ReviewGameQuestion() {
   const [question, setQuestion] = useState({});
 
   useEffect(() => {
+    let mounted = true;
     getFullGameQuestion(router.query.gameQuestionId)
       .then((q) => {
         // Only allow player access to view questions that are closed
-        if (q.game.status === 'live' && (q.status === 'closed' || q.status)) {
+        if (q.game.status === 'live' && (q.status === 'closed' || q.status === 'released') && mounted) {
           setQuestion(q);
         } else {
           // Otherwise, redirect to '/game'
@@ -24,6 +25,8 @@ export default function ReviewGameQuestion() {
           }
         }
       });
+
+    return () => { (mounted = false); };
   }, []);
 
   return (

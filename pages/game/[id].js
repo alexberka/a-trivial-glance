@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import GameDisplay from '../../components/GameDisplay';
 import { getFullGameData } from '../../api/mergedData';
@@ -13,13 +13,22 @@ export default function PlayGame() {
   const [game, setGame] = useState({});
   const [yourTeam, setYourTeam] = useState({});
   const [teamCheck, setTeamCheck] = useState(false);
+  const isMounted = useRef(false);
   const router = useRouter();
   const { user } = useAuth();
+
+  useEffect(() => {
+    isMounted.current = true;
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   const confirmOpen = () => {
     getFullGameData(router.query.id).then((g) => {
       if (g.status === 'live') {
-        setGame(g);
+        if (isMounted.current) { setGame(g); }
       } else {
         // Otherwise, redirect to '/games' if game is not open
         window.alert('Game has closed');
@@ -32,7 +41,7 @@ export default function PlayGame() {
     getTeamsByUid(user.uid)
       .then((teams) => {
         const [thisTeam] = teams.filter((t) => t.gameId === router.query.id);
-        if (thisTeam) {
+        if (thisTeam && isMounted.current) {
           setYourTeam(thisTeam);
           confirmOpen();
         }
@@ -42,13 +51,13 @@ export default function PlayGame() {
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (yourTeam.firebaseKey) {
-      const interval = setInterval(() => {
+    const interval = setInterval(() => {
+      if (yourTeam.firebaseKey) {
         confirmOpen();
-      }, 2000);
+      }
+    }, 2000);
 
-      return () => clearInterval(interval);
-    }
+    return () => clearInterval(interval);
   }, [game, yourTeam]);
 
   useEffect(() => {

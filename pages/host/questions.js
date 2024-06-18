@@ -10,7 +10,12 @@ export default function HostQuestions() {
   const { user } = useAuth();
 
   useEffect(() => {
-    getQuestionsByHost(user.uid).then(setQuestions);
+    let mounted = true;
+    getQuestionsByHost(user.uid).then((data) => {
+      if (mounted) { setQuestions(data); }
+    });
+
+    return () => { (mounted = false); };
   }, []);
 
   return (

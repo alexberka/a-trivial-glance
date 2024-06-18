@@ -6,7 +6,10 @@ export default function PlayerGameSelect() {
   const [openGames, setOpenGames] = useState([]);
 
   useEffect(() => {
-    getLiveGames().then(setOpenGames);
+    let mounted = true;
+    getLiveGames().then((data) => { if (mounted) { setOpenGames(data); } });
+
+    return () => { (mounted = false); };
   }, []);
 
   return (

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import GameDisplay from '../../../components/GameDisplay';
 import { getFullGameData } from '../../../api/mergedData';
@@ -9,6 +9,13 @@ export default function ManageGame() {
   const [gameData, setGameData] = useState();
   const router = useRouter();
   const { user } = useAuth();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+
+    return () => { (isMounted.current = false); };
+  }, []);
 
   const confirmAccess = (gCheck) => {
     // If non-host user is attempting to access the host panel for a game they did not create
@@ -16,7 +23,7 @@ export default function ManageGame() {
     // then redirect user to games page
     if (!gCheck.uid || gCheck.uid !== user.uid) {
       router.push('/host/games');
-    } else {
+    } else if (isMounted.current) {
       // Otherwise, set that question as 'question' state
       setGameData(gCheck);
     }

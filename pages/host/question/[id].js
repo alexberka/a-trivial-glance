@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import QuestionDetails from '../../../components/QuestionDetails';
 import { useAuth } from '../../../utils/context/authContext';
 import QuestionForm from '../../../components/forms/QuestionForm';
@@ -12,6 +12,13 @@ export default function ManageQuestion() {
   const [editing, setEditing] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+
+    return () => { (isMounted.current = false); };
+  }, []);
 
   // 'qCheck' is the question object to check before setting it as the 'question' state
   const confirmAccess = (qCheck) => {
@@ -20,7 +27,7 @@ export default function ManageQuestion() {
     // then redirect user to welcome page
     if (!qCheck.uid || qCheck.uid !== user.uid) {
       router.push('/');
-    } else {
+    } else if (isMounted.current) {
       // Otherwise, set that question as 'question' state
       setQuestion(qCheck);
     }
@@ -36,7 +43,7 @@ export default function ManageQuestion() {
   // 'toggle' can be set to false to bypass toggle of 'editing' state
   const onUpdate = (toggle = true) => {
     getQuestionById(router.query.id)
-      .then(setQuestion)
+      .then((data) => { if (isMounted.current) { setQuestion(data); } })
       .then(() => { if (toggle) { toggleEdit(); } });
   };
 

@@ -10,7 +10,12 @@ export default function HostGames() {
   const { user } = useAuth();
 
   useEffect(() => {
-    getGameCardsData(user.uid).then(setGames);
+    let mounted = true;
+    getGameCardsData(user.uid).then((data) => {
+      if (mounted) { setGames(data); }
+    });
+
+    return () => { (mounted = false); };
   }, []);
 
   return (
