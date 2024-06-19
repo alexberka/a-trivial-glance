@@ -2,12 +2,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import GameDisplay from '../../components/GameDisplay';
-import { getFullGameData } from '../../api/mergedData';
+import { getFullGameData, getTeamData } from '../../api/mergedData';
 import { useAuth } from '../../utils/context/authContext';
-import { getTeamsByUid } from '../../api/teamsData';
 import TeamForm from '../../components/forms/TeamForm';
 import { getGameById } from '../../api/gameData';
-import TeamPanel from '../../components/TeamPanel';
+import TeamPanel from '../../components/panels/TeamPanel';
+import PlayerResponsePanel from '../../components/panels/PlayerResponsePanel';
+import { getResponsesByTeamId } from '../../api/responsesData';
 
 export default function PlayGame() {
   const [game, setGame] = useState({});
@@ -16,6 +17,8 @@ export default function PlayGame() {
   const isMounted = useRef(false);
   const router = useRouter();
   const { user } = useAuth();
+  const visibleQuestions = game?.questions?.filter((q) => q.timeOpened !== 'never');
+  const [responses, setResponses] = useState([]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -25,10 +28,32 @@ export default function PlayGame() {
     };
   }, []);
 
+  const updateResponses = () => {
+    if (yourTeam.firebaseKey) {
+      getResponsesByTeamId(yourTeam.firebaseKey).then((data) => {
+        if (isMounted) { setResponses(data); }
+      });
+    }
+  };
+
   const confirmOpen = () => {
     getFullGameData(router.query.id).then((g) => {
       if (g.status === 'live') {
-        if (isMounted.current) { setGame(g); }
+        const displayQs = g.questions.filter((q) => q.timeOpened !== 'never');
+        // Only trigger state update and player-side refresh on certain changes to game data
+        if (g.status !== game.status
+          || g.name !== game.name
+          || g.location !== game.location
+          || displayQs.length !== visibleQuestions.length
+          || displayQs[0]?.status !== visibleQuestions[0]?.status
+          || displayQs[0]?.question !== visibleQuestions[0]?.question
+          || displayQs[0]?.image !== visibleQuestions[0]?.image
+          || displayQs[0]?.answer !== visibleQuestions[0]?.answer
+          || displayQs[0]?.categoryId !== visibleQuestions[0]?.categoryId
+        ) {
+          if (isMounted.current) { setGame(g); }
+          updateResponses();
+        }
       } else {
         // Otherwise, redirect to '/games' if game is not open
         window.alert('Game has closed');
@@ -38,16 +63,19 @@ export default function PlayGame() {
   };
 
   const checkTeam = () => {
-    getTeamsByUid(user.uid)
-      .then((teams) => {
-        const [thisTeam] = teams.filter((t) => t.gameId === router.query.id);
-        if (thisTeam && isMounted.current) {
-          setYourTeam(thisTeam);
+    getTeamData(user.uid, router.query.id)
+      .then((gameTeam) => {
+        if (gameTeam && isMounted.current) {
+          setYourTeam(gameTeam);
           confirmOpen();
         }
         setTeamCheck(true);
       });
   };
+
+  useEffect(() => {
+    updateResponses();
+  }, [yourTeam]);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -60,6 +88,7 @@ export default function PlayGame() {
     return () => clearInterval(interval);
   }, [game, yourTeam]);
 
+  // Check that game is live before allowing access to game and performing full data retrieval
   useEffect(() => {
     getGameById(router.query.id).then((gCheck) => {
       if (gCheck.status === 'live') {
@@ -82,6 +111,15 @@ export default function PlayGame() {
             <>
               <TeamPanel teamObj={yourTeam} onUpdate={checkTeam} />
               {game.status === 'live' && (<GameDisplay game={game} />)}
+              {visibleQuestions.length > 0 && (
+                <PlayerResponsePanel
+                  key={visibleQuestions[0].firebaseKey}
+                  responseObj={responses.find((r) => r.gameQuestionId === visibleQuestions[0].gameQuestionId)
+                    || { teamId: yourTeam.firebaseKey, gameQuestionId: visibleQuestions[0].gameQuestionId, response: '' }}
+                  onUpdate={updateResponses}
+                  questionStatus={visibleQuestions[0].status}
+                />
+              )}
             </>
           )}
         </>
