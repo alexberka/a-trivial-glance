@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import TeamForm from './forms/TeamForm';
+import TeamForm from '../forms/TeamForm';
 
 export default function TeamPanel({ teamObj, onUpdate }) {
   const [editing, setEditing] = useState(false);
@@ -12,13 +12,13 @@ export default function TeamPanel({ teamObj, onUpdate }) {
 
   return (
     <div className="team-panel">
-      {editing && (
-        <TeamForm teamObj={teamObj} onUpdate={handleToggle} />
-      )}
-      <p>{teamObj?.name}</p>
       <button type="button" onClick={handleToggle} disabled={editing}>
         Edit
       </button>
+      {editing && (
+        <TeamForm teamObj={teamObj} onUpdate={handleToggle} />
+      )}
+      <span>{teamObj?.name}</span>
     </div>
   );
 }

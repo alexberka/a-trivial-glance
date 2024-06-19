@@ -11,7 +11,7 @@ body {
 }
 
 :root {
-  --main-color-1: #454949;
+  --main-color-1: #555959;
   --btn-shadow-up: inset 0 0 5px black, inset 2px 2px 5px 0 #e5e9e975, 2px 2px 3px black;
   --btn-shadow-down: inset 0px 0px 7px black, inset 2px 2px 7px 0 #e5e9e975, 1px 1px 2px black;
 }
@@ -27,6 +27,49 @@ a {
 
 body {
   background-color: var(--main-color-1);
+}
+
+.bg-positive-top {
+  position: fixed;
+  z-index: -3;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100px;
+  background: linear-gradient(235deg, black, var(--main-color-1) 43%);
+}
+.bg-negative-top {
+  position: fixed;
+  z-index: -2;
+  right: 0;
+  top: 0;
+  width: 600px;
+  height: 200px;
+  background: var(--main-color-1);
+  border-radius: 50%;
+}
+.bg-positive-bottom {
+  position: fixed;
+  z-index: -3;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  height: 100px;
+  background: linear-gradient(-235deg, black, var(--main-color-1) 43%);
+}
+.bg-negative-bottom {
+  position: fixed;
+  z-index: -2;
+  left: 0;
+  bottom: 0;
+  width: 600px;
+  height: 200px;
+  background: var(--main-color-1);
+  border-radius: 50%;
+}
+
+input:focus {
+  outline: none;
 }
 
 .nav-menu {
@@ -210,6 +253,13 @@ body {
     top: -188px;
     font-size: 75px;
   }
+}
+.title-watermark {
+  z-index: -2;
+  color: var(--main-color-1);
+  transform: rotate(17deg) scale(0.7);
+  left: 5px;
+  bottom: 80px;
 }
 
 .page-header {
@@ -899,19 +949,22 @@ body {
 
 .team-panel {
   position: fixed;
-  bottom: 0px;
+  bottom: -5px;
   right: 5%;
   z-index: 5;
-  padding: 8px 5px 15px 5px;
+  padding: 8px 5px 15px 10px;
+  min-height: 50px;
+  max-width: 25%;
   background: #353939;
   border-radius: 5px 5px 0 0;
   color: aliceblue;
   box-shadow: 0 0 3px 1px black;
-  button, p  {
-    display: inline-block;
+  button  {
+    display: inline;
     margin: 0 6px;
   }
   button {
+    float: right;
     font-size: 0.8rem;
     box-shadow: var(--btn-shadow-up);
     color: aliceblue;
@@ -924,7 +977,96 @@ body {
     box-shadow: var(--btn-shadow-down);
     color: rgba(240, 248, 255, 0.699);
   }
-  p {
+  span {
     pointer-events: none;
   }
+}
+
+.response-container {
+  position: fixed;
+  top: calc(100% + 5px);
+  height: 32%;
+  left: 18%;
+  width: 50%;
+  color: aliceblue;
+  z-index: 5;
+  transition: 1s;
+  .response-panel {
+    height: 100%;
+    padding: 15px 10px 10px 10px;
+    background: #353939;
+    border-radius: 5px 5px 0 0;
+    z-index: 1;
+    box-shadow: 0 0 3px 1px black;
+    input {
+      width: 100%;
+      border-radius: 5px;
+      background: #353939;
+      color: aliceblue;
+      padding: 5px 10px;
+      box-shadow: inset 0 0 4px black;
+      border: none;
+      }
+    button {
+      float: right;
+      font-size: 0.8rem;
+      box-shadow: var(--btn-shadow-up);
+      color: aliceblue;
+      border-radius: 5px;
+      background: var(--main-color-1);
+      border: none;
+      padding: 4px 8px;
+      margin: 3px 0;
+    }
+    button:disabled {
+      visibility: hidden;
+    }
+    p {
+      padding: 2px 4px;
+      color: #c5c9c9;
+      font-size: 0.8rem;
+      font-style: italic;
+    }
+    .player-response {
+      font-size: 1.5rem;
+      padding: 0 10px;
+    }
+  }
+  .response-tab {
+    position: absolute;
+    top: -50px;
+    right: 20px;
+    height: 50px;
+    padding: 8px 5px 10px 5px;
+    border-radius: 5px 5px 0 0;
+    background: #353939;
+    box-shadow: 0 0 3px 1px black;
+    p {
+      margin: 0 6px;
+      cursor: default;
+      }
+    .blinking {
+      animation: blinking 3s linear infinite;
+    }
+    .tab-shadow-cover {
+      background: inherit;
+      position: absolute;
+      bottom: -10px;
+      left: -5%;
+      width: 110%;
+      height: 10px;
+      pointer-events: none;
+    }
+  }
+}
+    
+@keyframes blinking {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.response-container:hover {
+  position: fixed;
+  top: 70%;
 }
