@@ -15,7 +15,7 @@ const getResponsesByTeamId = (teamId) => new Promise((resolve, reject) => {
 });
 
 const getResponsesByGameQuestionId = (gameQuestionId) => new Promise((resolve, reject) => {
-  fetch(`${ENDPOINT}/responses.json&orderBy="gameQuestionId"&equalTo="${gameQuestionId}"`, {
+  fetch(`${ENDPOINT}/responses.json?orderBy="gameQuestionId"&equalTo="${gameQuestionId}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application.json',

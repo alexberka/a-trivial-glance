@@ -13,7 +13,7 @@ export default function TeamPanel({ teamObj, onUpdate }) {
   return (
     <div className="team-panel">
       <button type="button" onClick={handleToggle} disabled={editing}>
-        Edit
+        Edit Team Name
       </button>
       {editing && (
         <TeamForm teamObj={teamObj} onUpdate={handleToggle} />

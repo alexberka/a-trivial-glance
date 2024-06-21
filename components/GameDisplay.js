@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import QuestionCard from './QuestionCard';
 import { deleteGame, resetAllQuestions } from '../api/mergedData';
 import { updateGame } from '../api/gameData';
+import { updateGameQuestion } from '../api/gameQuestionsData';
 
 // 'questions' contains questions for game with attached category objects
 export default function GameDisplay({ game, host, onUpdate }) {
@@ -46,12 +47,18 @@ export default function GameDisplay({ game, host, onUpdate }) {
       payload.dateLive = 'never';
       payload.status = 'unused';
     }
-    updateGame(payload).then(onUpdate);
+    updateGame(payload).then(() => {
+      if (payload.status === 'closed' && display.openQ.firebaseKey) {
+        updateGameQuestion({ firebaseKey: display.openQ.gameQuestionId, status: 'closed' }).then(onUpdate);
+      } else {
+        onUpdate();
+      }
+    });
   };
 
   const handleQuestionStatus = (e) => {
     if (e.target.id === 'reset-questions') {
-      if (window.confirm('Are you sure you want to reset all questions in this game?')) {
+      if (window.confirm('Are you sure you want to reset all questions in this game? Timestamps will be erased and all responses deleted.')) {
         resetAllQuestions(game.questions).then(onUpdate);
       }
     }
@@ -147,18 +154,16 @@ export default function GameDisplay({ game, host, onUpdate }) {
                 Question #{(display.openQ ? 1 : 0) + display.closedQ.length + display.releasedQ.length}
               </h2>
               <hr />
-              <p className="gd-open-question">
-                {display.playerQ[0].question}
-              </p>
-              {display.playerQ[0].image && (<Image className="gd-image" src={display.playerQ[0].image} />)}
-              {display.playerQ[0].status === 'released' && (
-                <>
-                  <hr />
-                  <p className="gd-open-question">
-                    {display.playerQ[0].answer}
-                  </p>
-                </>
-              )}
+              <div className="gd-open-question">
+                <p>{display.playerQ[0].question}</p>
+                {display.playerQ[0].image && (<Image className="gd-image" src={display.playerQ[0].image} />)}
+                {display.playerQ[0].status === 'released' && (
+                  <>
+                    <hr />
+                    <p>{display.playerQ[0].answer}</p>
+                  </>
+                )}
+              </div>
             </>
             )}
           </div>
@@ -176,7 +181,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
         )}
         <div className="gd-released">
           {/* Display closed question(s), if any */}
-          <h3>{host ? 'Released' : 'Past Questions'}</h3>
+          <h3>{host ? 'Released' : 'Previous Questions'}</h3>
           <div className="gd-fade-captive">
             <div className="gd-card-container">
               {host
