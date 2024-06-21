@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import GameDisplay from '../../components/GameDisplay';
-import { getFullGameData, getTeamData } from '../../api/mergedData';
+import { getFullGameData, getSingleTeamData } from '../../api/mergedData';
 import { useAuth } from '../../utils/context/authContext';
 import TeamForm from '../../components/forms/TeamForm';
 import { getGameById } from '../../api/gameData';
@@ -51,8 +51,10 @@ export default function PlayGame() {
           || displayQs[0]?.answer !== visibleQuestions[0]?.answer
           || displayQs[0]?.categoryId !== visibleQuestions[0]?.categoryId
         ) {
-          if (isMounted.current) { setGame(g); }
-          updateResponses();
+          if (isMounted.current) {
+            setGame(g);
+            updateResponses();
+          }
         }
       } else {
         // Otherwise, redirect to '/games' if game is not open
@@ -63,7 +65,7 @@ export default function PlayGame() {
   };
 
   const checkTeam = () => {
-    getTeamData(user.uid, router.query.id)
+    getSingleTeamData(user.uid, router.query.id)
       .then((gameTeam) => {
         if (gameTeam && isMounted.current) {
           setYourTeam(gameTeam);
@@ -114,10 +116,10 @@ export default function PlayGame() {
               {visibleQuestions.length > 0 && (
                 <PlayerResponsePanel
                   key={visibleQuestions[0].firebaseKey}
-                  responseObj={responses.find((r) => r.gameQuestionId === visibleQuestions[0].gameQuestionId)
-                    || { teamId: yourTeam.firebaseKey, gameQuestionId: visibleQuestions[0].gameQuestionId, response: '' }}
+                  responses={responses}
                   onUpdate={updateResponses}
-                  questionStatus={visibleQuestions[0].status}
+                  teamId={yourTeam.firebaseKey}
+                  visibleQuestions={visibleQuestions}
                 />
               )}
             </>

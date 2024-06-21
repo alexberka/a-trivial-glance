@@ -6,6 +6,7 @@ import CategoryDropdown from './forms/CategoryDropdown';
 import { getGameQuestionsByGame, updateGameQuestion } from '../api/gameQuestionsData';
 import { updateQuestion } from '../api/questionsData';
 import GameDropdown from './forms/GameDropdown';
+import { resetSingleQuestion } from '../api/mergedData';
 
 // 'questionObj' includes a single question object with associated category object embedded
 // 'host' is a boolean indicating whether user is in host mode (defaults to false)
@@ -30,6 +31,8 @@ export default function QuestionDetails({
         .then(() => updateQuestion({ firebaseKey: questionObj.firebaseKey, lastUsed: payload.timeOpened }))
         // And refresh the page
         .then(() => onUpdate());
+    } else if (payload.status === 'unused') {
+      resetSingleQuestion(payload.firebaseKey).then(onUpdate);
     } else {
       // Otherwise open the question and update the page
       updateGameQuestion(payload)
@@ -49,9 +52,10 @@ export default function QuestionDetails({
     switch (trigger) {
       case 'reset':
         // If the 'Reset' button was clicked, confirm with user that this is the desired action.
-        if (window.confirm('Are you sure you want to reset this question? The timestamp will be lost')) {
-          // Then reset it
-          updateStatus({ ...payload, status: 'unused', timeOpened: 'never' });
+        if (window.confirm('Are you sure you want to reset this question? The timestamp will be lost and all responses deleted.')) {
+          // Then reset it (calls updateStatus for continuity, but ultimately calls
+          // resetSingleQuestion merge call rather than updateGameQuestion)
+          updateStatus({ ...payload, status: 'unused' });
         }
         break;
       case 'release':
@@ -98,11 +102,13 @@ export default function QuestionDetails({
           <h4>{questionObj.question}</h4>
         </div>
         {questionObj.image && (<Image className="qd-image" src={questionObj.image} />)}
-        <div>
-          <h2>Answer</h2>
-          <hr />
-          <h4>{questionObj.answer}</h4>
-        </div>
+        {(host || questionObj.status === 'released') && (
+          <div>
+            <h2>Answer</h2>
+            <hr />
+            <h4>{questionObj.answer}</h4>
+          </div>
+        )}
       </div>
       <div className="qd-buttons">
         {/* If in host view, use CategoryDropdown component (see CategoryDropdown.js for prop notes) */}
