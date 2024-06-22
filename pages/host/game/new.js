@@ -3,9 +3,11 @@ import GameForm from '../../../components/forms/GameForm';
 
 export default function CreateGame() {
   return (
-    <div>
-      <h1 className="page-header">New Game</h1>
-      <GameForm />
-    </div>
+    <>
+      <h1 className="header">New Game</h1>
+      <div className="content">
+        <GameForm />
+      </div>
+    </>
   );
 }

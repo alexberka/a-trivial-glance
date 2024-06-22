@@ -46,9 +46,9 @@ export default function ManageGameQuestion() {
   }, [question.status]);
 
   return (
-    <div>
+    <>
       {question.firebaseKey && (<QuestionDetails questionObj={question} host onUpdate={onUpdate} />)}
       {question?.game?.status === 'live' && (<HostResponsePanel responses={responses} onUpdate={onUpdate} />)}
-    </div>
+    </>
   );
 }

@@ -20,18 +20,20 @@ export default function HostQuestions() {
 
   return (
     <>
-      <div className="questions-header">
-        <h1 className="page-header">Questions</h1>
+      <div className="header">
+        <h1>Questions</h1>
         <Link passHref href="/host/question/new">
           <button type="button" className="">New Question</button>
         </Link>
       </div>
-      <div className="question-container">
-        {questions.length ? (
-          questions.map((q) => <QuestionCard key={q.firebaseKey} questionObj={q} host />)
-        ) : (
-          <span>Loading Questions</span>
-        )}
+      <div className="content">
+        <div className="question-container">
+          {questions.length ? (
+            questions.map((q) => <QuestionCard key={q.firebaseKey} questionObj={q} host />)
+          ) : (
+            <span>Loading Questions</span>
+          )}
+        </div>
       </div>
     </>
   );

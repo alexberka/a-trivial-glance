@@ -44,7 +44,7 @@ export default function NavBarAuth() {
         <div className="nav-expanded" onMouseLeave={closeNav}>
           {/* Construction of logo, directs to welcome page */}
           <Link passHref href="/">
-            <button type="button" className="nav-logo">
+            <button type="button" className="nav-logo logo">
               <p className="nav-logo-a">A</p>
               <p className="nav-logo-b">TRIVIAL</p>
               <p className="nav-logo-c">GLANCE</p>

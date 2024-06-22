@@ -23,11 +23,11 @@ const ViewDirectorBasedOnUserAuthStatus = ({ component: Component, pageProps }) 
         <div className="bg-positive-bottom" />
         <div className="bg-negative-bottom" />
         {router.pathname !== '/' && (<NavBarAuth />)}
-        <div className="container">
+        <div className="app-container">
           <Component {...pageProps} />
         </div>
         {router.pathname !== '/' && (
-          <div className="welcome-title title-watermark">
+          <div className="welcome-title title-watermark logo">
             <h3>A</h3>
             <h1>TRIVIAL</h1>
             <h2>GLANCE</h2>

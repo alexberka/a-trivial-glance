@@ -29,7 +29,7 @@ function Home() {
         </button>
         <p className="signout-username">{`(Logged in as ${user.displayName})`}</p>
       </div>
-      <div className="welcome-title">
+      <div className="welcome-title logo">
         <h3>A</h3>
         <h1>TRIVIAL</h1>
         <h2>GLANCE</h2>

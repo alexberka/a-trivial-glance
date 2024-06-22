@@ -65,9 +65,9 @@ export default function ManageGame() {
   }, [gameData?.status]);
 
   return (
-    <div>
+    <>
       {gameData && (<GameDisplay game={gameData} host onUpdate={grabGame} />)}
       {gameData?.status === 'live' && (<HostResponsePanel responses={responses} onUpdate={grabResponses} />)}
-    </div>
+    </>
   );
 }

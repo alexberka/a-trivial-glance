@@ -102,7 +102,7 @@ export default function PlayGame() {
   }, []);
 
   return (
-    <div>
+    <>
       {!teamCheck || (yourTeam.firebaseKey && !game.status) ? (
         'Loading...'
       ) : (
@@ -126,6 +126,6 @@ export default function PlayGame() {
           )}
         </>
       )}
-    </div>
+    </>
   );
 }

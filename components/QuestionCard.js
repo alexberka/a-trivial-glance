@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 // 'questionObj' includes a single question object with associated category object
 // 'host' is a boolean that indicates whether user is in host view or not (defaults to false)
-export default function QuestionCard({ questionObj, host }) {
+export default function QuestionCard({ questionObj, host, dragThis }) {
   return (
     // If host is set to true, clicking the card will direct to the question's details page with host tools
     // Otherwise, clicking will direct to player view of question (/question/[id] redirects if question isn't closed)
@@ -12,7 +12,7 @@ export default function QuestionCard({ questionObj, host }) {
       passHref
       href={`${host ? '/host' : ''}/question/${questionObj.firebaseKey}/${questionObj.gameQuestionId ? questionObj.gameQuestionId : ''}`}
     >
-      <div className="q-card">
+      <div className="q-card" draggable={dragThis} onDragStart={(e) => e.dataTransfer.setData('gameQuestionId', questionObj.gameQuestionId)}>
         <div className="q-card-tags">
           <p className="q-category" style={{ background: `${questionObj.category.color}` }}>
             {questionObj.category.name.toUpperCase()}
@@ -59,8 +59,10 @@ QuestionCard.propTypes = {
     }),
   }).isRequired,
   host: PropTypes.bool,
+  dragThis: PropTypes.bool,
 };
 
 QuestionCard.defaultProps = {
   host: false,
+  dragThis: false,
 };

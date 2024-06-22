@@ -18,9 +18,9 @@ export default function EditGame() {
   }, []);
 
   return (
-    <div>
-      <h1 className="page-header">Edit Game</h1>
+    <>
+      <h1 className="header">Edit Game</h1>
       {game && (<GameForm gameObj={game} />)}
-    </div>
+    </>
   );
 }

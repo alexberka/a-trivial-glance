@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { signIn } from '../utils/auth';
 
@@ -12,21 +11,30 @@ function Signin() {
   };
 
   return (
-    <div
-      className="text-center d-flex flex-column justify-content-center align-content-center"
-      style={{
-        height: '90vh',
-        padding: '30px',
-        maxWidth: '400px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>Hi there!</h1>
-      <p>Click the button below to login!</p>
-      <Button type="button" size="lg" className="copy-btn" onClick={signInGoHome}>
-        Sign In
-      </Button>
-    </div>
+    <>
+      <div className="bg-positive-top" />
+      <div className="bg-negative-top" />
+      <div className="bg-positive-bottom" />
+      <div className="bg-negative-bottom" />
+      <div
+        className="text-center d-flex flex-column justify-content-center align-content-center"
+        style={{
+          height: '90vh',
+          padding: '30px',
+          maxWidth: '400px',
+          margin: '0 auto',
+        }}
+      >
+        <button type="button" className="signin-btn" onClick={signInGoHome}>
+          SIGN IN
+        </button>
+      </div>
+      <div className="welcome-title logo">
+        <h3>A</h3>
+        <h1>TRIVIAL</h1>
+        <h2>GLANCE</h2>
+      </div>
+    </>
   );
 }
 

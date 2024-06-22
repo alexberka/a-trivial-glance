@@ -14,17 +14,19 @@ export default function PlayerGameSelect() {
 
   return (
     <>
-      <div className="games-header">
-        <h1 className="page-header">Live Games</h1>
+      <div className="header">
+        <h1>Live Games</h1>
       </div>
-      <div className="games-container">
-        {openGames.length > 0 ? (
-          openGames
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map((game) => <GameCard key={game.firebaseKey} gameObj={game} />)
-        ) : (
-          <span>Loading Games</span>
-        )}
+      <div className="content">
+        <div className="games-container">
+          {openGames.length > 0 ? (
+            openGames
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((game) => <GameCard key={game.firebaseKey} gameObj={game} />)
+          ) : (
+            <span>Loading Games</span>
+          )}
+        </div>
       </div>
     </>
   );
