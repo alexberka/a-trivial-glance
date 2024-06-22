@@ -17,7 +17,6 @@ export default function PlayerGameSelect() {
     if (e.target.name === 'dropdown-search') {
       setSearch(e.target.value);
     }
-    console.warn(openGames, search);
   };
 
   return (
