@@ -25,7 +25,7 @@ function Signin() {
           margin: '0 auto',
         }}
       >
-        <button type="button" className="signin-btn" onClick={signInGoHome}>
+        <button type="button" className="signin-btn std-btn" onClick={signInGoHome}>
           SIGN IN
         </button>
       </div>

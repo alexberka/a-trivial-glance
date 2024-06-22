@@ -17,6 +17,12 @@ body {
 
 :root {
   --main-color-1: #555959;
+  --main-color-2: #353939;
+  --accent-color-1: aliceblue;
+  --unused-color: #b5b9b9;
+  --open-color: #82e782;
+  --closed-color: #e67c7c;
+  --released-color: aliceblue;
   --btn-shadow-up: inset 0 0 5px black, inset 2px 2px 5px 0 #e5e9e975, 2px 2px 3px black;
   --btn-shadow-down: inset 0px 0px 7px black, inset 2px 2px 7px 0 #e5e9e975, 1px 1px 2px black;
 }
@@ -88,7 +94,7 @@ body {
   position: fixed;
   left: 5vw;
   bottom: 20vh;
-  color: aliceblue;
+  color: var(--accent-color-1);
   text-shadow: 6px 6px black;
   h1, h2, h3 {
     padding: 0;
@@ -118,12 +124,57 @@ body {
   left: 5px;
   bottom: 80px;
 }
+.logo-loading {
+  animation: loading 2s linear infinite;
+}
+@keyframes loading {
+  0% { 
+    left: 5px;
+    bottom: 80px;
+    color: var(--main-color-1);
+    transform: rotate(17deg) scale(0.7);
+  }
+  75% {
+    bottom: 110%;
+    color: var(--accent-color-1);
+    transform: rotate(-17deg) scale(1);
+    left: 20%;
+  }
+  100% {
+    bottom: 110%;
+    color: var(--accent-color-1);
+    transform: rotate(-17deg) scale(1);
+    left: 20%;
+  }
+}
+
+.std-btn {
+  background: var(--main-color-2);
+  border: none;
+  border-radius: 5px;
+  color: var(--accent-color-1);
+  box-shadow: var(--btn-shadow-up);
+  padding: 4px 8px;
+}
+.std-btn:hover {
+  background: black;
+}
+.std-btn:active {
+  box-shadow: var(--btn-shadow-down);
+}
+.std-btn:disabled {
+  visibility: hidden;
+}
+
+.hidden {
+  visibility: hidden;
+}
 
 .signin-btn {
   background: rgb(37, 37, 37);
   border: none;
   border-radius: 5px;
-  color: aliceblue;
+  color: var(--accent-color-1);
   width: 200px;
   font-size: 20px;
   box-shadow: var(--btn-shadow-up);
@@ -137,29 +188,18 @@ body {
   display: flex;
   justify-content: center;
   gap: 50px;
-  color: aliceblue;
+  color: var(--accent-color-1);
   text-align: center;
   button {
-    background: rgb(37, 37, 37);
-    border: none;
-    border-radius: 5px;
-    color: aliceblue;
     width: 100px;
     font-size: 20px;
-    box-shadow: var(--btn-shadow-up);
-  }
-  button:hover {
-    background: black;
-  }
-  button:active {
-    box-shadow: var(--btn-shadow-down);
   }
 }
 .welcome-signout {
   position: fixed;
   right: 5vw;
   bottom: 5vh;
-  color: aliceblue;
+  color: var(--accent-color-1);
   text-align: center;
   button {
     border: none;
@@ -186,24 +226,36 @@ body {
 }
 
 .header {
+  position: relative;
   width: 80%;
   margin: 0 auto;
   text-align: center;
-  height: 30%;
+  height: auto;
   h1 {
-    font-size: 10rem;
-    color: aliceblue;
+    font-size: 9rem;
+    color: var(--accent-color-1);
     text-shadow: 8px 8px black;
+  }
+}
+.header-misc {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
+  .header-search {
+    border-radius: 5px;
+    border: none;
+    padding: 5px 10px;
+    box-shadow: inset 0 0 3px black;
   }
 }
 
 .content {
   position: relative;
   width: 100%;
-  flex: 1;
+  flex: 1 70%;
   padding-bottom: 50px;
   margin: 0 auto;
-  color: aliceblue;
+  color: var(--accent-color-1);
   overflow-y: hidden;
 }
 
@@ -228,7 +280,7 @@ input:focus {
     padding-top: 13px;
     .nav-line {
       width: 35px;
-      background: aliceblue;
+      background: var(--accent-color-1);
       height: 4px;
       margin: 0 auto 15% auto;
       border-radius: 2px;
@@ -266,13 +318,13 @@ input:focus {
       }
     }
     hr {
-      border-color: aliceblue;
+      border-color: var(--accent-color-1);
       margin: 0;
     }
     button {
       background: none;
       border: none;
-      color: aliceblue;
+      color: var(--accent-color-1);
       width: 100%;
     }
     button:hover {
@@ -309,20 +361,20 @@ input:focus {
   }
 }
 
-
-
 .question-container, .games-container {
   display: flex;
   flex-flow: row wrap;
-  gap: 10px calc((100% - 1200px)/3);
+  width: 1230px;
+  margin: 0 auto;
+  gap: 10px calc((100% - 1160px)/3);
   justify-content: space-between;
-
 }
 
 .g-card {
-  background: aliceblue;
-  width: 300px;
-  min-width: 300px;
+  background: var(--accent-color-1);
+  color: black;
+  width: 290px;
+  min-width: 290px;
   min-height: 3.5rem;
   height: auto;
   padding: 5px 0 0 0;
@@ -373,7 +425,7 @@ input:focus {
 }
 
 .q-card {
-  background: aliceblue;
+  background: var(--accent-color-1);
   color: black;
   width: 280px;
   min-width: 280px;
@@ -425,24 +477,24 @@ input:focus {
 }
 
 .status-unused {
-  background: #b5b9b9;
+  background: var(--unused-color);
 }
 .status-open, .status-live {
-  background: #82e782;
+  background: var(--open-color);
 }
 .status-closed {
-  background: #e67c7c;
+  background: var(--closed-color);
 }
 .status-released {
-  background: aliceblue;
+  background: var(--released-color);
 }
 
-
 .question-details {
-  padding-top: 20px;
+  padding: 20px 100px 0 100px;
+  height: 100%;
   display: flex;
   gap: 20px;
-  color: aliceblue;
+  color: var(--accent-color-1);
   .qd-info {
     width: 90%;
     h2 {
@@ -450,7 +502,7 @@ input:focus {
       margin-bottom: 5px;
     }
     hr {
-      border: 2px solid aliceblue;
+      border: 2px solid var(--accent-color-1);
       opacity: 60%;
       padding: 0;
       margin: 0;
@@ -470,7 +522,7 @@ input:focus {
   .qd-buttons {
     color: black;
     position: relative;
-    height: 90vh;
+    height: 100%;
     text-align: center;
     width: 200px;
     .qd-btn {
@@ -495,7 +547,6 @@ input:focus {
           align-content: center;
           border-radius: 4px 0 0 4px;
           box-shadow: var(--btn-shadow-up);
-          /* text-shadow: 0 0 3px aliceblue; */
         }
         .qd-category-toggle {
           background: none;
@@ -508,7 +559,7 @@ input:focus {
         }
         .qd-category-toggle:hover {
           background: black;
-          color: aliceblue;
+          color: var(--accent-color-1);
           border-radius: 0 4px 4px 0;
         }
         .qd-category-toggle:active {
@@ -520,7 +571,7 @@ input:focus {
         top: 38px;
         right: 0px;
         background: rgb(37, 37, 37);;
-        color: aliceblue;
+        color: var(--accent-color-1);
         width: 80%;
         box-shadow: var(--btn-shadow-up);
         border-radius: 5px;
@@ -533,7 +584,7 @@ input:focus {
           padding: 1px 0;
           background: none;
           border: none;
-          color: aliceblue;
+          color: var(--accent-color-1);
           width: 100%;
         }
         button:hover {
@@ -551,6 +602,9 @@ input:focus {
     .qd-status, .qd-game-status {
       border: 1px solid black;
     }
+    .qd-game-status {
+      color: black;
+    }
 
     .qd-game-status::before {
       content: "in "
@@ -560,7 +614,7 @@ input:focus {
     }
     .qd-game-status:hover {
       background: black;
-      color: aliceblue;
+      color: var(--accent-color-1);
     }
     .qd-game-status:active {
       box-shadow: var(--btn-shadow-down);
@@ -575,10 +629,10 @@ input:focus {
         margin: 0;
         background: var(--main-color-1);
         width: 100%;
-        color: aliceblue;
+        color: var(--accent-color-1);
       }
       .assigned-list {
-        color: aliceblue;
+        color: var(--accent-color-1);
         width: 100%;
         position: relative;
         max-height: 220px;
@@ -626,7 +680,7 @@ input:focus {
           }
         }
         .assigned-game:hover {
-          background: #353939;
+          background: var(--main-color-2);
           box-shadow: inset 0 0 3px black;
         }
       }
@@ -635,7 +689,7 @@ input:focus {
         .qd-assign-game {
           display: flex;
           padding: 0;
-          background: aliceblue;
+          background: var(--accent-color-1);
           .qd-game-name {
             padding: 5px;
             text-align: center;
@@ -655,7 +709,7 @@ input:focus {
           }
           .qd-game-toggle:hover {
             background: black;
-            color: aliceblue;
+            color: var(--accent-color-1);
             border-radius: 0 4px 4px 0;
           }
           .qd-game-toggle:active {
@@ -667,7 +721,7 @@ input:focus {
           top: 34px;
           right: 0px;
           background: rgb(37, 37, 37);
-          color: aliceblue;
+          color: var(--accent-color-1);
           width: 85%;
           box-shadow: var(--btn-shadow-up);
           border-radius: 5px;
@@ -693,7 +747,7 @@ input:focus {
             padding: 1px 5px;
             background: none;
             border: none;
-            color: aliceblue;
+            color: var(--accent-color-1);
             width: 100%;
           }
           button:hover {
@@ -712,7 +766,7 @@ input:focus {
     }
     .qd-return:hover {
       background: #dd0d0d;
-      color: aliceblue;
+      color: var(--accent-color-1);
     }
     .qd-return:hover:before {
       content: "↶ ";
@@ -722,8 +776,9 @@ input:focus {
       border: 1px solid black;
     }
     .qd-timestamp {
-      color: aliceblue;
+      color: var(--accent-color-1);
       font-size: 0.8rem;
+      margin-bottom: 4px;
     }
     .qd-host-tools {
       position: absolute;
@@ -732,17 +787,20 @@ input:focus {
       right: 0px;
       button {
         display: block;
-        border-radius: 5px;
         margin: 5px 0;
-        font-size: 1.2rem;
-        padding: 5px 10px;
+        font-size: 1rem;
         width: 100%;
-        box-shadow: var(--btn-shadow-up);
-      }
-      button:active {
-        box-shadow: var(--btn-shadow-down);
       }
     }
+  }
+  .qf-input {
+    width: 100%;
+    box-shadow: inset 0 0 3px black;
+    border: none;
+    margin-top: 10px;
+  }
+  .qf-input:focus {
+    outline: none;
   }
 }
 
@@ -752,7 +810,7 @@ input:focus {
   padding-top: 10px;
   display: flex;
   gap: 40px;
-  color: aliceblue;
+  color: var(--accent-color-1);
   height: auto;
   .gd-title-box {
     flex: 1;
@@ -804,35 +862,23 @@ input:focus {
     }
     button {
       display: block;
-      border-radius: 5px;
-      border: none;
       margin-bottom: 5px;
       font-size: 1rem;
       padding: 5px 10px;
       width: 100%;
       min-height: 36px;
-      box-shadow: var(--btn-shadow-up);
       align-content: center;
-      background-color: #353939;
-      color: aliceblue;
-    }
-    button:active {
-      box-shadow: var(--btn-shadow-down);
-      border: 1px solid #353939;
-    }
-    button:hover {
-      background: black;
     }
     .gd-status-toggle-live:hover {
-      background-color: #82e782;
+      background-color: var(--open-color);
       color: black;
     }
     .gd-status-toggle-closed:hover {
-      background-color: #e67c7c;
+      background-color: var(--closed-color);
       color: black;
     }
     .gd-status-reset:hover {
-      background-color: #b5b9b9;
+      background-color: var(--unused-color);
       color: black;
     }
   }
@@ -850,7 +896,7 @@ input:focus {
   scrollbar-width: none;
   .gd-unused, .gd-open-closed-host, .gd-open-player, .gd-released {
     position: relative;
-    border-left: 2px solid aliceblue;
+    border-left: 2px solid var(--released-color);
     padding: 0 5px;
     margin: 10px 0 0 0;
     height: calc(100% - 10px);
@@ -870,8 +916,8 @@ input:focus {
       width: calc(100% - 30px);
       margin: 10px auto;
       border-radius: 5px;
-      box-shadow: 0 0 3px 2px black;
-      background: #353939;
+      box-shadow: 0 0 3px 1px black;
+      background: var(--main-color-2);
       border: 1px solid black;
       overflow-y: hidden;
       .gd-card-container {
@@ -900,7 +946,7 @@ input:focus {
         top: -1px;
         left: (50% - 145px);
         border-radius: 5px;
-        box-shadow: inset 0 30px 6px -20px #353939, inset 0 -30px 6px -20px #353939;
+        box-shadow: inset 0 30px 6px -20px var(--main-color-2), inset 0 -30px 6px -20px var(--main-color-2);
         pointer-events: none;
       }
     }
@@ -909,7 +955,7 @@ input:focus {
     width: 635px;
     min-width: 635px;
     .unused-highlight {
-      box-shadow: 0 0 3px 2px #b5b9b9;
+      box-shadow: 0 0 3px 2px var(--unused-color);
     }
     .gd-fade-captive {
       .gd-card-container {
@@ -924,18 +970,28 @@ input:focus {
     display: flex;
     flex-flow: column nowrap;
     .open-highlight {
-      box-shadow: 0 0 3px 2px #82e782;
+      box-shadow: 0 0 3px 2px var(--open-color);
     }
     .closed-highlight {
-      box-shadow: 0 0 3px 2px #e67c7c;
+      box-shadow: 0 0 3px 2px var(--closed-color);
     }
     .gd-col-header {
       position: relative;
       height: 36px;
-      .gd-close-q, .gd-release-all {
+      .gd-close-q, .gd-release-q {
         position: absolute;
         top: 4px;
         right: 15px;
+        font-size: 0.7rem;
+      }
+      .gd-close-q:hover {
+        color: black;
+        background: var(--closed-color);
+      }
+      .gd-release-q:hover {
+        color: black;
+        background: var(--released-color);
+
       }
     }
     .gd-fc-open {
@@ -953,9 +1009,9 @@ input:focus {
     }
   }
   .gd-released {
-    border-right: 2px solid aliceblue;
+    border-right: 2px solid var(--released-color);
     .released-highlight {
-      box-shadow: 0 0 3px 2px aliceblue;
+      box-shadow: 0 0 3px 2px var(--released-color);
     }
   }
   .gd-open-player {
@@ -1011,19 +1067,65 @@ input:focus {
   
 }
 
+.qf-standalone {
+  width: 80%;
+  margin: 10px auto;
+  background: var(--main-color-2);
+  padding: 20px;
+  z-index: 5;
+  box-shadow: 0 0 5px 2px black;
+  border-radius: 10px;
+  .qd-btn {
+    background: var(--main-color-1);
+  }
+}
+
+.game-form {
+  width: 80%;
+  max-width: 800px;
+  min-width: 300px;
+  margin: 10px auto;
+  background: var(--main-color-2);
+  padding: 20px;
+  z-index: 5;
+  box-shadow: 0 0 5px 2px black;
+  border-radius: 10px;
+  .gf-label {
+    font-size: 2rem;
+    margin: 0;
+  }
+  hr {
+    border: 2px solid var(--accent-color-1);
+    opacity: 60%;
+    padding: 0;
+    margin: 0;
+  }
+  .gf-input {
+    width: 100%;
+    box-shadow: inset 0 0 3px black;
+    border: none;
+    margin-top: 10px;
+  }
+  .gf-buttons {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
 .team-form {
   position: fixed;
   width: 50vw;
   min-width: 200px;
   top: 200px;
   left: calc(50% - 25vw);
-  background: #353939;
+  background: var(--main-color-2);
   padding: 20px;
   z-index: 5;
   box-shadow: 0 0 5px 2px black;
   border-radius: 10px;
   h1 {
-    color: aliceblue;
+    color: var(--accent-color-1);
     text-align: center;
     margin-bottom: 20px;
   }
@@ -1031,18 +1133,8 @@ input:focus {
     width: 100%;
     text-align: center;
     button {
-      border: none;
       margin: 10px auto 0 auto;
       background: var(--main-color-1);
-      box-shadow: var(--btn-shadow-up);
-      color: aliceblue;
-      padding: 5px 10px;
-    }
-    button:disabled {
-      visibility: hidden;
-    }
-    button:active {
-      box-shadow: var(--btn-shadow-down);
     }
   }
 }
@@ -1055,25 +1147,21 @@ input:focus {
   padding: 8px 5px 15px 10px;
   min-height: 50px;
   max-width: 25%;
-  background: #353939;
+  background: var(--main-color-2);
   border-radius: 5px 5px 0 0;
-  color: aliceblue;
+  color: var(--accent-color-1);
   box-shadow: 0 0 3px 1px black;
-  button  {
+  button {
     display: inline;
     margin: 0 6px;
   }
   button {
     float: right;
     font-size: 0.8rem;
-    box-shadow: var(--btn-shadow-up);
-    color: aliceblue;
-    border-radius: 5px;
     background: var(--main-color-1);
-    border: none;
-    padding: 4px 8px;
   }
   button:disabled {
+    visibility: visible;
     box-shadow: var(--btn-shadow-down);
     color: rgba(240, 248, 255, 0.699);
   }
@@ -1088,7 +1176,7 @@ input:focus {
   height: 42%;
   left: 18%;
   width: 50%;
-  color: aliceblue;
+  color: var(--accent-color-1);
   z-index: 5;
   transition: 1s;
   .response-form {
@@ -1097,7 +1185,7 @@ input:focus {
   .response-panel {
     height: 100%;
     padding: 15px 10px 10px 10px;
-    background: #353939;
+    background: var(--main-color-2);
     border-radius: 5px 5px 0 0;
     z-index: 1;
     box-shadow: 0 0 3px 1px black;
@@ -1110,13 +1198,13 @@ input:focus {
       padding: 0 0 20px 0;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: black #353939;
+      scrollbar-color: black var(--main-color-2);
     }
     input {
       width: 100%;
       border-radius: 5px;
-      background: #353939;
-      color: aliceblue;
+      background: var(--main-color-2);
+      color: var(--accent-color-1);
       padding: 5px 10px;
       box-shadow: inset 0 0 4px black;
       border: none;
@@ -1124,16 +1212,8 @@ input:focus {
     button {
       float: right;
       font-size: 0.8rem;
-      box-shadow: var(--btn-shadow-up);
-      color: aliceblue;
-      border-radius: 5px;
       background: var(--main-color-1);
-      border: none;
-      padding: 4px 8px;
       margin: 3px 0;
-    }
-    button:disabled {
-      visibility: hidden;
     }
     p {
       padding: 2px 4px;
@@ -1149,7 +1229,7 @@ input:focus {
       .res-card-response {
         font-size: 1rem;
         display: inline;
-        color: aliceblue;
+        color: var(--accent-color-1);
         font-style: none;
       }
       .player-response {
@@ -1181,7 +1261,7 @@ input:focus {
     height: 50px;
     padding: 8px 5px 10px 5px;
     border-radius: 5px 5px 0 0;
-    background: #353939;
+    background: var(--main-color-2);
     box-shadow: 0 0 3px 1px black;
     p {
       margin: 0 6px;
@@ -1218,14 +1298,14 @@ input:focus {
     input {
       width: 100%;
       border-radius: 5px;
-      background: #353939;
-      color: aliceblue;
+      background: var(--main-color-2);
+      color: var(--accent-color-1);
       padding: 5px 10px;
       box-shadow: inset 0 0 4px black;
       border: none;
     }
     .grade-NA {
-      border: 1px solid aliceblue;
+      border: 1px solid var(--accent-color-1);
       background: var(--main-color-1);
       color: black;
       animation: waving 3s linear infinite;
@@ -1245,8 +1325,6 @@ input:focus {
   }
 }
 
-
-    
 @keyframes waving {
   50% {
     opacity: 0.5;

@@ -5,6 +5,7 @@ import GameDisplay from '../../../components/GameDisplay';
 import { getFullGameData, getGameResponses } from '../../../api/mergedData';
 import { useAuth } from '../../../utils/context/authContext';
 import HostResponsePanel from '../../../components/panels/HostResponsePanel';
+import LogoLoading from '../../../components/LogoLoading';
 
 export default function ManageGame() {
   const [gameData, setGameData] = useState();
@@ -66,8 +67,13 @@ export default function ManageGame() {
 
   return (
     <>
-      {gameData && (<GameDisplay game={gameData} host onUpdate={grabGame} />)}
-      {gameData?.status === 'live' && (<HostResponsePanel responses={responses} onUpdate={grabResponses} />)}
+      {!gameData ? (
+        <LogoLoading />
+      ) : (
+        <>
+          <GameDisplay game={gameData} host onUpdate={grabGame} /><HostResponsePanel responses={responses} onUpdate={grabResponses} />
+        </>
+      )}
     </>
   );
 }

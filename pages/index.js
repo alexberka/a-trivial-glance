@@ -11,13 +11,13 @@ function Home() {
       <div className="welcome-buttons">
         <div>
           <Link passHref href="/games">
-            <button type="button">JOIN</button>
+            <button type="button" className="std-btn">JOIN</button>
           </Link>
           <p>Enter As Player</p>
         </div>
         <div>
           <Link passHref href="/host/games">
-            <button type="button">HOST</button>
+            <button type="button" className="std-btn">HOST</button>
           </Link>
           <p>Enter As Host</p>
         </div>

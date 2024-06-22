@@ -38,7 +38,7 @@ export default function TeamForm({
       <h1>{`${teamObj.firebaseKey ? 'Edit' : 'Pick a'} Team Name`}</h1>
       <Form onSubmit={handleSubmit} className="form-container">
         <Form.Control type="text" name="name" value={formInput.name} onChange={handleChange} />
-        <button type="submit" className="util-btn" disabled={formInput.name === ''}>{teamObj.firebaseKey ? 'Update' : 'Submit'}</button>
+        <button type="submit" className="util-btn std-btn" disabled={formInput.name === ''}>{teamObj.firebaseKey ? 'Update' : 'Submit'}</button>
       </Form>
     </div>
   );

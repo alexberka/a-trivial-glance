@@ -22,9 +22,11 @@ export default function HostQuestions() {
     <>
       <div className="header">
         <h1>Questions</h1>
-        <Link passHref href="/host/question/new">
-          <button type="button" className="">New Question</button>
-        </Link>
+        <div className="header-misc">
+          <Link passHref href="/host/question/new">
+            <button type="button" className="std-btn">New Question</button>
+          </Link>
+        </div>
       </div>
       <div className="content">
         <div className="question-container">

@@ -5,8 +5,14 @@ import {
   getGameQuestionsByGame,
   updateGameQuestion,
   deleteGameQuestion,
+  getGameQuestionsByQuestion,
 } from './gameQuestionsData';
-import { getQuestionByIdNoCat, getQuestionsByHostNoCats, getQuestionsNoCats } from './questionsData';
+import {
+  deleteQuestion,
+  getQuestionByIdNoCat,
+  getQuestionsByHostNoCats,
+  getQuestionsNoCats,
+} from './questionsData';
 import { deleteResponse, getResponsesByGameQuestionId, getResponsesByTeamId } from './responsesData';
 import {
   deleteTeam,
@@ -38,9 +44,11 @@ const getQuestionById = async (firebaseKey) => {
 // Retrieves a game's questions with status information
 const getGameQuestions = async (gameId) => {
   const gameQuestions = await getGameQuestionsByGame(gameId);
+  console.warn(gameQuestions);
   const promisedQsNoCats = gameQuestions.map((q) => getQuestionByIdNoCat(q.questionId));
   const realQsNoCats = await Promise.all(promisedQsNoCats);
   const categories = await getCategories();
+  console.warn(realQsNoCats);
   const realQs = realQsNoCats.map((q) => ({ ...q, category: categories[q.categoryId] }));
   return gameQuestions.map((gq, index) => ({
     ...realQs[index],
@@ -115,6 +123,13 @@ const deleteGame = async (firebaseKey) => {
   await deleteGameOnly(firebaseKey);
 };
 
+const deleteQuestionAndInstances = async (firebaseKey) => {
+  const instances = await getGameQuestionsByQuestion(firebaseKey);
+  const deleteInstances = instances.map((i) => deleteGameQuestion(i.firebaseKey));
+  await Promise.all(deleteInstances);
+  await deleteQuestion(firebaseKey);
+};
+
 const releaseMultipleQuestions = async (questions) => {
   const releasePromises = questions.map((q) => updateGameQuestion({ firebaseKey: q.gameQuestionId, status: 'released' }));
   await Promise.all(releasePromises);
@@ -149,6 +164,7 @@ export {
   getGameResponses,
   getQuestionResponses,
   deleteGame,
+  deleteQuestionAndInstances,
   releaseMultipleQuestions,
   resetAllQuestions,
   resetSingleQuestion,

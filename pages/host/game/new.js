@@ -4,7 +4,9 @@ import GameForm from '../../../components/forms/GameForm';
 export default function CreateGame() {
   return (
     <>
-      <h1 className="header">New Game</h1>
+      <div className="header">
+        <h1>New Game</h1>
+      </div>
       <div className="content">
         <GameForm />
       </div>

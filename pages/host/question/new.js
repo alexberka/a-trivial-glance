@@ -4,8 +4,12 @@ import QuestionForm from '../../../components/forms/QuestionForm';
 export default function CreateQuestion() {
   return (
     <>
-      <h1 className="header">New Question</h1>
-      <QuestionForm />
+      <div className="header">
+        <h1>New Question</h1>
+      </div>
+      <div className="content">
+        <QuestionForm />
+      </div>
     </>
   );
 }
