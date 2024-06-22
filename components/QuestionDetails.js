@@ -173,22 +173,24 @@ export default function QuestionDetails({
                     Reset Question
                   </button>
                 )}
-                {questionObj.status === 'closed' && (
-                  <button type="button" onClick={handleStatus} value="release" className="qd-btn">
-                    Release Answer
-                  </button>
-                )}
-                {questionObj.status === 'released' && (
-                  <button type="button" onClick={handleStatus} value="unrelease" className="qd-btn">
-                    Hide Answer
-                  </button>
-                )}
                 {questionObj.game.status === 'live' && (
-                  <button type="button" onClick={handleStatus} className="qd-btn">
-                    {questionObj.status === 'unused' && 'Open Question'}
-                    {questionObj.status === 'open' && 'Close Question'}
-                    {(questionObj.status === 'closed' || questionObj.status === 'released') && 'Reopen Question'}
-                  </button>
+                  <>
+                    {questionObj.status === 'closed' && (
+                      <button type="button" onClick={handleStatus} value="release" className="qd-btn">
+                        Release Answer
+                      </button>
+                    )}
+                    {questionObj.status === 'released' && (
+                      <button type="button" onClick={handleStatus} value="unrelease" className="qd-btn">
+                        Hide Answer
+                      </button>
+                    )}
+                    <button type="button" onClick={handleStatus} className="qd-btn">
+                      {questionObj.status === 'unused' && 'Open Question'}
+                      {questionObj.status === 'open' && 'Close Question'}
+                      {(questionObj.status === 'closed' || questionObj.status === 'released') && 'Reopen Question'}
+                    </button>
+                  </>
                 )}
               </>
             ) : (

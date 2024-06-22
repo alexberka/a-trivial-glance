@@ -111,9 +111,13 @@ const deleteGame = async (firebaseKey) => {
   const teamsToDelete = await getTeamsByGameId(firebaseKey);
   const deleted = gqToDelete.map((gq) => deleteGameQuestion(gq.firebaseKey));
   deleted.concat(teamsToDelete.map((t) => deleteTeam(t.firebaseKey)));
-  console.warn(gqToDelete.length, teamsToDelete.length, deleted.length);
   await Promise.all(deleted);
   await deleteGameOnly(firebaseKey);
+};
+
+const releaseMultipleQuestions = async (questions) => {
+  const releasePromises = questions.map((q) => updateGameQuestion({ firebaseKey: q.gameQuestionId, status: 'released' }));
+  await Promise.all(releasePromises);
 };
 
 const resetAllQuestions = async (questions) => {
@@ -145,6 +149,7 @@ export {
   getGameResponses,
   getQuestionResponses,
   deleteGame,
+  releaseMultipleQuestions,
   resetAllQuestions,
   resetSingleQuestion,
 };

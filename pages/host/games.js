@@ -20,20 +20,22 @@ export default function HostGames() {
 
   return (
     <>
-      <div className="games-header">
-        <h1 className="page-header">Games</h1>
+      <div className="header">
+        <h1>Games</h1>
         <Link passHref href="/host/game/new">
           <button type="button" className="">New Game</button>
         </Link>
       </div>
-      <div className="games-container">
-        {games ? (
-          games
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map((game) => <GameCard key={game.firebaseKey} gameObj={game} host />)
-        ) : (
-          <span>Loading Games</span>
-        )}
+      <div className="content">
+        <div className="games-container">
+          {games ? (
+            games
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((game) => <GameCard key={game.firebaseKey} gameObj={game} host />)
+          ) : (
+            <span>Loading Games</span>
+          )}
+        </div>
       </div>
     </>
   );
