@@ -4,12 +4,12 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
   createGameQuestion,
-  deleteGameQuestion,
   getGameQuestionsByQuestion,
   updateGameQuestion,
 } from '../../api/gameQuestionsData';
 import { getGamesByHost } from '../../api/gameData';
 import { useAuth } from '../../utils/context/authContext';
+import { deleteGameQuestionAndResponses } from '../../api/mergedData';
 
 export default function GameDropdown() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -81,7 +81,7 @@ export default function GameDropdown() {
 
   const handleRemove = (e) => {
     if (window.confirm(`Remove this question from ${e.target.id}?`)) {
-      deleteGameQuestion(e.target.value)
+      deleteGameQuestionAndResponses(e.target.value)
         .then(updateGameList);
     }
   };

@@ -9,6 +9,7 @@ import { getGameById } from '../../api/gameData';
 import TeamPanel from '../../components/panels/TeamPanel';
 import PlayerResponsePanel from '../../components/panels/PlayerResponsePanel';
 import { getResponsesByTeamId } from '../../api/responsesData';
+import LogoLoading from '../../components/LogoLoading';
 
 export default function PlayGame() {
   const [game, setGame] = useState({});
@@ -104,7 +105,7 @@ export default function PlayGame() {
   return (
     <>
       {!teamCheck || (yourTeam.firebaseKey && !game.status) ? (
-        'Loading...'
+        <LogoLoading />
       ) : (
         <>
           {!yourTeam.firebaseKey ? (

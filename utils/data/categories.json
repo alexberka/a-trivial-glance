@@ -2,51 +2,51 @@
   "-NykGVDAR7zmcnmudhPk": {
     "firebaseKey": "-NykGVDAR7zmcnmudhPk",
     "name": "Movies",
-    "color": "#b548f5"
+    "color": "#a8f1cc"
   },
   "-NykGVDAR7zmcnmudhPl": {
     "firebaseKey": "-NykGVDAR7zmcnmudhPl",
     "name": "Television",
-    "color": "#15c550"
+    "color": "#dfa5fa"
   },
   "-NykGVDB5KbUqw_C5sVe": {
     "firebaseKey": "-NykGVDB5KbUqw_C5sVe",
     "name": "Music",
-    "color": "#584e85"
+    "color": "#a2b3ff"
   },
   "-NykGVDB5KbUqw_C5sVf": {
     "firebaseKey": "-NykGVDB5KbUqw_C5sVf",
     "name": "Sports",
-    "color": "#702e64"
+    "color": "#f0bd70"
   },
   "-NykGVDCGjGFW6_jDvQJ": {
     "firebaseKey": "-NykGVDCGjGFW6_jDvQJ",
     "name": "Science",
-    "color": "#6b2bde"
+    "color": "#bdfa8b"
   },
   "-NykGVDCGjGFW6_jDvQK": {
     "firebaseKey": "-NykGVDCGjGFW6_jDvQK",
     "name": "Geography",
-    "color": "#471dcc"
+    "color": "#ffb0a2"
   },
   "-NykGVDCGjGFW6_jDvQL": {
     "firebaseKey": "-NykGVDCGjGFW6_jDvQL",
     "name": "History",
-    "color": "#8245bc"
+    "color": "#a2e9ff"
   },
   "-NykGVDDI2mAecsXbJ1S": {
     "firebaseKey": "-NykGVDDI2mAecsXbJ1S",
     "name": "Literature",
-    "color": "#3d9433"
+    "color": "#eee597"
   },
   "-NykGVDDI2mAecsXbJ1T": {
     "firebaseKey": "-NykGVDDI2mAecsXbJ1T",
     "name": "Toys & Games",
-    "color": "#1b4906"
+    "color": "#ff8eaa"
   },
   "-NykGVDEjLDZuu-5qmxY": {
     "firebaseKey": "-NykGVDEjLDZuu-5qmxY",
     "name": "Food & Drink",
-    "color": "#7a28fb"
+    "color": "#fa8be2"
   }
 }

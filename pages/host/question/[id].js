@@ -3,8 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import QuestionDetails from '../../../components/QuestionDetails';
 import { useAuth } from '../../../utils/context/authContext';
 import QuestionForm from '../../../components/forms/QuestionForm';
-import { getQuestionById } from '../../../api/mergedData';
-import { deleteQuestion } from '../../../api/questionsData';
+import { deleteQuestionAndInstances, getQuestionById } from '../../../api/mergedData';
 
 export default function ManageQuestion() {
   const [question, setQuestion] = useState({});
@@ -50,8 +49,9 @@ export default function ManageQuestion() {
   // Called to delete the question (passed into question details)
   const handleDelete = () => {
     if (window.confirm('Delete question?')) {
-      // On confirmation, deletes question then redirects to all questions view
-      deleteQuestion(router.query.id).then(() => router.push('/host/questions'));
+      // On confirmation, deletes question and associated gameQuestions
+      // then redirects to all questions view
+      deleteQuestionAndInstances(router.query.id).then(() => router.push('/host/questions'));
     }
   };
 
@@ -61,7 +61,7 @@ export default function ManageQuestion() {
   }, []);
 
   return (
-    <>
+    <div className="content">
       {/* If the question state has been updated (that question.firebaseKey exists) */}
       {/* then display QuestionForm if editing, QuestionDetails if not */}
       {question.firebaseKey && (
@@ -71,6 +71,6 @@ export default function ManageQuestion() {
           <QuestionDetails questionObj={question} host onUpdate={onUpdate} handleDelete={handleDelete} />
         )
       )};
-    </>
+    </div>
   );
 }

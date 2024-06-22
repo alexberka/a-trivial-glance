@@ -57,12 +57,13 @@ export default function HostResponsePanel({ responses, onUpdate }) {
               <div key={res.firebaseKey} className={`res-card grade-${res.grade}`}>
                 {res.grade === 'NA' ? (
                   <>
-                    <button type="button" value={`correct ${res.firebaseKey}`} onClick={handleClick}>Correct</button>
-                    <button type="button" value={`incorrect ${res.firebaseKey}`} onClick={handleClick}>Incorrect</button>
+                    <button type="button" className="std-btn" value={`correct ${res.firebaseKey}`} onClick={handleClick}>Correct</button>
+                    <button type="button" className="std-btn" value={`incorrect ${res.firebaseKey}`} onClick={handleClick}>Incorrect</button>
                   </>
                 ) : (
                   <button
                     type="button"
+                    className="std-btn"
                     value={`${res.grade === 'correct' ? 'incorrect' : 'correct'} ${res.firebaseKey}`}
                     onClick={handleClick}
                   >

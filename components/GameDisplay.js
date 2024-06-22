@@ -170,7 +170,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
             {host && (
               <>
                 <button
-                  className={`gd-status-toggle${game.status === 'live' ? '-closed' : '-live'}`}
+                  className={`std-btn gd-status-toggle${game.status === 'live' ? '-closed' : '-live'}`}
                   type="button"
                   id="toggle"
                   onClick={handleGameStatus}
@@ -178,21 +178,21 @@ export default function GameDisplay({ game, host, onUpdate }) {
                   {game.status === 'live' ? 'Close Game' : 'Go Live'}
                 </button>
                 {display.unusedQ.length < game.questions.length ? (
-                  <button type="button" id="reset-questions" onClick={handleQuestionStatus}>Reset Questions</button>
+                  <button className="std-btn" type="button" id="reset-questions" onClick={handleQuestionStatus}>Reset Questions</button>
                 )
                   : game.status !== 'unused' && (
-                  <button className="gd-status-reset" type="button" id="reset-game" onClick={handleGameStatus}>Reset Game</button>
+                  <button className="gd-status-reset std-btn" type="button" id="reset-game" onClick={handleGameStatus}>Reset Game</button>
                   )}
               </>
             )}
           </div>
           {host && (
             <div>
-              <button type="button">Add Question</button>
+              <button type="button" className="std-btn hidden">Add Question</button>
               <Link passHref href={`/host/game/edit/${game.firebaseKey}`}>
-                <button type="button">Edit</button>
+                <button type="button" className="std-btn">Edit Game</button>
               </Link>
-              <button type="button" onClick={handleDelete}>Delete</button>
+              <button type="button" className="std-btn" onClick={handleDelete}>Delete Game</button>
             </div>
           )}
         </div>
@@ -251,7 +251,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
                   <button
                     id="release-questions"
                     type="button"
-                    className="gd-close-q std-btn"
+                    className="gd-release-q std-btn"
                     onClick={handleQuestionStatus}
                   >
                     {display.closedQ.length > 1 ? 'RELEASE ALL' : 'RELEASE'}
@@ -311,10 +311,10 @@ export default function GameDisplay({ game, host, onUpdate }) {
               <div
                 id="drag-released"
                 className="gd-card-container"
-                onDragOver={host && ((e) => e.preventDefault())}
-                onDragEnter={host && ((e) => toggleDropHighlight(e, 'drag-released'))}
-                onDragLeave={host && ((e) => toggleDropHighlight(e, 'drag-released'))}
-                onDrop={host && ((e) => handleDrop(e, 'drag-released'))}
+                onDragOver={host ? ((e) => e.preventDefault()) : null}
+                onDragEnter={host ? ((e) => toggleDropHighlight(e, 'drag-released')) : null}
+                onDragLeave={host ? ((e) => toggleDropHighlight(e, 'drag-released')) : null}
+                onDrop={host ? ((e) => handleDrop(e, 'drag-released')) : null}
               >
                 {host
                   ? display.releasedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} dragThis={host} />))

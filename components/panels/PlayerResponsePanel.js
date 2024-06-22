@@ -75,7 +75,7 @@ export default function PlayerResponsePanel({
               onChange={handleChange}
               onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); } }}
             />
-            <button type="submit" disabled={formInput.response === ''}>Submit</button>
+            <button type="submit" className="std-btn" disabled={formInput.response === ''}>Submit</button>
             <p>Warning: Answers are final and may not be edited once submitted</p>
           </Form>
         )}

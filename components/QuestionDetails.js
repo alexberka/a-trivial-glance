@@ -139,12 +139,12 @@ export default function QuestionDetails({
               {questionObj.status.toUpperCase()}
             </p>
             <Link passHref href={`/host/game/${questionObj.game.firebaseKey}`}>
-              <button type="button" className={`qd-btn qd-game-status status-${questionObj.game.status}`}>
+              <button type="button" className={`qd-btn std-btn qd-game-status status-${questionObj.game.status}`}>
                 <i>{questionObj.game.name}</i>
               </button>
             </Link>
             <Link passHref href={`/host/question/${questionObj.firebaseKey}`}>
-              <button type="button" className="qd-btn">
+              <button type="button" className="qd-btn std-btn">
                 Edit Question...
               </button>
             </Link>
@@ -158,7 +158,7 @@ export default function QuestionDetails({
         {!host
         && (
           <Link passHref href={`/game/${questionObj.game.firebaseKey}`}>
-            <button type="button" className="qd-return qd-btn">
+            <button type="button" className="qd-return qd-btn std-btn">
               RETURN TO GAME
             </button>
           </Link>
@@ -169,23 +169,23 @@ export default function QuestionDetails({
             {questionObj.gameQuestionId ? (
               <>
                 {(questionObj.status === 'closed' || questionObj.status === 'released') && (
-                  <button type="button" onClick={handleStatus} value="reset" className="qd-btn">
+                  <button type="button" onClick={handleStatus} value="reset" className="qd-btn std-btn">
                     Reset Question
                   </button>
                 )}
                 {questionObj.game.status === 'live' && (
                   <>
                     {questionObj.status === 'closed' && (
-                      <button type="button" onClick={handleStatus} value="release" className="qd-btn">
+                      <button type="button" onClick={handleStatus} value="release" className="qd-btn std-btn">
                         Release Answer
                       </button>
                     )}
                     {questionObj.status === 'released' && (
-                      <button type="button" onClick={handleStatus} value="unrelease" className="qd-btn">
+                      <button type="button" onClick={handleStatus} value="unrelease" className="qd-btn std-btn">
                         Hide Answer
                       </button>
                     )}
-                    <button type="button" onClick={handleStatus} className="qd-btn">
+                    <button type="button" onClick={handleStatus} className="qd-btn std-btn">
                       {questionObj.status === 'unused' && 'Open Question'}
                       {questionObj.status === 'open' && 'Close Question'}
                       {(questionObj.status === 'closed' || questionObj.status === 'released') && 'Reopen Question'}
@@ -195,8 +195,8 @@ export default function QuestionDetails({
               </>
             ) : (
               <>
-                <button type="button" onClick={onUpdate} className="qd-btn">Edit</button>
-                <button type="button" onClick={handleDelete} className="qd-btn">Delete</button>
+                <button type="button" onClick={onUpdate} className="qd-btn std-btn">Edit</button>
+                <button type="button" onClick={handleDelete} className="qd-btn std-btn">Delete</button>
               </>
             )}
           </div>

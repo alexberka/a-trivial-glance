@@ -5,8 +5,14 @@ import {
   getGameQuestionsByGame,
   updateGameQuestion,
   deleteGameQuestion,
+  getGameQuestionsByQuestion,
 } from './gameQuestionsData';
-import { getQuestionByIdNoCat, getQuestionsByHostNoCats, getQuestionsNoCats } from './questionsData';
+import {
+  deleteQuestion,
+  getQuestionByIdNoCat,
+  getQuestionsByHostNoCats,
+  getQuestionsNoCats,
+} from './questionsData';
 import { deleteResponse, getResponsesByGameQuestionId, getResponsesByTeamId } from './responsesData';
 import {
   deleteTeam,
@@ -82,8 +88,7 @@ const getGameCardsData = async (uid) => {
 const getSingleTeamData = async (uid, gameId) => {
   const userTeams = await getTeamsByUid(uid);
   const gameTeam = userTeams.find((t) => t.gameId === gameId);
-  const teamResponses = await getResponsesByTeamId(gameTeam?.firebaseKey);
-  return { ...gameTeam, responses: teamResponses };
+  return gameTeam;
 };
 
 const getGameResponses = async (gameId) => {
@@ -113,6 +118,23 @@ const deleteGame = async (firebaseKey) => {
   deleted.concat(teamsToDelete.map((t) => deleteTeam(t.firebaseKey)));
   await Promise.all(deleted);
   await deleteGameOnly(firebaseKey);
+};
+
+const deleteQuestionAndInstances = async (firebaseKey) => {
+  const instances = await getGameQuestionsByQuestion(firebaseKey);
+  const resPromises = instances.map((gq) => getResponsesByGameQuestionId(gq.firebaseKey));
+  const responses = (await Promise.all(resPromises)).flat();
+  const deleteResponses = responses.map((res) => deleteResponse(res.firebaseKey));
+  const deleteInstances = instances.map((i) => deleteGameQuestion(i.firebaseKey));
+  await Promise.all([deleteInstances, deleteResponses].flat());
+  await deleteQuestion(firebaseKey);
+};
+
+const deleteGameQuestionAndResponses = async (firebaseKey) => {
+  const resPromises = await getResponsesByGameQuestionId(firebaseKey);
+  const deleteResponses = resPromises.map((res) => deleteResponse(res.firebaseKey));
+  await Promise.all(deleteResponses);
+  await deleteGameQuestion(firebaseKey);
 };
 
 const releaseMultipleQuestions = async (questions) => {
@@ -149,6 +171,8 @@ export {
   getGameResponses,
   getQuestionResponses,
   deleteGame,
+  deleteQuestionAndInstances,
+  deleteGameQuestionAndResponses,
   releaseMultipleQuestions,
   resetAllQuestions,
   resetSingleQuestion,

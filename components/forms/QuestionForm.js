@@ -50,22 +50,22 @@ export default function QuestionForm({ questionObj, onUpdate }) {
 
   return (
     // Structure and classes mirror those of QuestionDetails
-    <Form className="question-details" onSubmit={handleSubmit}>
+    <Form className={`question-details ${router.pathname.includes('new') && 'qf-standalone'}`} onSubmit={handleSubmit}>
       <div className="qd-info">
         <Form.Group>
           <h2>Question*</h2>
           <hr />
-          <Form.Control name="question" value={formInput.question || ''} onChange={handleChange} />
+          <Form.Control className="qf-input" name="question" value={formInput.question || ''} onChange={handleChange} />
         </Form.Group>
         <Form.Group>
           <h2>Image URL</h2>
           <hr />
-          <Form.Control name="image" value={formInput.image || ''} onChange={handleChange} />
+          <Form.Control className="qf-input" name="image" value={formInput.image || ''} onChange={handleChange} />
         </Form.Group>
         <Form.Group>
           <h2>Answer*</h2>
           <hr />
-          <Form.Control name="answer" value={formInput.answer || ''} onChange={handleChange} />
+          <Form.Control className="qf-input" name="answer" value={formInput.answer || ''} onChange={handleChange} />
         </Form.Group>
       </div>
       <div className="qd-buttons">
@@ -77,12 +77,13 @@ export default function QuestionForm({ questionObj, onUpdate }) {
           {/* Submission is locked if question, answer, or categoryId (from CategoryDropdown) are blank */}
           <button
             type="submit"
+            className="std-btn qd-btn"
             disabled={formInput.question === '' || formInput.answer === '' || formInput.categoryId === ''}
           >
             {questionObj.firebaseKey ? 'Save Changes' : 'Create'}
           </button>
           {/* If no onUpdate behavior is provided, return to all questions page upon Cancel */}
-          <button type="button" onClick={onUpdate || (() => router.push('/host/questions'))}>Cancel</button>
+          <button type="button" className="std-btn qd-btn" onClick={onUpdate || (() => router.push('/host/questions'))}>Cancel</button>
         </div>
       </div>
     </Form>

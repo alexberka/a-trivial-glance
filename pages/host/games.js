@@ -22,9 +22,11 @@ export default function HostGames() {
     <>
       <div className="header">
         <h1>Games</h1>
-        <Link passHref href="/host/game/new">
-          <button type="button" className="">New Game</button>
-        </Link>
+        <div className="header-misc">
+          <Link passHref href="/host/game/new">
+            <button type="button" className="std-btn">New Game</button>
+          </Link>
+        </div>
       </div>
       <div className="content">
         <div className="games-container">

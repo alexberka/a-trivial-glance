@@ -30,8 +30,8 @@ export default function ReviewGameQuestion() {
   }, []);
 
   return (
-    <>
+    <div className="content">
       {question.question && <QuestionDetails questionObj={question} />}
-    </>
+    </div>
   );
 }

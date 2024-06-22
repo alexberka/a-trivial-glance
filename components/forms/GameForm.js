@@ -41,8 +41,10 @@ export default function GameForm({ gameObj }) {
     <div>
       <Form className="game-form" onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name*</Form.Label>
+          <Form.Label className="gf-label">Name*</Form.Label>
+          <hr />
           <Form.Control
+            className="gf-input"
             type="text"
             placeholder=""
             name="name"
@@ -51,26 +53,32 @@ export default function GameForm({ gameObj }) {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="location">
-          <Form.Label>Location*</Form.Label>
+          <Form.Label className="gf-label">Location*</Form.Label>
+          <hr />
           <Form.Control
+            className="gf-input"
             type="text"
             name="location"
             value={formInput.location}
             onChange={handleChange}
           />
         </Form.Group>
-        <button
-          type="submit"
-          disabled={!formInput.name || !formInput.location}
-        >
-          {gameObj.firebaseKey ? 'Update Game' : 'Create'}
-        </button>
-        <button
-          type="button"
-          onClick={() => router.push(router.pathname.includes('/new') ? '/host/games' : `/host/game/${gameObj.firebaseKey}`)}
-        >
-          Cancel
-        </button>
+        <div className="gf-buttons">
+          <button
+            type="submit"
+            className="std-btn"
+            disabled={!formInput.name || !formInput.location}
+          >
+            {gameObj.firebaseKey ? 'Update Game' : 'Create'}
+          </button>
+          <button
+            type="button"
+            className="std-btn"
+            onClick={() => router.push(router.pathname.includes('/new') ? '/host/games' : `/host/game/${gameObj.firebaseKey}`)}
+          >
+            Cancel
+          </button>
+        </div>
       </Form>
     </div>
   );
