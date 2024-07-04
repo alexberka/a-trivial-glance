@@ -4,7 +4,12 @@ import { Image } from 'react-bootstrap';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import QuestionCard from './QuestionCard';
-import { deleteGame, releaseMultipleQuestions, resetAllQuestions } from '../api/mergedData';
+import {
+  deleteGame,
+  releaseMultipleQuestions,
+  resetAllGameQuestions,
+  resetGame,
+} from '../api/mergedData';
 import { updateGame } from '../api/gameData';
 import { updateGameQuestion } from '../api/gameQuestionsData';
 import { updateQuestion } from '../api/questionsData';
@@ -43,32 +48,31 @@ export default function GameDisplay({ game, host, onUpdate }) {
   };
 
   const handleGameStatus = (e) => {
-    const payload = { firebaseKey: game.firebaseKey };
-    if (e.target.id === 'toggle') {
+    if (e.target.id === 'reset-game') {
+      resetGame(game.firebaseKey).then(onUpdate);
+    } else {
+      const payload = { firebaseKey: game.firebaseKey };
       payload.dateLive = new Date().toISOString();
       if (game.status === 'unused' || game.status === 'closed') {
         payload.status = 'live';
       } else {
         payload.status = 'closed';
       }
-    } else if (e.target.id === 'reset-game') {
-      payload.dateLive = 'never';
-      payload.status = 'unused';
+      updateGame(payload).then(() => {
+        if (payload.status === 'closed' && display.openQ?.firebaseKey) {
+          updateGameQuestion({ firebaseKey: display.openQ.gameQuestionId, status: 'closed' }).then(onUpdate);
+        } else {
+          onUpdate();
+        }
+      });
     }
-    updateGame(payload).then(() => {
-      if (payload.status === 'closed' && display.openQ?.firebaseKey) {
-        updateGameQuestion({ firebaseKey: display.openQ.gameQuestionId, status: 'closed' }).then(onUpdate);
-      } else {
-        onUpdate();
-      }
-    });
   };
 
   const handleQuestionStatus = (e) => {
     e.preventDefault();
     if (e.target.id === 'reset-questions') {
       if (window.confirm('Are you sure you want to reset all questions in this game? Timestamps will be erased and all responses deleted.')) {
-        resetAllQuestions(game.questions).then(onUpdate);
+        resetAllGameQuestions(game.questions).then(onUpdate);
       }
     } else if (e.target.id === 'close-question') {
       updateGameQuestion({ firebaseKey: display.openQ.gameQuestionId, status: 'closed' }).then(onUpdate);

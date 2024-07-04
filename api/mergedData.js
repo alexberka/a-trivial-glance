@@ -1,5 +1,10 @@
 import { getCategories, getCategoryById } from './categoriesData';
-import { deleteGameOnly, getGameById, getGamesByHost } from './gameData';
+import {
+  deleteGameOnly,
+  getGameById,
+  getGamesByHost,
+  updateGame,
+} from './gameData';
 import {
   getGameQuestionById,
   getGameQuestionsByGame,
@@ -78,6 +83,8 @@ const getFullGameData = async (gameId) => {
   return { ...gameInfo, questions: questions.sort((a, b) => b.timeOpened.localeCompare(a.timeOpened)) };
 };
 
+// Retrieves games by host uid
+// Counts and appends number of associated gameQuestions
 const getGameCardsData = async (uid) => {
   const gamesInfo = await getGamesByHost(uid);
   const promisedGQs = gamesInfo.map((g) => getGameQuestionsByGame(g.firebaseKey));
@@ -111,13 +118,27 @@ const getQuestionResponses = async (gameQuestionId) => {
   }));
 };
 
-const deleteGame = async (firebaseKey) => {
-  const gqToDelete = await getGameQuestionsByGame(firebaseKey);
-  const teamsToDelete = await getTeamsByGameId(firebaseKey);
-  const deleted = gqToDelete.map((gq) => deleteGameQuestion(gq.firebaseKey));
-  deleted.concat(teamsToDelete.map((t) => deleteTeam(t.firebaseKey)));
-  await Promise.all(deleted);
-  await deleteGameOnly(firebaseKey);
+// Deletes all teams and responses for a single game
+// Used below for both deleteGame and resetGame
+const deleteTeamsAndResponsesByGame = async (gameId) => {
+  const teamsToDelete = await getTeamsByGameId(gameId);
+  const resPromises = teamsToDelete.map((t) => getResponsesByTeamId(t.firebaseKey));
+  const responsesToDelete = (await Promise.all(resPromises)).flat();
+
+  const deleteTeams = teamsToDelete.map((t) => deleteTeam(t.firebaseKey));
+  const deleteResponses = responsesToDelete.map((res) => deleteResponse(res.firebaseKey));
+
+  await Promise.all([deleteTeams, deleteResponses].flat());
+};
+
+// Deletes game and all its dependent entities
+const deleteGame = async (gameId) => {
+  const gqToDelete = await getGameQuestionsByGame(gameId);
+  const deleteGQs = gqToDelete.map((gq) => deleteGameQuestion(gq.firebaseKey));
+
+  await Promise.all(deleteGQs);
+  await deleteTeamsAndResponsesByGame(gameId);
+  await deleteGameOnly(gameId);
 };
 
 const deleteQuestionAndInstances = async (firebaseKey) => {
@@ -142,21 +163,40 @@ const releaseMultipleQuestions = async (questions) => {
   await Promise.all(releasePromises);
 };
 
-const resetAllQuestions = async (questions) => {
-  const resPromises = questions.map((q) => getResponsesByGameQuestionId(q.gameQuestionId));
+// Receives list of questions with gameQuestionIds
+// Deletes related responses and turns Game Questions back to 'unused'
+const resetAllGameQuestions = async (questions) => {
+  const resPromises = questions
+    .filter((q) => q.status !== 'unused')
+    .map((q) => getResponsesByGameQuestionId(q.gameQuestionId));
   const responses = (await Promise.all(resPromises)).flat();
   const deleteResponses = responses.map((res) => deleteResponse(res.firebaseKey));
   await Promise.all(deleteResponses);
-  const resetGQs = questions.map((q) => updateGameQuestion({ firebaseKey: q.gameQuestionId, status: 'unused', timeOpened: 'never' }));
+  const resetGQs = questions
+    .filter((q) => q.status !== 'unused')
+    .map((q) => updateGameQuestion({ firebaseKey: q.gameQuestionId, status: 'unused', timeOpened: 'never' }));
   await Promise.all(resetGQs);
 };
 
-const resetSingleQuestion = async (gameQuestionId) => {
-  const resPromises = await getResponsesByGameQuestionId(gameQuestionId);
-  const responses = await Promise.all(resPromises);
+// Receives gameQuestionId
+// Deletes related responses and turns Game Question back to 'unused'
+const resetSingleGameQuestion = async (gameQuestionId) => {
+  const responses = await getResponsesByGameQuestionId(gameQuestionId);
   const deleteResponses = responses.map((res) => deleteResponse(res.firebaseKey));
   await Promise.all(deleteResponses);
   updateGameQuestion({ firebaseKey: gameQuestionId, status: 'unused', timeOpened: 'never' });
+};
+
+// Deletes teams and responses, resets gameQuestions (if necessary) and game status
+const resetGame = async (gameId) => {
+  const gameQuestions = await getGameQuestionsByGame(gameId);
+  const resetGQs = gameQuestions
+    .filter((gq) => gq.status !== 'unused')
+    .map((gq) => updateGameQuestion({ firebaseKey: gq.firebaseKey, status: 'unused', timeOpened: 'never' }));
+
+  await Promise.all(resetGQs);
+  await deleteTeamsAndResponsesByGame(gameId);
+  await updateGame({ firebaseKey: gameId, status: 'unused', dateLive: 'never' });
 };
 
 export {
@@ -174,6 +214,7 @@ export {
   deleteQuestionAndInstances,
   deleteGameQuestionAndResponses,
   releaseMultipleQuestions,
-  resetAllQuestions,
-  resetSingleQuestion,
+  resetAllGameQuestions,
+  resetSingleGameQuestion,
+  resetGame,
 };
