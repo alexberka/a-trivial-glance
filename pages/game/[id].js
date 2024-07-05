@@ -114,15 +114,13 @@ export default function PlayGame() {
             <>
               <TeamPanel teamObj={yourTeam} onUpdate={checkTeam} />
               {game.status === 'live' && (<GameDisplay game={game} />)}
-              {visibleQuestions.length > 0 && (
-                <PlayerResponsePanel
-                  key={visibleQuestions[0].firebaseKey}
-                  responses={responses}
-                  onUpdate={updateResponses}
-                  teamId={yourTeam.firebaseKey}
-                  visibleQuestions={visibleQuestions}
-                />
-              )}
+              <PlayerResponsePanel
+                key={visibleQuestions.length}
+                responses={responses}
+                onUpdate={updateResponses}
+                teamObj={yourTeam}
+                visibleQuestions={visibleQuestions}
+              />
             </>
           )}
         </>

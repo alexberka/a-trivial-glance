@@ -101,7 +101,6 @@ export default function QuestionDetails({
           <hr />
           <h4>{questionObj.question}</h4>
         </div>
-        {questionObj.image && (<Image className="qd-image" src={questionObj.image} />)}
         {(host || questionObj.status === 'released') && (
           <div>
             <h2>Answer</h2>
@@ -109,6 +108,7 @@ export default function QuestionDetails({
             <h4>{questionObj.answer}</h4>
           </div>
         )}
+        {questionObj.image && (<Image className="qd-image" src={questionObj.image} />)}
       </div>
       <div className="qd-buttons">
         {/* If in host view, use CategoryDropdown component (see CategoryDropdown.js for prop notes) */}
@@ -116,33 +116,35 @@ export default function QuestionDetails({
         {host && !questionObj.gameQuestionId ? (
           <CategoryDropdown selectedCategoryId={questionObj.category.firebaseKey} questionId={questionObj.firebaseKey} />
         ) : (
-          <p className="qd-btn qd-status" style={{ background: `${questionObj.category.color}` }}>
+          <p className="qd-btn qd-category" style={{ background: `${questionObj.category.color}` }}>
             {questionObj.category.name.toUpperCase()}
           </p>
         )}
         {/* If in host view, display the timestamp of the last day the question was used */}
         {(host && !questionObj.gameQuestionId)
-        && (
-        <p className="qd-timestamp">
-          {questionObj.lastUsed !== 'never'
-            ? `Last Used: ${new Date(questionObj.lastUsed)
-              .toDateString()
-              .split(' ')
-              .join(' ')}`
-            : 'Last Used: Never'}
-        </p>
-        )}
+          && (
+          <p className="qd-timestamp">
+            {questionObj.lastUsed !== 'never'
+              ? `Last Used: ${new Date(questionObj.lastUsed)
+                .toDateString()
+                .split(' ')
+                .join(' ')}`
+              : 'Last Used: Never'}
+          </p>
+          )}
         {host
         && (questionObj.gameQuestionId ? (
           <>
-            <p className={`qd-btn qd-status status-${questionObj.status}`}>
-              {questionObj.status.toUpperCase()}
-            </p>
-            <Link passHref href={`/host/game/${questionObj.game.firebaseKey}`}>
-              <button type="button" className={`qd-btn std-btn qd-game-status status-${questionObj.game.status}`}>
-                <i>{questionObj.game.name}</i>
-              </button>
-            </Link>
+            <div>
+              <p className={`qd-btn qd-status status-${questionObj.status}`}>
+                {questionObj.status.toUpperCase()}
+              </p>
+              <Link passHref href={`/host/game/${questionObj.game.firebaseKey}`}>
+                <button type="button" className={`qd-btn std-btn qd-game-status status-${questionObj.game.status}`}>
+                  <i>{questionObj.game.name}</i>
+                </button>
+              </Link>
+            </div>
             <Link passHref href={`/host/question/${questionObj.firebaseKey}`}>
               <button type="button" className="qd-btn std-btn">
                 Edit Question...

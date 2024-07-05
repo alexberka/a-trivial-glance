@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import { createResponse, updateResponse } from '../../api/responsesData';
 
 export default function PlayerResponsePanel({
-  responses, teamId, onUpdate, visibleQuestions,
+  responses, teamObj, onUpdate, visibleQuestions,
 }) {
   const currQ = visibleQuestions[0] || {};
   const currRes = responses.find((res) => res.gameQuestionId === currQ.gameQuestionId) || {};
@@ -32,7 +33,7 @@ export default function PlayerResponsePanel({
     e.preventDefault();
     const payload = {
       ...formInput,
-      teamId,
+      teamId: teamObj.firebaseKey,
       gameQuestionId: currQ.gameQuestionId,
       grade: 'NA',
       timeSubmitted: new Date().toISOString(),
@@ -49,8 +50,13 @@ export default function PlayerResponsePanel({
   return (
     <div className="response-container">
       <div className="response-tab">
-        <p className={`${currQ.status === 'open' && !currRes.firebaseKey && ('blinking')}`}>
-          {currRes.firebaseKey || currQ.status !== 'open' ? `Your Answers (${score} correct)` : 'Submit Answer'}
+        {(currQ.status !== 'open' || currRes.firebaseKey) && !score.includes('/0') && (
+          <p className="res-tab-score">
+            {`(${score})`}
+          </p>
+        )}
+        <p className={`res-tab-text ${currQ.status === 'open' && !currRes.firebaseKey && ('blinking')}`}>
+          {currRes.firebaseKey || currQ.status !== 'open' ? `${teamObj.name}` : 'Submit Answer'}
         </p>
         <div className="tab-shadow-cover" />
       </div>
@@ -81,22 +87,33 @@ export default function PlayerResponsePanel({
         )}
         {otherQs.length > 0 && (
           <>
-            <h6>Previous Answers</h6>
+            <h6>Previous Questions</h6>
             <div className="res-card-container">
               {otherQs.map((q) => (
-                <div key={q.firebaseKey} className={`res-card grade-${q.status === 'released' ? q.grade : 'NA'}`}>
-                  {q.status === 'released' ? (
-                    <p>Q: {q.question.length > 30 ? `${q.question.slice(0, 30)}...` : q.question}&emsp;A: {q.answer}</p>
-                  ) : (
-                    <p>Q: {q.question.length > 50 ? `${q.question.slice(0, 50)}...` : q.question}</p>
-                  )}
-                  <p className={q.grade && ('res-card-response')}>{q.response}</p>
-                  {q.grade && (
-                    <p className="res-card-grade">
-                      {q.grade !== 'NA' && q.status === 'released' ? q.grade : 'pending'}
-                    </p>
-                  )}
-                </div>
+                <Link
+                  key={q.firebaseKey}
+                  passHref
+                  href={`/question/${q.firebaseKey}/${q.gameQuestionId}`}
+                >
+                  <div className={`res-card grade-${q.status === 'released' ? q.grade : 'NA'}`}>
+                    <div className="res-card-q">
+                      {q.status === 'released' ? (
+                        <>
+                          <p>Q: {q.question.length > 30 ? `${q.question.slice(0, 30)}...` : q.question}</p>
+                          <p>A: {q.answer}</p>
+                        </>
+                      ) : (
+                        <p>Q: {q.question.length > 50 ? `${q.question.slice(0, 50)}...` : q.question}</p>
+                      )}
+                    </div>
+                    <p className={q.grade && ('res-card-response')}>{q.response}</p>
+                    {q.grade && (
+                      <p className="res-card-grade">
+                        {q.grade !== 'NA' && q.status === 'released' ? q.grade : 'pending'}
+                      </p>
+                    )}
+                  </div>
+                </Link>
               ))}
             </div>
           </>
@@ -114,7 +131,10 @@ PlayerResponsePanel.propTypes = {
     response: PropTypes.string,
     grade: PropTypes.string,
   })).isRequired,
-  teamId: PropTypes.string.isRequired,
+  teamObj: PropTypes.shape({
+    name: PropTypes.string,
+    firebaseKey: PropTypes.string,
+  }).isRequired,
   onUpdate: PropTypes.func.isRequired,
   visibleQuestions: PropTypes.arrayOf(PropTypes.shape({
     question: PropTypes.string,
