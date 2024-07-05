@@ -70,7 +70,7 @@ export default function ManageQuestion() {
         ) : (
           <QuestionDetails questionObj={question} host onUpdate={onUpdate} handleDelete={handleDelete} />
         )
-      )};
+      )}
     </div>
   );
 }

@@ -116,7 +116,14 @@ export default function NavBarAuth() {
     return (
     // Open navigation menu when mouse hovers over icon
       <div className="nav-menu">
-        <div className="nav-collapsed" onMouseEnter={openNav}>
+        <div
+          className="nav-collapsed"
+          onClick={openNav}
+          onKeyDown={openNav}
+          tabIndex={0}
+          role="button"
+          aria-label="Menu"
+        >
           <div className="nav-line" />
           <div className="nav-line" />
           <div className="nav-line" />

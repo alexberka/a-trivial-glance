@@ -206,7 +206,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
           {host && (
             <div className="gd-unused">
               <h3 draggable onDragStart={(e) => e.dataTransfer.setData('text', 'hey')}>Unused</h3>
-              <div className={`gd-fade-captive ${dropping.unused && 'unused-highlight'}`}>
+              <div className={`gd-captive ${dropping.unused && 'unused-highlight'}`}>
                 <div
                   id="drag-unused"
                   className="gd-card-container"
@@ -236,7 +236,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
                   </button>
                 )}
               </div>
-              <div className={`gd-fade-captive gd-fc-open ${dropping.open && 'open-highlight'}`}>
+              <div className={`gd-captive gd-fc-open ${dropping.open && 'open-highlight'}`}>
                 <div
                   id="drag-open"
                   className="gd-card-container"
@@ -262,7 +262,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
                   </button>
                 )}
               </div>
-              <div className={`gd-fade-captive gd-fc-closed ${dropping.closed && 'closed-highlight'}`}>
+              <div className={`gd-captive gd-fc-closed ${dropping.closed && 'closed-highlight'}`}>
                 <div
                   id="drag-closed"
                   className="gd-card-container"
@@ -296,39 +296,41 @@ export default function GameDisplay({ game, host, onUpdate }) {
                 <hr />
                 <div className="gd-open-question">
                   <p>{display.playerQ[0].question}</p>
-                  {display.playerQ[0].image && (<Image className="gd-image" src={display.playerQ[0].image} />)}
                   {display.playerQ[0].status === 'released' && (
                     <>
                       <hr />
                       <p>{display.playerQ[0].answer}</p>
                     </>
                   )}
+                  {display.playerQ[0].image && (<Image className="gd-image" src={display.playerQ[0].image} />)}
                 </div>
               </>
               )}
             </div>
           )}
-          <div className="gd-released">
-            {/* Display closed question(s), if any */}
-            <h3>{host ? 'Answers Released' : 'Previous Questions'}</h3>
-            <div className={`gd-fade-captive ${dropping.released && 'released-highlight'}`}>
-              <div
-                id="drag-released"
-                className="gd-card-container"
-                onDragOver={host ? ((e) => e.preventDefault()) : null}
-                onDragEnter={host ? ((e) => toggleDropHighlight(e, 'drag-released')) : null}
-                onDragLeave={host ? ((e) => toggleDropHighlight(e, 'drag-released')) : null}
-                onDrop={host ? ((e) => handleDrop(e, 'drag-released')) : null}
-              >
-                {host
-                  ? display.releasedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} dragThis={host} />))
-                  : display.playerQ
-                    .slice(1)
-                    ?.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} dragThis={host} />))}
+          {host && (
+            <div className="gd-released">
+              {/* Display closed question(s), if any */}
+              <h3>{host ? 'Answers Released' : 'Previous Questions'}</h3>
+              <div className={`gd-captive ${dropping.released && 'released-highlight'}`}>
+                <div
+                  id="drag-released"
+                  className="gd-card-container"
+                  onDragOver={host ? ((e) => e.preventDefault()) : null}
+                  onDragEnter={host ? ((e) => toggleDropHighlight(e, 'drag-released')) : null}
+                  onDragLeave={host ? ((e) => toggleDropHighlight(e, 'drag-released')) : null}
+                  onDrop={host ? ((e) => handleDrop(e, 'drag-released')) : null}
+                >
+                  {host
+                    ? display.releasedQ.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} dragThis={host} />))
+                    : display.playerQ
+                      .slice(1)
+                      ?.map((q) => (<QuestionCard key={q.firebaseKey} questionObj={q} host={host} dragThis={host} />))}
+                </div>
+                <div className="gd-scroll-fade" />
               </div>
-              <div className="gd-scroll-fade" />
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>

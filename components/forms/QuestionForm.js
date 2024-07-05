@@ -51,21 +51,21 @@ export default function QuestionForm({ questionObj, onUpdate }) {
   return (
     // Structure and classes mirror those of QuestionDetails
     <Form className={`question-details ${router.pathname.includes('new') && 'qf-standalone'}`} onSubmit={handleSubmit}>
-      <div className="qd-info">
+      <div className="qd-info qf-info">
         <Form.Group>
           <h2>Question*</h2>
           <hr />
           <Form.Control className="qf-input" name="question" value={formInput.question || ''} onChange={handleChange} />
         </Form.Group>
         <Form.Group>
-          <h2>Image URL</h2>
-          <hr />
-          <Form.Control className="qf-input" name="image" value={formInput.image || ''} onChange={handleChange} />
-        </Form.Group>
-        <Form.Group>
           <h2>Answer*</h2>
           <hr />
           <Form.Control className="qf-input" name="answer" value={formInput.answer || ''} onChange={handleChange} />
+        </Form.Group>
+        <Form.Group>
+          <h2>Image URL</h2>
+          <hr />
+          <Form.Control className="qf-input" name="image" value={formInput.image || ''} onChange={handleChange} />
         </Form.Group>
       </div>
       <div className="qd-buttons">
