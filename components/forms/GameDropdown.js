@@ -94,7 +94,7 @@ export default function GameDropdown() {
             {assigned.map((gq) => (
               <div key={gq.firebaseKey} className="assigned-game">
                 <Link passHref href={`/host/question/${router.query.id}/${gq.firebaseKey}`}>
-                  <button type="button">
+                  <button type="button" className="qd-gq-btn">
                     <div className="qd-gq-status"><span className={`status-tag status-${gq.status}`}>{gq.status.toUpperCase()}</span> in</div>
                     <div className="qd-gq-game">{gq.name}</div>
                   </button>
