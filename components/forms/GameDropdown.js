@@ -80,10 +80,8 @@ export default function GameDropdown() {
   };
 
   const handleRemove = (e) => {
-    if (window.confirm(`Remove this question from ${e.target.id}?`)) {
-      deleteGameQuestionAndResponses(e.target.value)
-        .then(updateGameList);
-    }
+    deleteGameQuestionAndResponses(e.target.value)
+      .then(updateGameList);
   };
 
   return (

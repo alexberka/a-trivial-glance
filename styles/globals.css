@@ -37,7 +37,7 @@ a {
 }
 
 body {
-  background-color: var(--main-color-1);
+  background-color: var(--main-color-1) !important;
 }
 
 .app-container {
@@ -560,6 +560,7 @@ input:focus {
         }
         .qd-category-toggle {
           background: none;
+          color: black;
           border: none;
           border-radius: 0 4px 4px 0;
           margin: 0 0 0 auto;
@@ -631,6 +632,7 @@ input:focus {
     }
 
     .game-dropdown {
+      width: 100%;
       hr {
         margin: 3px 0;
         border: 1px solid black;
@@ -661,6 +663,7 @@ input:focus {
             border: none;
             color: inherit;
             width: 100%;
+            margin: 0 auto 0 0;
           }
           .gq-remove {
             position: absolute;
@@ -1137,10 +1140,10 @@ input:focus {
 .team-form {
   position: fixed;
   width: 50%;
-  min-width: 300px;
-  top: 200px;
+  min-width: 280px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background: var(--main-color-2);
   padding: 20px;
   z-index: 5;
@@ -1378,9 +1381,6 @@ input:focus {
 }
 
 @media (max-width: 1439px) {
-  .welcome-title {
-    color: red;
-  }
   .header {
     h1 {
       font-size: 8rem;
@@ -1405,9 +1405,6 @@ input:focus {
 }
 
 @media (max-width: 1220px) {
-  .welcome-title {
-    color: pink;
-  }
   .header {
     h1 {
       font-size: 6rem;
@@ -1422,9 +1419,6 @@ input:focus {
 
 /* Mobile Landscape */
 @media (max-width: 960px) {
-  .welcome-title {
-    color: blue;
-  }
   .header {
     width: 90%;
     h1 {
@@ -1590,7 +1584,6 @@ input:focus {
 /* Tablets */
 @media (max-width: 720px) {
   .welcome-title {
-    color: yellow;
     text-shadow: 4px 4px black;
     h1 {
       position: absolute;
@@ -1690,9 +1683,6 @@ input:focus {
 
 /* Mobile Portrait */
 @media (max-width: 500px) {
-  .welcome-title {
-    color: green;
-  }
   .header {
     h1 {
       font-size: 3rem;
@@ -1762,7 +1752,7 @@ input:focus {
         position: fixed;
         top: 5px;
         right: 10px;
-        width: auto;
+        width: 100px;
         font-size: 0.8rem;
         min-height: 30px;
       }
@@ -1796,6 +1786,7 @@ input:focus {
         .category-menu {
           width: 90%;
           top: 34px;
+          max-height: 100px;
         }
       }
       .game-dropdown {

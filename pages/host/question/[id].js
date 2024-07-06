@@ -48,11 +48,9 @@ export default function ManageQuestion() {
 
   // Called to delete the question (passed into question details)
   const handleDelete = () => {
-    if (window.confirm('Delete question?')) {
-      // On confirmation, deletes question and associated gameQuestions
-      // then redirects to all questions view
-      deleteQuestionAndInstances(router.query.id).then(() => router.push('/host/questions'));
-    }
+    // Deletes question and associated gameQuestions
+    // then redirects to all questions view
+    deleteQuestionAndInstances(router.query.id).then(() => router.push('/host/questions'));
   };
 
   useEffect(() => {

@@ -42,9 +42,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
   };
 
   const handleDelete = () => {
-    if (window.confirm(`Delete "${game.name}"?`)) {
-      deleteGame(game.firebaseKey).then(() => router.push('/host/games'));
-    }
+    deleteGame(game.firebaseKey).then(() => router.push('/host/games'));
   };
 
   const handleGameStatus = (e) => {
@@ -71,9 +69,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
   const handleQuestionStatus = (e) => {
     e.preventDefault();
     if (e.target.id === 'reset-questions') {
-      if (window.confirm('Are you sure you want to reset all questions in this game? Timestamps will be erased and all responses deleted.')) {
-        resetAllGameQuestions(game.questions).then(onUpdate);
-      }
+      resetAllGameQuestions(game.questions).then(onUpdate);
     } else if (e.target.id === 'close-question') {
       updateGameQuestion({ firebaseKey: display.openQ.gameQuestionId, status: 'closed' }).then(onUpdate);
     } else if (e.target.id === 'release-questions') {
@@ -88,9 +84,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
       if (display.openQ?.gameQuestionId === draggedQ
         || display.closedQ?.some((q) => q.gameQuestionId === draggedQ)
         || display.releasedQ?.some((q) => q.gameQuestionId === draggedQ)) {
-        if (window.confirm('Are you sure you want to reset this question? Timestamp and responses will be lost.')) {
-          updateGameQuestion({ firebaseKey: draggedQ, status: 'unused', timeOpened: 'never' }).then(onUpdate);
-        }
+        updateGameQuestion({ firebaseKey: draggedQ, status: 'unused', timeOpened: 'never' }).then(onUpdate);
       }
     } else if (e.target.id === 'drag-open' || code === 'drag-open') {
       if (game.status === 'live') {
@@ -101,14 +95,12 @@ export default function GameDisplay({ game, host, onUpdate }) {
           // OR it is closed or released and user agrees to reopen it
           if (display.unusedQ?.some((q) => q.gameQuestionId === draggedQ)
           || ((display.closedQ?.some((q) => q.gameQuestionId === draggedQ)
-            || display.releasedQ?.some((q) => q.gameQuestionId === draggedQ))
-          && window.confirm('Reopen Question?'))) {
+            || display.releasedQ?.some((q) => q.gameQuestionId === draggedQ)))) {
             updateGameQuestion({ firebaseKey: draggedQ, status: 'open', timeOpened: new Date().toISOString() })
               .then(() => updateQuestion({ firebaseKey: questionObj.firebaseKey, lastUsed: new Date().toISOString() }))
               .then(onUpdate);
           }
-        } else if (draggedQ !== display.openQ.gameQuestionId
-        && window.confirm(`Another question is already open.\n\nClose and ${display.unusedQ?.some((q) => q.gameQuestionId === draggedQ) ? 'open' : 'reopen'} this question instead?`)) {
+        } else if (draggedQ !== display.openQ.gameQuestionId) {
           updateGameQuestion({ firebaseKey: display.openQ.gameQuestionId, status: 'closed' })
             .then(() => updateGameQuestion({ firebaseKey: draggedQ, status: 'open', timeOpened: new Date().toISOString() }))
             .then(() => updateQuestion({ firebaseKey: questionObj.firebaseKey, lastUsed: new Date().toISOString() }))
@@ -122,9 +114,7 @@ export default function GameDisplay({ game, host, onUpdate }) {
         if (display.openQ?.gameQuestionId === draggedQ) {
           updateGameQuestion({ firebaseKey: draggedQ, status: 'closed' }).then(onUpdate);
         } else if (display.releasedQ?.some((q) => q.gameQuestionId === draggedQ)) {
-          if (window.confirm('Hide answer from teams?')) {
-            updateGameQuestion({ firebaseKey: draggedQ, status: 'closed' }).then(onUpdate);
-          }
+          updateGameQuestion({ firebaseKey: draggedQ, status: 'closed' }).then(onUpdate);
         }
       }
     } else if (e.target.id === 'drag-released' || code === 'drag-released') {
