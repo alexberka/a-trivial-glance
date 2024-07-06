@@ -6,7 +6,7 @@ Whether as the result of background noise, an insufficient PA system, questions 
 A Trivial Glance virtualizes the question-answer process, ironing communication snags and increasing game accessibility. It provides hosts with a game and question management interface, real-time answer alerts, and one-click scoring, while allowing teams to view the question, submit an answer, and get feedback all on their mobile devices.
 
 ## Features
-Host Tools:
+### Host Tools:
 - Build a database of reusable questions and games
 - Sort questions into games
 - Run games from single-view game display with drag-and-drop questions between four statuses:
@@ -16,32 +16,48 @@ Host Tools:
   - Released (questions for which players can see the correct answer and whether)
 - Pop-up answer panel to review and grade submitted answers
 
+
+_Question Database_
+
 ![Questions](./assets/ATG%20Host%20Questions.png)
-Question Database
+
+
+_Add/Remove Question To/From Games_
 
 ![Manage Question](./assets/ATG%20Host%20Manage%20Question.png)
-Add/Remove Question To/From Games
+
+
+_Host Game Management Interface_
 
 ![Game Display](./assets/ATG%20Host%20Game%20Display.png)
-Host Game Management Interface
+
+
+_Pop-Up Answer Panel_
 
 ![Answer Panel](./assets/ATG%20Host%20Answer%20Panel.png)
-Pop-Up Answer Panel
 
-Player Tools:
+
+### Player Tools:
 - Search all live games
 - Create a team name (persists with user for single game only)
 - Mobile-ready game display to view current question
 - Pop-up answer panel to submit answers and review past questions
 
+
+_Select Live Game_
+
 ![Live Games](./assets/ATG%20Player%20Game%20Select.png)
-Select Live Game
+
+
+_Fullscreen Game Display_
 
 ![Player Game Display](./assets/ATG%20Player%20Fullscreen.png)
-Fullscreen Game Display
+
+
+_Mobile Game Display_
 
 ![Mobile Game Display](./assets/ATG%20Player%20Mobile.png)
-Mobile Game Display
+
 
 ## Get Started
 Clone this repo and enter the following command in the project folder:
@@ -60,9 +76,13 @@ If project does not open automatically in browser, click provided localhost link
 
 ## Development Links
 [Current Deployment on Netlify](a-trivial-glance.netlify.app)
+
 [Concept Wireframes](https://www.figma.com/design/4WN0zZKb9xRZ8Xg0SG2YNQ/A-Trivial-Glance?node-id=0-1)
+
 [Project Board](https://github.com/users/alexberka/projects/2)
+
 [Entity Relationship Diagram](https://dbdiagram.io/d/A-Trivial-Glance-6642a01b9e85a46d55c05463)
+
 App Walkthrough Coming Soon
 
 ## A Note From The Developer:
