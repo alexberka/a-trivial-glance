@@ -51,12 +51,9 @@ export default function QuestionDetails({
     const payload = { firebaseKey: questionObj.gameQuestionId };
     switch (trigger) {
       case 'reset':
-        // If the 'Reset' button was clicked, confirm with user that this is the desired action.
-        if (window.confirm('Are you sure you want to reset this question? The timestamp will be lost and all responses deleted.')) {
-          // Then reset it (calls updateStatus for continuity, but ultimately calls
-          // resetSingleGameQuestion merge call rather than updateGameQuestion)
-          updateStatus({ ...payload, status: 'unused' });
-        }
+        // Then reset it (calls updateStatus for continuity, but ultimately calls
+        // resetSingleGameQuestion merge call rather than updateGameQuestion)
+        updateStatus({ ...payload, status: 'unused' });
         break;
       case 'release':
         updateStatus({ ...payload, status: 'released' });
@@ -76,11 +73,9 @@ export default function QuestionDetails({
         getGameQuestionsByGame(questionObj.game.firebaseKey).then((gameQuestions) => {
           const [openQ] = gameQuestions.filter((gq) => gq.status === 'open');
           if (openQ) {
-            // If a question is already open in the game, give the user option to close it
-            if (window.confirm(`Another question is already open in ${questionObj.game.name}.\n\nClose and open this question instead?`)) {
-              // And open the new one if confirmed (openQ.firebaseKey is the key of the question to close)
-              updateStatus({ ...payload, status: 'open', timeOpened: new Date().toISOString() }, openQ.firebaseKey);
-            }
+            // If a question is already open in the game, close it
+            // And open the new one if confirmed (openQ.firebaseKey is the key of the question to close)
+            updateStatus({ ...payload, status: 'open', timeOpened: new Date().toISOString() }, openQ.firebaseKey);
           } else {
             // If no open question is found, open this question
             updateStatus({ ...payload, status: 'open', timeOpened: new Date().toISOString() });
